@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom"
 import { Toaster, ToastBar, toast } from "react-hot-toast"
 
-import routes from "@/routes/routes"
-import Main from "@/pages/Main/Main"
-import Home from "@/pages/Home/Home"
-import Login from "@/pages/Login/Login"
-import NotFound from "@/pages/NotFound/NotFound"
+import routes from "./routes/routes"
+import Main from "./pages/Main/Main"
+import Home from "./pages/Home/Home"
+import Login from "./pages/Login/Login"
+import NotFound from "./pages/NotFound/NotFound"
 
 import './App.css'
 
