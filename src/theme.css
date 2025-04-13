@@ -1,0 +1,70 @@
+
+:root {
+    /* Main */
+    --main-primary: #e69523;
+    --main-secondary: #03a53b;
+
+    /* Border */
+    --border-primary: #c6c6c6;
+    --border-secondary: #d4d4d4;
+    --border-tertiary: #c9c9c9;
+
+    /* Background */
+    --background-primary: #ffffff;
+    --background-secondary: #e1e6def1;
+    --background-tertiary: #efefef;
+    --background-accent: #fff2e5;
+
+    /* Logo */
+    --logo-primary: #e69523;
+    --logo-secondary: #03a53b;
+    --logo-tertiary: #bf831d;
+
+    /* Text */
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    --text-tertiary: #999999;
+    --text-inverse: #ffffff;
+
+    /* States */
+    --state-danger: #dc3545;
+    --state-warning: #fd7e14;
+    --state-info: #0d6efd;
+    --state-success: #198754;
+}
+
+
+.dark {
+    /* Main */
+    --main-primary: #e69523;
+    --main-secondary: #03a53b;
+  
+    /* Border */
+    --border-primary: #d58520;
+    --border-secondary: #028e34;
+    --border-tertiary: #013a2c;
+  
+    /* Background */
+    --background-primary: #0F131A;
+    --background-secondary: #1C232E;
+    --background-tertiary: #000000;
+    --background-accent: #4C2B23;
+  
+    /* Logo */
+    --logo-primary: #e69523;
+    --logo-secondary: #03a53b;
+    --logo-tertiary: #bf831d;
+  
+    /* Text */
+    --text-primary: #FFFFFF;
+    --text-secondary: #CFD0D0;
+    --text-tertiary: #A7A8A8;
+    --text-inverse: #000000;
+  
+    /* States */
+    --state-danger: #dc3545;
+    --state-warning: #fd7e14;
+    --state-info: #0d6efd;
+    --state-success: #198754;
+}
+  

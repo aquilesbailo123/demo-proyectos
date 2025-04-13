@@ -1,0 +1,71 @@
+.basic-input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.basic-input-label {
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-prefix {
+    position: absolute;
+    left: 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.basic-input-field {
+    width: 100%;
+    padding: 0 0.8rem;
+    font-size: 0.9rem;
+    border: 1px solid var(--background-secondary);
+    background-color: var(--background-secondary);
+    border-radius: 10px;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s;
+    height: 42px;
+}
+
+.basic-input-field.with-prefix {
+    padding-left: 2rem;
+}
+
+.basic-input-field:focus {
+    border-color: var(--border-secondary);
+}
+
+.basic-input-field:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.basic-input-field.error {
+    border-color: var(--state-danger);
+}
+
+textarea.basic-input-field {
+    resize: vertical;
+    min-height: 80px;
+    height: auto;
+    padding: 0.8rem;
+}
+
+.input-error {
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--state-danger);
+}
+
+.required-mark {
+    color: var(--state-danger);
+}

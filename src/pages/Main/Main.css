@@ -1,0 +1,7 @@
+/* NOTE this might be unnecessary, parent App already has this */
+.main-app-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--background-secondary);
+}
+  
