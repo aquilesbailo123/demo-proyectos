@@ -1,7 +1,32 @@
 /* NOTE this might be unnecessary, parent App already has this */
 .main-app-container {
     display: flex;
+    /* Comment this if you want to use Sidebar.tsx */
+    flex-direction: column;
     min-height: 100vh;
     background-color: var(--background-secondary);
 }
-  
+
+@media (max-width: 768px) {
+    .main-app-container {
+        position: relative;
+    }
+}
+
+.main-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* This is if you want to set Sidebar.css to position fixed */
+    /* width: calc(100% - 250px); */
+    /* margin-left: 250px; */
+    width: 100%;
+    transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .main-content-wrapper {
+        margin-left: 0;
+        width: 100%;
+    }
+}

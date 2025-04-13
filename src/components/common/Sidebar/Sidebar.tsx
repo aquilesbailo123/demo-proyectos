@@ -17,7 +17,7 @@ const Sidebar = () => {
     const isActive = (path: string) => location.pathname === path
 
     const navItems = [
-      { path: routes.home, icon: RiHome3Line, label: t('nav_dashboard') },
+      { path: routes.home, icon: RiHome3Line, label: t('nav_home') },
     ]
 
     return (

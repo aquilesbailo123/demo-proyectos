@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from 'react-router-dom'
 import { 
-  RiHome3Line, 
-  // Add icons here
-  RiUserLine 
+    RiHome3Line, 
+    RiUserLine 
 } from 'react-icons/ri'
 
 import routes from '@/routes/routes'
@@ -18,7 +17,7 @@ const Navbar = () => {
     const isActive = (path: string) => location.pathname === path
 
     const navItems = [
-        { path: routes.home, icon: RiHome3Line, label: t('nav.dashboard') },
+        { path: routes.home, icon: RiHome3Line, label: t('nav_home') },
     ]
 
     return (
@@ -40,9 +39,9 @@ const Navbar = () => {
                 ))}
             </div>
 
-            <div className="navbar-user">
+            <Link to={routes.login} className="navbar-user">
                 <RiUserLine className="navbar-avatar" size={24} />
-            </div>
+            </Link>
         </nav>
     )
 }

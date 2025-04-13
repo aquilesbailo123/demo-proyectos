@@ -5,7 +5,8 @@ import {
 } from "react-router-dom"
 import "./Main.css"
 
-import Sidebar from "../../components/common/Sidebar/Sidebar"
+// import Sidebar from "../../components/common/Sidebar/Sidebar"
+import Navbar from "@/components/common/Navbar/Navbar"
 import Footer from "../../components/common/Footer/Footer"
 import ModalBase from "@/modals/ModalBase/ModalBase"
 
@@ -24,7 +25,8 @@ const Main = () => {
         <>
             {!isLandingPage ? (
                 <div className="main-app-container">
-                    <Sidebar />
+                    {/* <Sidebar /> */}
+                    <Navbar/>
                     <div className="main-content-wrapper">
                         <Outlet />
                         <ModalBase />
@@ -32,7 +34,7 @@ const Main = () => {
                     </div>
                 </div>
             ) : (
-                <Navigate to={routes.login} />
+                <Navigate to={routes.home} />
             )}
         </>
     )

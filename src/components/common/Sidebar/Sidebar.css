@@ -1,8 +1,9 @@
-/* SIDEBAR */
+
 .sidebar-main-cont {
     display: flex;
     flex-direction: column;
-    position: fixed;
+    /* This would require Main.css to have margin left */
+    /* position: fixed; */
     top: 0;
     left: 0;
     bottom: 0;
@@ -17,6 +18,7 @@
 
 @media (max-width: 768px) {
     .sidebar-main-cont {
+        position: fixed;
         transform: translateX(0);
         width: 100%;
         max-width: 100%;

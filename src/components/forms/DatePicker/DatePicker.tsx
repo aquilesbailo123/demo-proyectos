@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDatePicker from 'react-datepicker'
 import { RiCalendarLine } from 'react-icons/ri'
 import "react-datepicker/dist/react-datepicker.css"
@@ -16,7 +15,7 @@ interface DatePickerProps {
     placeholderText?: string
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({
+const DatePicker = ({
     label,
     value,
     onChange,
@@ -26,7 +25,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     minDate,
     maxDate,
     placeholderText = "Seleccionar fecha"
-}) => {
+}: DatePickerProps) => {
     return (
         <div className="datepicker-container">
             {label && (
