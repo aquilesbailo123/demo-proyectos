@@ -1,78 +1,191 @@
-import React from 'react';
-import './Input.css';
+import React, { useState } from 'react'
+
+import './Input.css'
 
 interface InputProps {
     /** Unique identifier for the input field */
-    name: string;
-    /** Label text displayed above the input */
-    label: string;
-    /** HTML input type (text, number, date, etc.) */
-    type?: string;
-    /** Placeholder text shown when input is empty */
-    placeholder?: string;
-    /** Current value of the input */
-    value: string;
-    /** Callback function to handle value changes */
-    setValue: (value: string) => void;
-    /** Whether the input should be multiline (textarea) */
-    multiline?: boolean;
-    /** Number of rows for multiline input */
-    rows?: number;
-    /** Error message to display */
-    error?: string;
-    /** Whether the input is disabled */
-    disabled?: boolean;
-    /** Whether the input is required */
-    required?: boolean;
-    /** Prefix to show before the input (e.g., currency symbol) */
-    prefix?: string;
+    name: string
+    /** Current value of the input field */
+    value: string
+    /** Callback function to update the input value */
+    setValue: (value: string) => void
+    /** Visual style variant of the input */
+    variant?: 'flat' | 'bordered' | 'faded' | 'underlined'
+    /** Color scheme based on theme variables */
+    color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
+    /** Size preset from global size variables */
+    size?: 'sm' | 'md' | 'lg'
+    /** Border radius preset from global radius variables */
+    radius?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    /** Label text displayed adjacent to the input */
+    label?: string
+    /** Placeholder text when input is empty */
+    placeholder?: string
+    /** Validation error message displayed below the input */
+    errorMessage?: string
+    /** Minimum allowed character length */
+    minLength?: number
+    /** Maximum allowed character length */
+    maxLength?: number
+    /** HTML input type attribute */
+    type?: 'text' | 'email' | 'url' | 'password' | 'tel' | 'search' | 'file'
+    /** Content to display before the input */
+    startContent?: React.ReactNode
+    /** Content to display after the input */
+    endContent?: React.ReactNode
+    /** Position of the label relative to the input */
+    labelPlacement?: 'inside' | 'outside' | 'outside-left'
+    /** Whether the input should span full container width */
+    fullWidth?: boolean
+    /** Show clear button when input has content */
+    isClearable?: boolean
+    /** Mark field as required with asterisk */
+    isRequired?: boolean
+    /** Prevent user interaction while maintaining value */
+    isReadOnly?: boolean
+    /** Disable input interaction completely */
+    isDisabled?: boolean
+    /** Manual validation state override */
+    isInvalid?: boolean
+    /** Ref object for the wrapper div element */
+    baseRef?: React.RefObject<HTMLDivElement>
+    /** Additional CSS classes for custom styling */
+    classNames?: string
 }
 
-const Input= ({
+// TODO when labelPlacement outside and no placeholder, the label should get inside and when isFocused get outside
+// TODO add validation for type email type tel type url and min and max length
+// TODO add password eye toggle if type password
+// TODO the start and end content must be inside the input
+
+const Input = ({
     name,
-    label,
-    type = "text",
-    placeholder = "",
-    value = "",
+    value,
     setValue,
-    multiline = false,
-    rows = 3,
-    error,
-    disabled = false,
-    required = false,
-    prefix
+    variant = 'flat',
+    color = 'default',
+    size = 'md',
+    radius = 'md',
+    label,
+    placeholder,
+    errorMessage,
+    minLength,
+    maxLength,
+    type = 'text',
+    startContent,
+    endContent,
+    labelPlacement = 'outside',
+    fullWidth = true,
+    isClearable = false,
+    isRequired = false,
+    isReadOnly = false,
+    isDisabled = false,
+    isInvalid,
+    baseRef,
+    classNames = ''
 }: InputProps) => {
-    const inputProps = {
-        className: `basic-input-field ${error ? 'error' : ''} ${prefix ? 'with-prefix' : ''}`,
-        name,
-        placeholder,
-        value,
-        onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setValue(e.target.value),
-        disabled,
-        required,
-        type
-    };
+
+    const [isFocused, setIsFocused] = useState<boolean>(false)
+
+    const invalid = isInvalid || !!errorMessage
+    const showClearButton = isClearable && value.length > 0 && !isDisabled
+    const hasInsideLabel = labelPlacement === 'inside' && label
+    const shouldFloat = hasInsideLabel && (isFocused || value.length > 0 || placeholder)
+
+    const handleClear = () => setValue('')
+
+    const getHeightSize = () => {
+        if (labelPlacement === "inside") return size
+        switch(size) {
+            case 'sm': return 'xs'
+            case 'md': return 'sm'
+            case 'lg': return 'md'
+            default: return 'xs'
+        }
+    }
+
+    const getBorderColor = () => {
+        if (variant === "flat") return "transparent"
+        switch(color) {
+            case 'primary': return 'var(--main-primary)'
+            case 'secondary': return 'var(--main-secondary)'
+            case 'success': return 'var(--state-success)'
+            case 'warning': return 'var(--state-warning)'
+            case 'danger': return 'var(--state-danger)'
+            default: return 'var(--border-primary)'
+        }
+    }
 
     return (
-        <div className="basic-input-group">
-            <label className="basic-input-label" htmlFor={name}>
-                {label}
-                {required && <span className="required-mark">*</span>}
-            </label>
+        <div
+            ref={baseRef}
+            className={`basic-input-group ${fullWidth ? 'full-width' : ''} label-placement-${labelPlacement} ${classNames}`}
+        >
+            {labelPlacement !== 'inside' && label && (
+                <label className="basic-input-label">
+                    {label}
+                    {isRequired && <span className="required-mark">*</span>}
+                </label>
+            )}
+            
             <div className="input-container">
-                {prefix && <span className="input-prefix">{prefix}</span>}
-                {multiline ? (
-                    <textarea
-                        {...inputProps}
-                        rows={rows}
-                    />
-                ) : (
-                    <input {...inputProps} />
+                {startContent && <div className="input-start-content">{startContent}</div>}
+                
+                {hasInsideLabel && (
+                    <label 
+                        className={`inside-label ${shouldFloat ? 'floating' : ''}`}
+                        htmlFor={name}
+                    >
+                        {label}
+                        {isRequired && <span className="required-mark">*</span>}
+                    </label>
                 )}
-            </div>
-            {error && <span className="input-error">{error}</span>}
-        </div>
-    );
-};
 
-export default Input;
+                <input
+                    id={name}
+                    className={`basic-input-field variant-${variant} size-${getHeightSize()} ${variant !== "underlined" ? `radius-${radius}` : ""} ${hasInsideLabel ? 'has-inside-label' : ''} ${invalid ? 'input-invalid' : ''}`}
+                    style={{
+                        borderColor: getBorderColor(),
+                        backgroundColor: variant === 'flat' || variant === 'faded'
+                            ? 'var(--background-secondary)' 
+                            : 'transparent'
+                    }}
+                    name={name}
+                    type={type}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    disabled={isDisabled}
+                    readOnly={isReadOnly}
+                    minLength={minLength}
+                    maxLength={maxLength}
+                    aria-invalid={invalid}
+                    aria-describedby={errorMessage ? `${name}-error` : undefined}
+                />
+
+                {showClearButton && (
+                    <button
+                        type="button"
+                        className="input-clear"
+                        onClick={handleClear}
+                        aria-label="Clear input"
+                    >
+                        ×
+                    </button>
+                )}
+                
+                {endContent && <div className="input-end-content">{endContent}</div>}
+            </div>
+
+            {errorMessage && (
+                <span id={`${name}-error`} className="input-error">
+                    {errorMessage}
+                </span>
+            )}
+        </div>
+    )
+}
+
+export default Input

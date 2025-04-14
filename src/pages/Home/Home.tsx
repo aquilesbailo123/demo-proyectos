@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import Button from '@/components/common/Button/Button'
 import Card from '@/components/common/Card/Card'
@@ -33,7 +34,7 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            <h1>Helvetica Showcase</h1>
+            <h1>Components Showcase</h1>
 
             {/* Buttons Section */}
             <Card>
@@ -60,26 +61,31 @@ const Home = () => {
                 <div className="input-grid">
                     <Input
                         name="input"
+                        size="md"
                         label="Input"
-                        value={inputValue} 
+                        type="password"
+                        // placeholder='Placeholder'
+                        variant="flat"
+                        minLength={4}
+                        labelPlacement="inside"
+                        value={inputValue}
                         setValue={setInputValue} 
-                        placeholder="Text Input"
                     />
                     <PasswordEyeInput
                         name="password"
-                        label="password"
+                        // label="Password"
                         value={password} 
                         setValue={setPassword} 
                         placeholder="Password Input"
                     />
                     <DatePicker 
-                        label="date"
+                        // label="Date"
                         value={selectedDate} 
                         onChange={setSelectedDate} 
                         placeholderText="Select Date"
                     />
                     <Select
-                        label="select"
+                        // label="Select"
                         value={selectValue} 
                         onChange={(e) => setSelectValue(e.target.value)} 
                         options={options}
@@ -92,12 +98,10 @@ const Home = () => {
                 <CardTitle>Table</CardTitle>
                 <Table>
                     <TableHeader>
-                        <TableRow>
-                            <TableColumn>ID</TableColumn>
-                            <TableColumn>Name</TableColumn>
-                            <TableColumn>Email</TableColumn>
-                            <TableColumn>Status</TableColumn>
-                        </TableRow>
+                        <TableColumn>ID</TableColumn>
+                        <TableColumn>Name</TableColumn>
+                        <TableColumn>Email</TableColumn>
+                        <TableColumn>Status</TableColumn>
                     </TableHeader>
                     <TableBody>
                         {tableData.map((row) => (

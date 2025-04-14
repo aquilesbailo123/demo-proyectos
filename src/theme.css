@@ -1,70 +1,67 @@
-
 :root {
-    /* Main */
-    --main-primary: #e69523;
-    --main-secondary: #03a53b;
+    /* Main - Purple & Teal */
+    --main-primary: #6C63FF;  /* Vibrant purple */
+    --main-secondary: #2EC4B6; /* Fresh teal */
 
-    /* Border */
-    --border-primary: #c6c6c6;
-    --border-secondary: #d4d4d4;
-    --border-tertiary: #c9c9c9;
+    /* Border - Cool grays */
+    --border-primary: #E0E0E0;
+    --border-secondary: #EDEDED;
+    --border-tertiary: #F5F5F5;
 
-    /* Background */
-    --background-primary: #ffffff;
-    --background-secondary: #e1e6def1;
-    --background-tertiary: #efefef;
-    --background-accent: #fff2e5;
+    /* Background - Soft neutrals */
+    --background-primary: #FFFFFF;
+    --background-secondary: #F8F9FA;
+    --background-tertiary: #F1F3F5;
+    --background-accent: #F3F0FF;
 
-    /* Logo */
-    --logo-primary: #e69523;
-    --logo-secondary: #03a53b;
-    --logo-tertiary: #bf831d;
+    /* Logo - Matching main colors */
+    --logo-primary: #6C63FF;
+    --logo-secondary: #2EC4B6;
+    --logo-tertiary: #544BC7;
 
-    /* Text */
-    --text-primary: #000000;
-    --text-secondary: #666666;
-    --text-tertiary: #999999;
-    --text-inverse: #ffffff;
+    /* Text - High contrast */
+    --text-primary: #2D3436;
+    --text-secondary: #636E72;
+    --text-tertiary: #B2BEC3;
+    --text-inverse: #FFFFFF;
 
-    /* States */
-    --state-danger: #dc3545;
-    --state-warning: #fd7e14;
-    --state-info: #0d6efd;
-    --state-success: #198754;
+    /* States - Modern alert colors */
+    --state-danger: #FF4757;
+    --state-warning: #FFA502;
+    --state-info: #2D82E8;
+    --state-success: #2ED573;
 }
-
 
 .dark {
-    /* Main */
-    --main-primary: #e69523;
-    --main-secondary: #03a53b;
-  
-    /* Border */
-    --border-primary: #d58520;
-    --border-secondary: #028e34;
-    --border-tertiary: #013a2c;
-  
-    /* Background */
-    --background-primary: #0F131A;
-    --background-secondary: #1C232E;
-    --background-tertiary: #000000;
-    --background-accent: #4C2B23;
-  
-    /* Logo */
-    --logo-primary: #e69523;
-    --logo-secondary: #03a53b;
-    --logo-tertiary: #bf831d;
-  
-    /* Text */
-    --text-primary: #FFFFFF;
-    --text-secondary: #CFD0D0;
-    --text-tertiary: #A7A8A8;
-    --text-inverse: #000000;
-  
-    /* States */
-    --state-danger: #dc3545;
-    --state-warning: #fd7e14;
-    --state-info: #0d6efd;
-    --state-success: #198754;
+    /* Main - Saturated versions */
+    --main-primary: #7D73FF;
+    --main-secondary: #32D3C3;
+
+    /* Border - Deep contrasts */
+    --border-primary: #2D3436;
+    --border-secondary: #3B4346;
+    --border-tertiary: #444D50;
+
+    /* Background - Rich dark tones */
+    --background-primary: #1A1E24;
+    --background-secondary: #242A30;
+    --background-tertiary: #2D3436;
+    --background-accent: #2B2540;
+
+    /* Logo - Brightened versions */
+    --logo-primary: #7D73FF;
+    --logo-secondary: #32D3C3;
+    --logo-tertiary: #6258E0;
+
+    /* Text - Soft contrasts */
+    --text-primary: #ECF0F1;
+    --text-secondary: #BDC3C7;
+    --text-tertiary: #95A5A6;
+    --text-inverse: #2D3436;
+
+    /* States - Dark theme optimized */
+    --state-danger: #FF6B81;
+    --state-warning: #FFB142;
+    --state-info: #4B9EFF;
+    --state-success: #3DD68C;
 }
-  

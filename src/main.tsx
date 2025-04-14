@@ -6,6 +6,7 @@ import App from './App.tsx'
 
 import './theme.css'
 import './font.css'
+import './sizes.css'
 import './index.css'
 import './i18n.tsx'
 

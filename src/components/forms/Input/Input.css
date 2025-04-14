@@ -1,71 +1,175 @@
+/* Base styles */
 .basic-input-group {
     display: flex;
     flex-direction: column;
+    gap: var(--spacing-xxs);
+}
+
+.basic-input-group.full-width {
+    width: 100%;
+}
+
+/* Label placement */
+.basic-input-group.label-placement-outside {
+    flex-direction: column;
+}
+
+.basic-input-group.label-placement-outside-left {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+
+@media (max-width: 768px) {
+    .basic-input-group.label-placement-outside-left {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
 }
 
 .basic-input-label {
-    margin-bottom: 0.4rem;
-    font-size: 0.8rem;
     color: var(--text-secondary);
+    font-size: var(--text-sm);
+    display: flex;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs);
 }
 
 .input-container {
     position: relative;
     display: flex;
     align-items: center;
-}
-
-.input-prefix {
-    position: absolute;
-    left: 0.75rem;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    pointer-events: none;
+    gap: var(--spacing-sm);
+    width: 100%;
 }
 
 .basic-input-field {
     width: 100%;
-    padding: 0 0.8rem;
-    font-size: 0.9rem;
-    border: 1px solid var(--background-secondary);
-    background-color: var(--background-secondary);
-    border-radius: 10px;
-    color: var(--text-primary);
+    padding: var(--spacing-sm);
     outline: none;
-    transition: border-color 0.2s;
-    height: 42px;
+    transition: all 0.2s ease;
+    color: var(--text-primary);
+    border-width: 1px;
+    border-style: solid;
+    line-height: 1.5;
 }
 
-.basic-input-field.with-prefix {
-    padding-left: 2rem;
+/* Inside label styling */
+.inside-label {
+    position: absolute;
+    left: var(--spacing-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    z-index: 1;
+    margin: 0;
+    font-size: var(--text-md);
 }
 
+.inside-label.floating {
+    top: calc(var(--spacing-xs));
+    transform: translateY(0);
+    font-size: var(--text-xs);
+}
+
+.basic-input-field.has-inside-label {
+    padding-top: calc(var(--spacing-md) + 0.4rem);
+    padding-bottom: 0;
+}
+
+/* Variants */
+.basic-input-field.variant-bordered {
+    border-width: 1px;
+}
+
+.basic-input-field.variant-faded {
+    border-width: 1px;
+}
+
+.basic-input-field.variant-underlined {
+    border-width: 0 0 1px 0;
+    border-radius: 0;
+}
+
+/* Sizes */
+.basic-input-field.size-sm {
+    height: var(--size-sm);
+    font-size: var(--text-sm);
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
+}
+
+.basic-input-field.size-md {
+    height: var(--size-md);
+    font-size: var(--text-md);
+}
+
+.basic-input-field.size-lg {
+    height: var(--size-lg);
+    font-size: var(--text-lg);
+}
+
+/* Radius */
+.basic-input-field.radius-none { border-radius: var(--radius-none) }
+.basic-input-field.radius-sm { border-radius: var(--radius-sm) }
+.basic-input-field.radius-md { border-radius: var(--radius-md) }
+.basic-input-field.radius-lg { border-radius: var(--radius-lg) }
+.basic-input-field.radius-full { border-radius: var(--radius-full) }
+
+/* Focus state */
 .basic-input-field:focus {
-    border-color: var(--border-secondary);
+    box-shadow: 0 0 0 2px var(--main-primary);
 }
 
+/* Disabled state */
 .basic-input-field:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
-.basic-input-field.error {
-    border-color: var(--state-danger);
-}
-
-textarea.basic-input-field {
-    resize: vertical;
-    min-height: 80px;
-    height: auto;
-    padding: 0.8rem;
+/* Error states */
+.basic-input-field.input-invalid,
+.basic-input-field.input-invalid:focus {
+    border-color: var(--state-danger) !important;
+    color: var(--state-danger);
 }
 
 .input-error {
-    margin-top: 0.4rem;
-    font-size: 0.8rem;
     color: var(--state-danger);
+    font-size: var(--text-sm);
+    margin-top: var(--spacing-xs);
 }
 
 .required-mark {
     color: var(--state-danger);
+}
+
+/* Clear button */
+.input-clear {
+    position: absolute;
+    font-size: 1.2rem;
+    right: var(--spacing-sm);
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    padding: 0;
+    z-index: 2;
+}
+
+.input-clear:hover {
+    color: var(--text-secondary);
+}
+
+
+/* Content positioning */
+.input-start-content,
+.input-end-content {
+    display: flex;
+    align-items: center;
+    color: var(--text-secondary);
 }

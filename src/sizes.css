@@ -1,0 +1,26 @@
+:root {
+    /* Sizes */
+    --size-xs: 32px;
+    --size-sm: 48px;
+    --size-md: 56px;
+    --size-lg: 64px;
+    
+    /* Text sizes */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-md: 1rem;
+    --text-lg: 1.125rem;
+    
+    /* Radius */
+    --radius-none: 0;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+
+    /* Spacing */
+    --spacing-xxs: 0.1  rem;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+}
