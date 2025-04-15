@@ -1,5 +1,6 @@
 :root {
     /* Sizes */
+    --size-xxs: 16px;
     --size-xs: 32px;
     --size-sm: 48px;
     --size-md: 56px;
@@ -24,3 +25,4 @@
     --spacing-sm: 0.75rem;
     --spacing-md: 1rem;
 }
+

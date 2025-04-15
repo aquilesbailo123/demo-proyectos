@@ -81,6 +81,48 @@
     padding-bottom: 0;
 }
 
+/* Content positioning */
+.input-start-content {
+    position: absolute;
+    left: var(--spacing-sm);
+    z-index: 2;
+}
+
+.input-end-content {
+    position: absolute;
+    right: var(--spacing-sm);
+    z-index: 2;
+    display: flex;
+    gap: var(--spacing-xs);
+    align-items: center;
+}
+
+.basic-input-field.has-start {
+    padding-left: calc(var(--spacing-md) + 1.25rem) !important;
+}
+
+.basic-input-field.has-end {
+    padding-right: calc(var(--spacing-md) + 1.25rem) !important;
+}
+
+/* Password toggle */
+.password-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    font-size: 1rem;
+}
+
+.password-toggle:hover {
+    color: var(--text-primary);
+}
+
+
 /* Variants */
 .basic-input-field.variant-bordered {
     border-width: 1px;
@@ -172,4 +214,10 @@
     display: flex;
     align-items: center;
     color: var(--text-secondary);
+}
+
+.input-start-content.has-inside-label,
+.input-end-content.has-inside-label {
+    padding-top: calc(var(--spacing-md) + 0.4rem);
+    padding-bottom: 0;
 }

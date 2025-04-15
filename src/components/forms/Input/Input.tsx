@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import './Input.css'
 
@@ -54,9 +55,8 @@ interface InputProps {
 }
 
 // TODO when labelPlacement outside and no placeholder, the label should get inside and when isFocused get outside
-// TODO add validation for type email type tel type url and min and max length
-// TODO add password eye toggle if type password
-// TODO the start and end content must be inside the input
+// TODO add validation for type email type tel type url and min and max length, which should make errorMessage
+
 
 const Input = ({
     name,
@@ -86,11 +86,12 @@ const Input = ({
 }: InputProps) => {
 
     const [isFocused, setIsFocused] = useState<boolean>(false)
+    const [showPassword, setShowPassword] = useState<boolean>(false)
 
     const invalid = isInvalid || !!errorMessage
     const showClearButton = isClearable && value.length > 0 && !isDisabled
     const hasInsideLabel = labelPlacement === 'inside' && label
-    const shouldFloat = hasInsideLabel && (isFocused || value.length > 0 || placeholder)
+    const shouldFloat = hasInsideLabel && (isFocused || value.length > 0 || placeholder || startContent || endContent)
 
     const handleClear = () => setValue('')
 
@@ -129,7 +130,7 @@ const Input = ({
             )}
             
             <div className="input-container">
-                {startContent && <div className="input-start-content">{startContent}</div>}
+                {startContent && <div className={`input-start-content ${hasInsideLabel ? 'has-inside-label' : ''}`}>{startContent}</div>}
                 
                 {hasInsideLabel && (
                     <label 
@@ -143,7 +144,7 @@ const Input = ({
 
                 <input
                     id={name}
-                    className={`basic-input-field variant-${variant} size-${getHeightSize()} ${variant !== "underlined" ? `radius-${radius}` : ""} ${hasInsideLabel ? 'has-inside-label' : ''} ${invalid ? 'input-invalid' : ''}`}
+                    className={`basic-input-field variant-${variant} size-${getHeightSize()} ${variant !== "underlined" ? `radius-${radius}` : ""} ${hasInsideLabel ? 'has-inside-label' : ''} ${invalid ? 'input-invalid' : ''} ${startContent ? 'has-start' : ''} ${endContent || type === 'password' ? 'has-end' : ''}`}
                     style={{
                         borderColor: getBorderColor(),
                         backgroundColor: variant === 'flat' || variant === 'faded'
@@ -151,7 +152,7 @@ const Input = ({
                             : 'transparent'
                     }}
                     name={name}
-                    type={type}
+                    type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
                     placeholder={placeholder}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
@@ -163,6 +164,7 @@ const Input = ({
                     maxLength={maxLength}
                     aria-invalid={invalid}
                     aria-describedby={errorMessage ? `${name}-error` : undefined}
+                    pattern={type === 'tel' ? '[0-9]*' : type === 'url' ? 'https?://.*' : undefined}
                 />
 
                 {showClearButton && (
@@ -175,8 +177,22 @@ const Input = ({
                         ×
                     </button>
                 )}
-                
-                {endContent && <div className="input-end-content">{endContent}</div>}
+
+                {(endContent || type === 'password') && (
+                    <div className={`input-end-content ${hasInsideLabel ? 'has-inside-label' : ''} `}>
+                        {endContent}
+                        {type === 'password' && (labelPlacement === "outside" || shouldFloat) && (
+                            <button
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
+                            >
+                                {showPassword ? <FaEyeSlash/> : <FaEye/>}
+                            </button>
+                        )}
+                    </div>
+                )}
             </div>
 
             {errorMessage && (

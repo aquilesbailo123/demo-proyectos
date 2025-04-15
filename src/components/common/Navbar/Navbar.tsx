@@ -7,6 +7,8 @@ import {
 
 import routes from '@/routes/routes'
 import { mainLogo } from "@/utils/constants/common"
+import ThemeToggle from "@/components/general/ThemeToggle/ThemeToggle"
+import LanguageToggle from "@/components/general/LanguageToggle/LanguageToggle"
 
 import './Navbar.css'
 
@@ -37,6 +39,10 @@ const Navbar = () => {
                         <span>{item.label}</span>
                     </Link>
                 ))}
+
+                <ThemeToggle />
+
+                <LanguageToggle />
             </div>
 
             <Link to={routes.login} className="navbar-user">

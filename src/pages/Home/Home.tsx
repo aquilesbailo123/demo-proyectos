@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import Button from '@/components/common/Button/Button'
 import Card from '@/components/common/Card/Card'
@@ -63,11 +62,9 @@ const Home = () => {
                         name="input"
                         size="md"
                         label="Input"
-                        type="password"
-                        // placeholder='Placeholder'
-                        variant="flat"
+                        placeholder='Placeholder'
+                        type="url"
                         minLength={4}
-                        labelPlacement="inside"
                         value={inputValue}
                         setValue={setInputValue} 
                     />
