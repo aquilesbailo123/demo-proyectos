@@ -20,6 +20,12 @@
     gap: var(--spacing-md);
 }
 
+/* Handle the floating outside label container height */
+.basic-input-group.has-floating-outside-label {
+    position: relative;
+    /* Add top margin to maintain the same height as if the label was outside */
+    padding-top: 1.4rem;
+}
 
 @media (max-width: 768px) {
     .basic-input-group.label-placement-outside-left {
@@ -30,7 +36,7 @@
 }
 
 .basic-input-label {
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font-size: var(--text-sm);
     display: flex;
     gap: var(--spacing-xs);
@@ -45,6 +51,7 @@
     width: 100%;
 }
 
+
 .basic-input-field {
     width: 100%;
     padding: var(--spacing-sm);
@@ -57,16 +64,20 @@
 }
 
 /* Inside label styling */
-.inside-label {
+.input-label {
     position: absolute;
-    left: var(--spacing-sm);
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
     color: var(--text-primary);
+    left: var(--spacing-sm);
+    pointer-events: none;
     transition: all 0.2s ease;
     z-index: 1;
     margin: 0;
+}
+
+.inside-label {
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-primary);
     font-size: var(--text-md);
 }
 
@@ -74,6 +85,24 @@
     top: calc(var(--spacing-xs));
     transform: translateY(0);
     font-size: var(--text-xs);
+}
+
+/* Floating outside label styles */
+.floating-outside-label {
+    /* color: var(--text-secondary); */
+    font-size: var(--text-md);
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.2s ease;
+}
+
+.floating-outside-label.float-above {
+    top: -1.4rem;
+    left: 0;
+    transform: translateY(0);
+    font-size: var(--text-sm);
+    background-color: var(--background-primary);
+    padding: 0 var(--spacing-xxs);
 }
 
 .basic-input-field.has-inside-label {

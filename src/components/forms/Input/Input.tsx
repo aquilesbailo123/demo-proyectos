@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import './Input.css'
@@ -54,10 +54,6 @@ interface InputProps {
     classNames?: string
 }
 
-// TODO when labelPlacement outside and no placeholder, the label should get inside and when isFocused get outside
-// TODO add validation for type email type tel type url and min and max length, which should make errorMessage
-
-
 const Input = ({
     name,
     value,
@@ -87,11 +83,77 @@ const Input = ({
 
     const [isFocused, setIsFocused] = useState<boolean>(false)
     const [showPassword, setShowPassword] = useState<boolean>(false)
+    const [validationError, setValidationError] = useState<string>('')
 
-    const invalid = isInvalid || !!errorMessage
-    const showClearButton = isClearable && value.length > 0 && !isDisabled
+    // Check if we need floating label behavior (when outside placement with no placeholder)
+    const needsFloatingLabel = labelPlacement === 'outside' && label && !placeholder
+    
+    // Determine if the label should be positioned as a placeholder or float above
+    const shouldShowAsPlaceholder = needsFloatingLabel && !isFocused && value.length === 0
+    const shouldFloatAbove = needsFloatingLabel && (isFocused || value.length > 0)
+
+    // For regular inside label behavior
     const hasInsideLabel = labelPlacement === 'inside' && label
     const shouldFloat = hasInsideLabel && (isFocused || value.length > 0 || placeholder || startContent || endContent)
+
+    // Combine validation errors from prop and internal validation
+    const computedErrorMessage = errorMessage || validationError
+    const invalid = isInvalid || !!computedErrorMessage
+    const showClearButton = isClearable && value.length > 0 && !isDisabled
+
+    // Validate input based on type and constraints
+    useEffect(() => {
+        if (isDisabled || isReadOnly) {
+            setValidationError('');
+            return;
+        }
+
+        // Only validate if there's a value
+        if (value) {
+            // Email validation
+            if (type === 'email' && value.length > 0) {
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(value)) {
+                    setValidationError('Please enter a valid email address');
+                    return;
+                }
+            }
+
+            // URL validation
+            if (type === 'url' && value.length > 0) {
+                try {
+                    new URL(value);
+                } catch (_) {
+                    setValidationError('Please enter a valid URL');
+                    return;
+                }
+            }
+
+            // Tel validation - simple pattern for digits, dashes, parentheses, and plus sign
+            if (type === 'tel' && value.length > 0) {
+                const telPattern = /^[0-9+\-() ]+$/;
+                if (!telPattern.test(value)) {
+                    setValidationError('Please enter a valid phone number');
+                    return;
+                }
+            }
+
+            // Min length validation
+            if (minLength !== undefined && value.length < minLength) {
+                setValidationError(`Must be at least ${minLength} characters`);
+                return;
+            }
+
+            // Max length validation
+            if (maxLength !== undefined && value.length > maxLength) {
+                setValidationError(`Must not exceed ${maxLength} characters`);
+                return;
+            }
+        }
+
+        // Clear validation error if all checks pass
+        setValidationError('');
+    }, [value, type, minLength, maxLength, isDisabled, isReadOnly]);
 
     const handleClear = () => setValue('')
 
@@ -120,21 +182,27 @@ const Input = ({
     return (
         <div
             ref={baseRef}
-            className={`basic-input-group ${fullWidth ? 'full-width' : ''} label-placement-${labelPlacement} ${classNames}`}
+            className={`basic-input-group ${fullWidth ? 'full-width' : ''} label-placement-${labelPlacement} ${needsFloatingLabel ? 'has-floating-outside-label' : ''} ${classNames}`}
         >
-            {labelPlacement !== 'inside' && label && (
-                <label className="basic-input-label">
+            {/* Show outside label only if it's not the floating case */}
+            {labelPlacement !== 'inside' && !needsFloatingLabel && label && (
+                <label className="basic-input-label" htmlFor={name}>
                     {label}
                     {isRequired && <span className="required-mark">*</span>}
                 </label>
             )}
             
-            <div className="input-container">
-                {startContent && <div className={`input-start-content ${hasInsideLabel ? 'has-inside-label' : ''}`}>{startContent}</div>}
+            <div className={`input-container ${needsFloatingLabel ? 'with-floating-label' : ''}`}>
+                {startContent && (
+                    <div className={`input-start-content ${hasInsideLabel ? 'has-inside-label' : ''}`}>
+                        {startContent}
+                    </div>
+                )}
                 
-                {hasInsideLabel && (
+                {/* Inside label OR floating outside label */}
+                {(hasInsideLabel || needsFloatingLabel) && (
                     <label 
-                        className={`inside-label ${shouldFloat ? 'floating' : ''}`}
+                        className={`input-label ${hasInsideLabel ? 'inside-label' : 'floating-outside-label'} ${shouldFloat ? 'floating' : ''} ${shouldShowAsPlaceholder ? 'as-placeholder' : ''} ${shouldFloatAbove ? 'float-above' : ''}`}
                         htmlFor={name}
                     >
                         {label}
@@ -144,7 +212,13 @@ const Input = ({
 
                 <input
                     id={name}
-                    className={`basic-input-field variant-${variant} size-${getHeightSize()} ${variant !== "underlined" ? `radius-${radius}` : ""} ${hasInsideLabel ? 'has-inside-label' : ''} ${invalid ? 'input-invalid' : ''} ${startContent ? 'has-start' : ''} ${endContent || type === 'password' ? 'has-end' : ''}`}
+                    className={`basic-input-field variant-${variant} size-${getHeightSize()} 
+                        ${variant !== "underlined" ? `radius-${radius}` : ""} 
+                        ${hasInsideLabel ? 'has-inside-label' : ''} 
+                        ${invalid ? 'input-invalid' : ''} 
+                        ${startContent ? 'has-start' : ''} 
+                        ${endContent || type === 'password' ? 'has-end' : ''}
+                        ${needsFloatingLabel ? 'with-floating-label' : ''}`}
                     style={{
                         borderColor: getBorderColor(),
                         backgroundColor: variant === 'flat' || variant === 'faded'
@@ -153,7 +227,7 @@ const Input = ({
                     }}
                     name={name}
                     type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
-                    placeholder={placeholder}
+                    placeholder={shouldShowAsPlaceholder ? '' : placeholder}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     onFocus={() => setIsFocused(true)}
@@ -163,8 +237,7 @@ const Input = ({
                     minLength={minLength}
                     maxLength={maxLength}
                     aria-invalid={invalid}
-                    aria-describedby={errorMessage ? `${name}-error` : undefined}
-                    pattern={type === 'tel' ? '[0-9]*' : type === 'url' ? 'https?://.*' : undefined}
+                    aria-describedby={computedErrorMessage ? `${name}-error` : undefined}
                 />
 
                 {showClearButton && (
@@ -179,9 +252,9 @@ const Input = ({
                 )}
 
                 {(endContent || type === 'password') && (
-                    <div className={`input-end-content ${hasInsideLabel ? 'has-inside-label' : ''} `}>
+                    <div className={`input-end-content ${hasInsideLabel ? 'has-inside-label' : ''}`}>
                         {endContent}
-                        {type === 'password' && (labelPlacement === "outside" || shouldFloat) && (
+                        {type === 'password' && ((labelPlacement === "outside") || shouldFloat) && (
                             <button
                                 type="button"
                                 className="password-toggle"
@@ -195,9 +268,9 @@ const Input = ({
                 )}
             </div>
 
-            {errorMessage && (
+            {computedErrorMessage && (
                 <span id={`${name}-error`} className="input-error">
-                    {errorMessage}
+                    {computedErrorMessage}
                 </span>
             )}
         </div>
