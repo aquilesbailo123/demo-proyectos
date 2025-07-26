@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="12" fill="url(#gradient)" />
+  <path d="M32 52C43.0457 52 52 43.0457 52 32C52 20.9543 43.0457 12 32 12C20.9543 12 12 20.9543 12 32C12 43.0457 20.9543 52 32 52Z" fill="white" fill-opacity="0.16"/>
+  <path d="M32 50C41.9411 50 50 41.9411 50 32C50 22.0589 41.9411 14 32 14C22.0589 14 14 22.0589 14 32C14 41.9411 22.0589 50 32 50Z" fill="url(#innerGradient)" />
+  <path d="M32 46C39.732 46 46 39.732 46 32C46 24.268 39.732 18 32 18C24.268 18 18 24.268 18 32C18 39.732 24.268 46 32 46Z" fill="white" fill-opacity="0.2" />
+  <path d="M27.5 24L32 32M32 32L36.5 40M32 32L40 28.5M32 32L24 35.5" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 46C39.732 46 46 39.732 46 32C46 24.268 39.732 18 32 18C24.268 18 18 24.268 18 32C18 39.732 24.268 46 32 46Z" stroke="white" stroke-opacity="0.4" stroke-width="1.5" />
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#23a6d5" />
+      <stop offset="1" stop-color="#23d5ab" />
+    </linearGradient>
+    <linearGradient id="innerGradient" x1="14" y1="14" x2="50" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#23a6d5" />
+      <stop offset="1" stop-color="#23d5ab" />
+    </linearGradient>
+  </defs>
+</svg>
