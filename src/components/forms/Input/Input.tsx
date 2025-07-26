@@ -28,8 +28,14 @@ interface InputProps {
     minLength?: number
     /** Maximum allowed character length */
     maxLength?: number
+    /** Step increment for number inputs */
+    step?: string
+    /** Minimum value for number inputs */
+    min?: string
+    /** Maximum value for number inputs */
+    max?: string
     /** HTML input type attribute */
-    type?: 'text' | 'email' | 'url' | 'password' | 'tel' | 'search' | 'file'
+    type?: 'text' | 'email' | 'url' | 'password' | 'tel' | 'search' | 'file' | 'number'
     /** Content to display before the input */
     startContent?: React.ReactNode
     /** Content to display after the input */
@@ -42,6 +48,8 @@ interface InputProps {
     isClearable?: boolean
     /** Mark field as required with asterisk */
     isRequired?: boolean
+    /** HTML required attribute (alternative to isRequired) */
+    required?: boolean
     /** Prevent user interaction while maintaining value */
     isReadOnly?: boolean
     /** Disable input interaction completely */
@@ -67,6 +75,9 @@ const Input = ({
     errorMessage,
     minLength,
     maxLength,
+    step,
+    min,
+    max,
     type = 'text',
     startContent,
     endContent,
@@ -74,6 +85,7 @@ const Input = ({
     fullWidth = true,
     isClearable = false,
     isRequired = false,
+    required,
     isReadOnly = false,
     isDisabled = false,
     isInvalid,
@@ -236,6 +248,10 @@ const Input = ({
                     readOnly={isReadOnly}
                     minLength={minLength}
                     maxLength={maxLength}
+                    step={step}
+                    min={min}
+                    max={max}
+                    required={required || isRequired}
                     aria-invalid={invalid}
                     aria-describedby={computedErrorMessage ? `${name}-error` : undefined}
                 />

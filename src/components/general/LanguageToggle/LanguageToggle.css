@@ -12,6 +12,8 @@
 }
 
 .language-toggle.size-sm {
+    font-size: 0.4rem;
+    font-weight: 300;
     --track-width: calc(var(--size-xxs) * 2);
     --track-height: var(--size-xxs);
     --ball-size: calc(var(--size-xxs) - 4px);

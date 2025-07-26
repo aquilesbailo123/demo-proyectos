@@ -10,7 +10,7 @@ interface LanguageToggleProps {
 
 const LanguageToggle = ({ size = 'md' }: LanguageToggleProps) => {
 
-    const { i18n } = useTranslation("common")
+    const { t, i18n } = useTranslation("common")
     const [ languageSelected, setLanguageSelected ] = useState<string>(i18n.language || "en")
 
     useEffect(() => {
@@ -29,13 +29,15 @@ const LanguageToggle = ({ size = 'md' }: LanguageToggleProps) => {
             aria-checked={languageSelected === "es"}
             onClick={handleToggle}
             className={`language-toggle size-${size}`}
+            title={t('language.toggle_tooltip')}
+            aria-label={t('language.toggle_aria')}
         >
             <div className="language-toggle-track">
                 <div className="language-toggle-ball">
                     {languageSelected === "en" ? (
-                        <span className="language-icon">EN</span>
+                        <span className="language-icon">{t('language.english_short')}</span>
                     ) : (
-                        <span className="language-icon">ES</span>
+                        <span className="language-icon">{t('language.spanish_short')}</span>
                     )}
                 </div>
             </div>

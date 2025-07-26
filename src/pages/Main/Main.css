@@ -5,6 +5,7 @@
     flex-direction: column;
     min-height: 100vh;
     background-color: var(--background-secondary);
+    padding-top: 70px; /* Match navbar height */
 }
 
 @media (max-width: 768px) {
@@ -16,12 +17,14 @@
 .main-content-wrapper {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: calc(100vh - 70px); /* Subtract navbar height */
     /* This is if you want to set Sidebar.css to position fixed */
     /* width: calc(100% - 250px); */
     /* margin-left: 250px; */
     width: 100%;
-    transition: margin-left 0.3s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
 }
 
 @media (max-width: 768px) {

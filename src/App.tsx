@@ -1,17 +1,24 @@
 import { Routes, Route } from "react-router-dom"
 import { Toaster, ToastBar, toast } from "react-hot-toast"
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop"
 
 import routes from "./routes/routes"
 import Main from "./pages/Main/Main"
 import Home from "./pages/Home/Home"
 import Login from "./pages/Login/Login"
 import NotFound from "./pages/NotFound/NotFound"
+import ProjectDetail from "./pages/ProjectDetail/ProjectDetail"
+import Donations from "./pages/Donations/Donations"
+import Projects from "./pages/Projects/Projects"
+import CreateProject from "./pages/CreateProject/CreateProject"
+import Profile from "./pages/Profile/Profile"
 
 import './App.css'
 
 function App() {
     return (
         <div className="App">
+            <ScrollToTop />
             <Toaster
                 position="top-center"
                 toastOptions={{
@@ -41,6 +48,11 @@ function App() {
 
                 <Route path={routes.main} element={<Main />}>
                     <Route path={routes.home} element={<Home />} />
+                    <Route path={routes.projects} element={<Projects />} />
+                    <Route path={routes.projectDetail} element={<ProjectDetail />} />
+                    <Route path={routes.donations} element={<Donations />} />
+                    <Route path={routes.createProject} element={<CreateProject />} />
+                    <Route path={routes.profile} element={<Profile />} />
                 </Route>
 
                 <Route path={routes.notFound} element={<NotFound />} />

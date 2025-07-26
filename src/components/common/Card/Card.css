@@ -7,6 +7,9 @@
     flex-direction: column;
     gap: 0.8rem;
     transition: all 0.2s ease;
+    /* min-height: 100px;  */
+    height: 100%; /* Ensure all cards are the same height */
+    width: 100%; /* Ensure card takes full width of its container */
 }
 
 .common-card-container.hoverable {

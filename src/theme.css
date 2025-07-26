@@ -30,6 +30,74 @@
     --state-warning: #FFA502;
     --state-info: #2D82E8;
     --state-success: #2ED573;
+    
+    /* Project-specific colors */
+    --primary-color: var(--main-primary); /* For backward compatibility */
+    --secondary-color: var(--main-secondary); /* For backward compatibility */
+    
+    /* Blue shades used throughout the app */
+    --blue-dark: #1a2e4a;
+    --blue-primary: #2a3f5a;
+    --blue-light: #3a5070;
+    --blue-lighter: #4a6080;
+    
+    /* Grayscale palette */
+    --gray-50: #f9fafb;
+    --gray-100: #f0f0f0;
+    --gray-200: #e0e0e0;
+    --gray-300: #d0d0d0;
+    --gray-400: #a0a0a0;
+    --gray-500: #808080;
+    --gray-600: #666666;
+    --gray-700: #555555;
+    --gray-800: #333333;
+    --gray-900: #1a1a1a;
+    
+    /* Transparent colors */
+    --black-5: rgba(0, 0, 0, 0.05);
+    --black-10: rgba(0, 0, 0, 0.1);
+    --black-15: rgba(0, 0, 0, 0.15);
+    --black-20: rgba(0, 0, 0, 0.2);
+    --black-30: rgba(0, 0, 0, 0.3);
+    --black-50: rgba(0, 0, 0, 0.5);
+    --black-70: rgba(0, 0, 0, 0.7);
+    --white-5: rgba(255, 255, 255, 0.05);
+    --white-10: rgba(255, 255, 255, 0.1);
+    --white-20: rgba(255, 255, 255, 0.2);
+    --white-30: rgba(255, 255, 255, 0.3);
+    --white-50: rgba(255, 255, 255, 0.5);
+    --white-70: rgba(255, 255, 255, 0.7);
+    --white-90: rgba(255, 255, 255, 0.9);
+    --white-95: rgba(255, 255, 255, 0.95);
+    
+    /* Specialized component colors */
+    --card-background: var(--background-primary);
+    --card-shadow: var(--black-10);
+    --card-hover-shadow: var(--black-15);
+    
+    /* Button styles */
+    --button-primary-bg: var(--main-primary);
+    --button-secondary-bg: var(--main-secondary);
+    --button-text: var(--text-inverse);
+    
+    /* Feature colors */
+    --feature-icon-bg: rgba(42, 63, 90, 0.08);
+    --feature-icon-border: rgba(42, 63, 90, 0.3);
+    
+    /* Project card colors */
+    --project-card-bg: var(--background-primary);
+    --project-tag-bg: var(--gray-100);
+    --project-tag-bg-hover: rgba(108, 99, 255, 0.1);
+    --project-tag-text: var(--gray-700);
+    --project-progress-bg: var(--gray-100);
+    
+    /* Element-specific colors */
+    --hero-section-text: var(--text-inverse);
+    --hero-stats-bg: var(--white-95);
+    --hero-stats-text: var(--blue-dark);
+    --feature-title: var(--blue-dark);
+    --feature-text: var(--gray-700);
+    --section-accent: var(--main-primary);
 }
 
 .dark {
@@ -64,4 +132,50 @@
     --state-warning: #FFB142;
     --state-info: #4B9EFF;
     --state-success: #3DD68C;
+    
+    /* Project-specific dark colors */
+    --blue-dark: #2a4060;
+    --blue-primary: #3a5070;
+    --blue-light: #4a6080;
+    --blue-lighter: #5a7090;
+    
+    /* Dark mode grayscale */
+    --gray-50: #2e3235;
+    --gray-100: #3e4245;
+    --gray-200: #4e5255;
+    --gray-300: #5e6265;
+    --gray-400: #7e8285;
+    --gray-500: #9e9fa2;
+    --gray-600: #bdbebf;
+    --gray-700: #cdcecf;
+    --gray-800: #e5e5e5;
+    --gray-900: #f8f8f8;
+    
+    /* Dark transparent colors adjustments */
+    --black-5: rgba(0, 0, 0, 0.1);
+    --black-10: rgba(0, 0, 0, 0.2);
+    --black-15: rgba(0, 0, 0, 0.25);
+    --black-20: rgba(0, 0, 0, 0.3);
+    --black-30: rgba(0, 0, 0, 0.4);
+    
+    /* Dark specialized component colors */
+    --card-background: var(--background-secondary);
+    --card-shadow: rgba(0, 0, 0, 0.25);
+    --card-hover-shadow: rgba(0, 0, 0, 0.35);
+    
+    /* Dark feature colors */
+    --feature-icon-bg: rgba(62, 83, 110, 0.2);
+    --feature-icon-border: rgba(62, 83, 110, 0.5);
+    
+    /* Dark project card colors */
+    --project-card-bg: var(--background-secondary);
+    --project-tag-bg: var(--gray-100);
+    --project-tag-text: var(--gray-800);
+    --project-progress-bg: var(--gray-100);
+    
+    /* Dark element-specific colors */
+    --hero-stats-bg: rgba(20, 25, 35, 0.85);
+    --hero-stats-text: var(--gray-800);
+    --feature-title: var(--gray-800);
+    --feature-text: var(--gray-600);
 }
