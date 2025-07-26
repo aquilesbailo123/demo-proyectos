@@ -7,10 +7,6 @@ import './AuthRequired.css';
 
 interface AuthRequiredProps {
     /**
-     * The namespace prefix for translations (e.g., 'profile', 'donations', 'createProject')
-     */
-    namespace: string;
-    /**
      * Optional button size (defaults to 'md')
      */
     buttonSize?: 'sm' | 'md' | 'lg';
@@ -25,7 +21,6 @@ interface AuthRequiredProps {
  * Used across multiple pages that require authentication.
  */
 const AuthRequired: React.FC<AuthRequiredProps> = ({
-    namespace,
     buttonSize = 'md',
     buttonVariant = 'primary'
 }) => {

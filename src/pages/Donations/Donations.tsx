@@ -29,7 +29,7 @@ const Donations = () => {
     
     // Redirect to login if not authenticated
     if (!isAuthenticated) {
-        return <AuthRequired namespace="donations" />
+        return <AuthRequired/>
     }
     
     // Show loading state

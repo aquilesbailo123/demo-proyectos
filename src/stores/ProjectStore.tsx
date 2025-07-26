@@ -241,7 +241,7 @@ export const useProjectStore = create<ProjectState>((set) => ({
         }, 500);
     },
 
-    donateToProject: async (projectId, amount, message?) => {
+    donateToProject: async (projectId, amount, _?) => {
         set({ isLoading: true });
         
         // This would be replaced with actual API call

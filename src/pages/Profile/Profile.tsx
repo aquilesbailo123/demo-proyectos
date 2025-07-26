@@ -83,7 +83,7 @@ const Profile = () => {
     
     // If not authenticated, show prompt to login
     if (!isAuthenticated) {
-        return <AuthRequired namespace="profile" />
+        return <AuthRequired/>
     }
     
     if (loading) {

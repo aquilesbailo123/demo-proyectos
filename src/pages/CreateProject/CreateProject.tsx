@@ -95,7 +95,7 @@ const CreateProject = () => {
     
     // If not authenticated, show prompt to login
     if (!isAuthenticated) {
-        return <AuthRequired namespace="createProject" />
+        return <AuthRequired/>
     }
     
     return (
