@@ -4,8 +4,8 @@
 }
 
 .datepicker-label {
-    margin-bottom: 0.4rem;
-    font-size: 0.8rem;
+    margin-bottom: var(--spacing-xxs);
+    font-size: var(--text-sm);
     color: var(--text-secondary);
 }
 
@@ -17,15 +17,15 @@
 
 .datepicker-input {
     width: 100%;
-    padding: 0 2.5rem 0 0.8rem;
-    font-size: 0.9rem;
+    padding: 0 calc(var(--spacing-md) + 1.25rem) 0 var(--spacing-sm);
+    font-size: var(--text-md);
     border: 1px solid var(--background-secondary);
     background-color: var(--background-secondary);
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     color: var(--text-primary);
     outline: none;
     transition: border-color 0.2s;
-    height: 42px;
+    height: var(--size-md);
 }
 
 .datepicker-input:focus {
@@ -43,11 +43,11 @@
 
 .datepicker-icon {
     position: absolute;
-    right: 0.75rem;
+    right: var(--spacing-sm);
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-size: var(--text-lg);
     transition: transform 0.3s ease;
 }
 
@@ -57,8 +57,8 @@
 }
 
 .datepicker-error {
-    margin-top: 0.4rem;
-    font-size: 0.8rem;
+    margin-top: var(--spacing-xxs);
+    font-size: var(--text-sm);
     color: var(--error);
 }
 

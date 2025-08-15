@@ -98,7 +98,6 @@ const Home = () => {
                                 <Button 
                                     variant="primary" 
                                     size="lg"
-                                    className="button-hover-effect"
                                     onClick={() => navigate('/projects')}
                                 >
                                     {t('home_get_started')}
@@ -106,7 +105,6 @@ const Home = () => {
                                 <Button 
                                     variant="secondary" 
                                     size="lg"
-                                    className="button-hover-effect"
                                     onClick={() => heroRef.current?.scrollIntoView({ behavior: 'smooth' })}
                                 >
                                     {t('home_learn_more')}
@@ -294,12 +292,11 @@ const Home = () => {
             <div className="cta-section animated-gradient-purple">
                 <div className="cta-content">
 
-                    <h2>{t('home_cta_title')}</h2>
-                    <p>{t('home_cta_text')}</p>
+                    <h1 className="hero-title">{t('home_cta_title')}</h1>
+                    <p className="hero-subtitle">{t('home_cta_text')}</p>
                     <Button 
                         variant="secondary" 
                         size="lg"
-                        className="button-hover-effect"
                         onClick={() => navigate('/projects')}
                     >
                         {t('nav_create_project')}

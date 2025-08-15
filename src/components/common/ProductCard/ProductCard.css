@@ -43,7 +43,7 @@
     color: #fff;
     padding: 5px 12px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: var(--text-md);
     font-weight: 500;
     backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -100,12 +100,12 @@
 
 .product-card-title {
     margin: 0 0 0.75rem;
-    font-size: 1.3rem;
+    font-size: var(--text-lg);
     font-weight: 600;
 }
 
 .product-card-description {
-    font-size: 0.95rem;
+    font-size: var(--text-md);
     color: var(--text-secondary);
     margin-bottom: 1rem;
     line-height: 1.5;
@@ -124,7 +124,7 @@
     color: var(--project-tag-text);
     padding: 0.2rem 0.7rem;
     border-radius: 15px;
-    font-size: 0.85rem;
+    font-size: var(--text-md);
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -140,7 +140,7 @@
 }
 
 .product-card-tag-icon {
-    font-size: 0.9rem;
+    font-size: var(--text-lg);
 }
 
 /* Progress bar */
@@ -181,7 +181,7 @@
 .product-card-progress-stats {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9rem;
+    font-size: var(--text-lg);
     color: var(--text-secondary);
     align-items: center;
 }
@@ -189,7 +189,7 @@
 .product-card-funded-amount {
     font-weight: 700;
     color: var(--text-primary);
-    font-size: 1.05rem;
+    font-size: var(--text-lg);
     transition: color 0.3s ease;
 }
 
@@ -211,7 +211,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: auto;
-    font-size: 0.9rem;
+    font-size: var(--text-lg);
     color: var(--text-secondary);
 }
 

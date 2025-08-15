@@ -22,12 +22,12 @@ import './Navbar.css'
 const Navbar = () => {
     const navigate = useNavigate()
     const location = useLocation()
-    const { isAuthenticated, user, connectWallet } = useAuthStore()
+    const { isAuthenticated, user } = useAuthStore() // connectWallet
     const { t } = useTranslation('common')
     
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
-    const [walletConnecting, setWalletConnecting] = useState(false)
+    // const [walletConnecting, setWalletConnecting] = useState(false)
     
     // Handle scroll event to add glass effect when scrolled
     useEffect(() => {
@@ -55,24 +55,26 @@ const Navbar = () => {
         setMobileMenuOpen(prev => !prev)
     }
 
-    const handleConnectWallet = async () => {
-        setWalletConnecting(true)
-        try {
-            await connectWallet('metamask')
-        } finally {
-            setTimeout(() => setWalletConnecting(false), 1500)
-        }
-    }
+    // const handleConnectWallet = async () => {
+    //     setWalletConnecting(true)
+    //     try {
+    //         await connectWallet('metamask')
+    //     } finally {
+    //         setTimeout(() => setWalletConnecting(false), 1500)
+    //     }
+    // }
 
     return (
         <nav className={`navbar-main-cont ${scrolled ? 'navbar-scrolled' : ''}`}>
             {/* <div className="navbar-backdrop"></div> */}
             
+            {/* Main logo */}
             <Link to={routes.home} className="navbar-logo">
                 <img src={mainLogo.src} alt={mainLogo.alt} className="navbar-logo-img float" />
                 <span className="navbar-logo-text animated-gradient-text--shimmer">KuskaPay</span>
             </Link>
 
+            {/* MOBILE: menu toggle */}
             <button className="navbar-mobile-toggle" onClick={toggleMobileMenu}>
                 {mobileMenuOpen ? (
                     <RiCloseLine size={24} className="fade-in" />
@@ -80,7 +82,8 @@ const Navbar = () => {
                     <RiMenuLine size={24} className="fade-in" />
                 )}
             </button>
-
+            
+            {/* DESKTOP: menu links */}
             <div className={`navbar-nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
                 {navItems.map((item, index) => (
                     <Link
@@ -104,11 +107,12 @@ const Navbar = () => {
                     <span>{t('nav_create_project')}</span>
                 </Link>
             </div>
-
+            
+            {/* User actions */}
             <div className="navbar-actions">
                 {isAuthenticated ? (
                     <div className="navbar-user-info fade-in">
-                        <div className="navbar-wallet-badge"> {/* Could add glow-purple */}
+                        <div className="navbar-wallet-badge">
                             <RiWallet3Line className="navbar-wallet-icon" />
                             <span className="navbar-wallet-connected">{t('wallet_connected')}</span>
                         </div>
@@ -121,11 +125,11 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <div className="navbar-auth-actions fade-in">
-                        
-                        <Button 
+                        {/* TODO ADDD THIS */}
+                        {/* <Button 
                             variant="primary"
                             size="sm"
-                            className={`navbar-connect-btn button-hover-effect ${walletConnecting ? 'connecting' : ''}`}
+                            className={`navbar-connect-btn ${walletConnecting ? 'connecting' : ''}`}
                             onClick={handleConnectWallet}
                             disabled={walletConnecting}
                         >
@@ -137,11 +141,10 @@ const Navbar = () => {
                             ) : (
                                 <>{t('wallet_connect')}</>
                             )}
-                        </Button>
+                        </Button> */}
                         <Button 
                             variant="secondary"
                             size="sm"
-                            className="button-hover-effect"
                             onClick={() => navigate(routes.login)}
                         >
                             {t('nav_login')}

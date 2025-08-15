@@ -24,7 +24,7 @@
 .basic-input-group.has-floating-outside-label {
     position: relative;
     /* Add top margin to maintain the same height as if the label was outside */
-    padding-top: 1.4rem;
+    padding-top: calc(var(--text-md) + var(--spacing-md));
 }
 
 @media (max-width: 768px) {
@@ -61,6 +61,7 @@
     border-width: 1px;
     border-style: solid;
     line-height: 1.5;
+    box-sizing: border-box;
 }
 
 /* Inside label styling */
@@ -97,7 +98,7 @@
 }
 
 .floating-outside-label.float-above {
-    top: -1.4rem;
+    top: calc(-1 * (var(--text-md) + var(--spacing-md)));
     left: 0;
     transform: translateY(0);
     font-size: var(--text-sm);
@@ -106,7 +107,7 @@
 }
 
 .basic-input-field.has-inside-label {
-    padding-top: calc(var(--spacing-md) + 0.4rem);
+    padding-top: calc(var(--spacing-md) + var(--spacing-xs));
     padding-bottom: 0;
 }
 
@@ -247,6 +248,6 @@
 
 .input-start-content.has-inside-label,
 .input-end-content.has-inside-label {
-    padding-top: calc(var(--spacing-md) + 0.4rem);
+    padding-top: calc(var(--spacing-md) + var(--spacing-xs));
     padding-bottom: 0;
 }

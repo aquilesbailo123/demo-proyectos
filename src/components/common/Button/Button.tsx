@@ -23,7 +23,7 @@ const Button = ({
 }: ButtonProps) => {
     return (
         <button 
-            className={`basic-button basic-button-${variant} basic-button-${size} ${className}`}
+            className={`basic-button basic-button-${variant} basic-button-${size} button-hover-effect ${className}`}
             {...props}
         >
             {children}
