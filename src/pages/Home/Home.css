@@ -227,29 +227,6 @@
     position: relative;
 }
 
-.section-title {
-    font-size: var(--text-xl);
-    font-weight: 700;
-    margin-bottom: 2rem;
-    text-align: center;
-    position: relative;
-    display: inline-block;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.section-title::after {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: 25%;
-    width: 50%;
-    height: 3px;
-    background: var(--section-accent);
-    border-radius: 2px;
-    opacity: 0.8;
-}
-
 .home-projects-section {
     display: flex;
     flex-direction: column;

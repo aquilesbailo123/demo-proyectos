@@ -11,6 +11,7 @@ import { useProjectStore } from '../../stores/ProjectStore'
 import { ProjectData } from '../../components/common/ProductCard/ProductCard'
 
 import './Home.css'
+import '@/styles/General.css'
 
 const Home = () => {
 

@@ -6,6 +6,7 @@ import routes from "./routes/routes"
 import Main from "./pages/Main/Main"
 import Home from "./pages/Home/Home"
 import Login from "./pages/Login/Login"
+import Register from "./pages/Register/Register"
 import NotFound from "./pages/NotFound/NotFound"
 import ProjectDetail from "./pages/ProjectDetail/ProjectDetail"
 import Donations from "./pages/Donations/Donations"
@@ -45,6 +46,7 @@ function App() {
             />
             <Routes>
                 <Route path={routes.login} element={<Login />} />
+                <Route path={routes.register} element={<Register />} />
 
                 <Route path={routes.main} element={<Main />}>
                     <Route path={routes.home} element={<Home />} />

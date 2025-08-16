@@ -163,44 +163,30 @@ const common = {
         },
         
         // Login Page
-        login: {
-            welcome: "Bienvenido a KuskaPay",
-            tabs: {
-                credentials: "Usuario y Contraseña",
-                wallet: "Conectar Billetera"
-            },
-            fields: {
-                username: {
-                    label: "Usuario",
-                    placeholder: "Ingresa tu usuario",
-                    invalid: "Nombre de usuario inválido"
-                },
-                password: {
-                    label: "Contraseña",
-                    placeholder: "Ingresa tu contraseña",
-                    invalid: "Contraseña inválida"
-                }
-            },
-            error: {
-                missing_fields: "Por favor completa todos los campos",
-                general: "Ocurrió un error durante el inicio de sesión"
-            },
-            success: "¡Inicio de sesión exitoso!",
-            wallet: {
-                info: "Conecta tu billetera de criptomonedas para donar a proyectos y seguir tus participaciones.",
-                support: "Soportamos MetaMask, Trust Wallet y otras billeteras Web3",
-                error: "Ocurrió un error al conectar la billetera",
-                success: "¡Billetera conectada exitosamente!"
-            },
-            buttons: {
-                login: "Iniciar sesión",
-                connectWallet: "Conectar Billetera"
-            },
-            footer: {
-                newUser: "¿Nuevo en KuskaPay?",
-                createAccount: "Crear Cuenta"
-            }
-        },
+        login_welcome: "Bienvenido a KuskaPay",
+        login_back_to_home_button: "Volver a Inicio",
+
+        login_username_label: "Usuario",
+        login_email_label: "Correo electrónico",
+        login_password_label: "Contraseña",
+        login_confirm_password_label: "Confirmar contraseña",
+        login_username_placeholder: "Ingresa tu usuario",
+        login_email_placeholder: "Ingresa tu correo electrónico",
+        login_password_placeholder: "Ingresa tu contraseña",
+        login_confirm_password_placeholder: "Confirma tu contraseña",
+
+        login_invalid_field: "Campo inválido",
+        login_missing_fields: "Por favor completa todos los campos",
+        login_general_error: "Ocurrió un error durante el inicio de sesión",
+        login_success: "Inicio de sesión exitoso",
+
+        login_submit_button: "Iniciar sesión",
+        login_create_account_button: "Crear cuenta",
+        login_forgot_password_button: "¿Olvidaste tu contraseña?",
+        login_with_google: "Continuar con Google",
+
+        login_new_user: "¿Nuevo en KuskaPay?",
+        login_old_user: "¿Ya tienes una cuenta?",
         
         // ProjectDetail Page
         projectDetailDonation: {
@@ -555,44 +541,31 @@ const common = {
         },
         
         // Login Page
-        login: {
-            welcome: "Welcome to KuskaPay",
-            tabs: {
-                credentials: "Username & Password",
-                wallet: "Connect Wallet"
-            },
-            fields: {
-                username: {
-                    label: "Username",
-                    placeholder: "Enter your username",
-                    invalid: "Invalid username"
-                },
-                password: {
-                    label: "Password",
-                    placeholder: "Enter your password",
-                    invalid: "Invalid password"
-                }
-            },
-            error: {
-                missing_fields: "Please complete all fields",
-                general: "An error occurred during login"
-            },
-            success: "Login successful!",
-            wallet: {
-                info: "Connect your cryptocurrency wallet to donate to projects and track your stakes.",
-                support: "We support MetaMask, Trust Wallet and other Web3 wallets",
-                error: "An error occurred while connecting wallet",
-                success: "Wallet connected successfully!"
-            },
-            buttons: {
-                login: "Log In",
-                connectWallet: "Connect Wallet"
-            },
-            footer: {
-                newUser: "New to KuskaPay?",
-                createAccount: "Create Account"
-            }
-        },
+        login_welcome: "Bienvenido a KuskaPay",
+        login_back_to_home_button: "Volver a Inicio",
+
+        login_username_label: "Usuario",
+        login_email_label: "Correo electrónico",
+        login_password_label: "Contraseña",
+        login_confirm_password_label: "Confirmar contraseña",
+        login_username_placeholder: "Ingresa tu usuario",
+        login_email_placeholder: "Ingresa tu correo electrónico",
+        login_password_placeholder: "Ingresa tu contraseña",
+        login_confirm_password_placeholder: "Confirma tu contraseña",
+
+        login_invalid_field: "Campo inválido",
+        login_missing_fields: "Por favor completa todos los campos",
+        login_general_error: "Ocurrió un error durante el inicio de sesión",
+        login_success: "Inicio de sesión exitoso",
+
+        login_submit_button: "Iniciar sesión",
+        login_create_account_button: "Crear cuenta",
+        login_forgot_password_button: "¿Olvidaste tu contraseña?",
+        login_with_google: "Continuar con Google",
+
+        login_new_user: "¿Nuevo en KuskaPay?",
+        login_old_user: "¿Ya tienes una cuenta?",
+        
 
         // Profile Page
         profile: {

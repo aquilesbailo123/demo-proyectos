@@ -13,7 +13,7 @@ import { useProjectStore } from '@/stores/ProjectStore'
 import { useAuthStore } from '@/stores/AuthStore'
 
 import './ProjectDetail.css'
-import '../../animations.css'
+import '@/styles/General.css'
 
 const ProjectDetail = () => {
     const { t, i18n } = useTranslation('common')
