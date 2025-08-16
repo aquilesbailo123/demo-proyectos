@@ -11,6 +11,7 @@ import Spinner from '@/components/common/Spinner/Spinner'
 import Card from '@/components/common/Card/Card'
 // import { mainLogo } from '@/utils/constants/common'
 import { useAuthStore } from '@/stores/AuthStore'
+import { useLogin, useGoogleLogin, loadGoogleScript, getApiErrorMessage } from '@/hooks/auth'
 
 import './Login.css'
 import '@/styles/LoginRegister.css'
@@ -18,8 +19,10 @@ import '@/styles/General.css'
 
 const Login = () => {
     const navigate = useNavigate()
-    const { login, isLoading } = useAuthStore()
+    const { applyLogin } = useAuthStore()
     const { t } = useTranslation('common')
+    const loginMutation = useLogin()
+    const googleLoginMutation = useGoogleLogin()
 
     // Wallet login temporarily disabled
     // const [authMethod, setAuthMethod] = useState<'credentials' | 'wallet'>('credentials')
@@ -64,12 +67,19 @@ const Login = () => {
         }
 
         try {
-            await login(formData.username, formData.password)
+            const data = await loginMutation.mutateAsync({ username: formData.username, password: formData.password })
+            const user = data?.user || { username: formData.username }
+            applyLogin({
+                id: String(user?.id ?? 'self'),
+                username: user?.username ?? formData.username,
+                email: user?.email ?? '',
+            })
             toast.success(t('login_success'))
             navigate('/home')
         } catch (error) {
-            toast.error(t('login_general_error'))
-            console.error(error)
+            const msg = getApiErrorMessage(error)
+            toast.error(msg || t('login_general_error'))
+            console.error('Login error:', error)
         }
     }
 
@@ -85,7 +95,50 @@ const Login = () => {
     // }
 
     const handleLoginWithGoogle = async () => {
-        // TODO: Implement Google OAuth flow
+        try {
+            await loadGoogleScript()
+            // @ts-ignore
+            const google = window.google
+            const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string
+            if (!clientId) {
+                toast.error('Missing Google Client ID')
+                return
+            }
+            let resolved = false
+            await new Promise<void>((resolve, reject) => {
+                try {
+                    google.accounts.id.initialize({
+                        client_id: clientId,
+                        callback: async (response: any) => {
+                            if (resolved) return
+                            resolved = true
+                            try {
+                                const data = await googleLoginMutation.mutateAsync({ id_token: response.credential })
+                                const user = data?.user
+                                applyLogin({
+                                    id: String(user?.id ?? 'self'),
+                                    username: user?.email ?? '',
+                                    email: user?.email ?? '',
+                                })
+                                toast.success(t('login_success'))
+                                navigate('/home')
+                                resolve()
+                            } catch (err) {
+                                reject(err)
+                            }
+                        },
+                    })
+                    // One Tap prompt
+                    google.accounts.id.prompt()
+                } catch (e) {
+                    reject(e)
+                }
+            })
+        } catch (e) {
+            console.error('Google login error:', e)
+            const msg = getApiErrorMessage(e)
+            toast.error(msg || t('login_general_error'))
+        }
     }
 
     return (
@@ -142,9 +195,9 @@ const Login = () => {
                         variant="primary"
                         size="lg"
                         type="submit"
-                        disabled={isLoading}
+                        disabled={loginMutation.isPending}
                     >
-                        {isLoading ? <Spinner variant="primary" /> : t('login_submit_button')}
+                        {loginMutation.isPending ? <Spinner variant="primary" /> : t('login_submit_button')}
                     </Button>
 
                     <Button
@@ -156,6 +209,10 @@ const Login = () => {
                         {t('login_with_google') || 'Continue with Google'}
                     </Button>
                 </form>
+            
+                <button className="text-btn login-register-footer" onClick={() => navigate('/forgot-password')}>
+                    <span>{t('login_forgot_password') || 'Forgot your password?'}</span>
+                </button>
             
                 <button className="text-btn login-register-footer" onClick={() => navigate('/register')}>
                     <span>{t('login_new_user')}</span>

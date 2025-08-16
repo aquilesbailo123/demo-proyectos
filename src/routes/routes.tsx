@@ -3,6 +3,8 @@ const routes = {
     home: "/home",
     login: "/login",
     register: "/register",
+    forgotPassword: "/forgot-password",
+    resetPassword: "/reset-password",
     projects: "/projects",
     projectDetail: "/project/:projectId",
     donations: "/donations",

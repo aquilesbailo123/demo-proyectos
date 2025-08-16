@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom"
 import { Toaster, ToastBar, toast } from "react-hot-toast"
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop"
+import { useEffect } from "react"
+import { useAuthStore } from "./stores/AuthStore"
 
 import routes from "./routes/routes"
 import Main from "./pages/Main/Main"
@@ -13,10 +15,17 @@ import Donations from "./pages/Donations/Donations"
 import Projects from "./pages/Projects/Projects"
 import CreateProject from "./pages/CreateProject/CreateProject"
 import Profile from "./pages/Profile/Profile"
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword"
+import ResetPassword from "./pages/ResetPassword/ResetPassword"
 
 import './App.css'
 
 function App() {
+    const initialize = useAuthStore((s) => s.initialize)
+
+    useEffect(() => {
+        initialize()
+    }, [initialize])
     return (
         <div className="App">
             <ScrollToTop />
@@ -47,6 +56,8 @@ function App() {
             <Routes>
                 <Route path={routes.login} element={<Login />} />
                 <Route path={routes.register} element={<Register />} />
+                <Route path={routes.forgotPassword} element={<ForgotPassword />} />
+                <Route path={routes.resetPassword} element={<ResetPassword />} />
 
                 <Route path={routes.main} element={<Main />}>
                     <Route path={routes.home} element={<Home />} />

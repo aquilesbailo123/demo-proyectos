@@ -8,6 +8,8 @@ import PasswordEyeInput from '@/components/forms/PasswordEyeInput/PasswordEyeInp
 import Button from '@/components/common/Button/Button'
 import Card from '@/components/common/Card/Card'
 import Spinner from '@/components/common/Spinner/Spinner'
+import toast from 'react-hot-toast'
+import { useRegister, getApiErrorMessage } from '@/hooks/auth'
 
 import './Register.css'
 import '@/styles/LoginRegister.css'
@@ -16,13 +18,13 @@ import '@/styles/General.css'
 const Register = () => {
     const navigate = useNavigate()
     const { t } = useTranslation('common')
+    const registerMutation = useRegister()
 
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [formData, setFormData] = useState({
-        username: '',
         email: '',
-        password: '',
-        confirmPassword: '',
+        password1: '',
+        password2: '',
     })
 
     const handleFormDataChange = (key: string, value: string) => {
@@ -31,12 +33,18 @@ const Register = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
-        // TODO: add real registration logic + validations
         try {
             setIsSubmitting(true)
-            // Simulate request
-            await new Promise((r) => setTimeout(r, 800))
+            await registerMutation.mutateAsync({
+                email: formData.email,
+                password1: formData.password1,
+                password2: formData.password2,
+            })
+            toast.success(t('register_success') || 'Account created')
             navigate('/login')
+        } catch (error) {
+            const msg = getApiErrorMessage(error)
+            toast.error(msg || (t('registration_failed') as string) || 'Registration failed')
         } finally {
             setIsSubmitting(false)
         }
@@ -63,13 +71,6 @@ const Register = () => {
 
                 <form className="login-register-form-cont" onSubmit={handleSubmit}>
                     <Input
-                        name="username"
-                        value={formData.username}
-                        setValue={(v) => handleFormDataChange('username', v)}
-                        label={t('login_username_label') || 'Username'}
-                        placeholder={t('login_username_placeholder') || 'Your username'}
-                    />
-                    <Input
                         name="email"
                         type="email"
                         value={formData.email}
@@ -78,17 +79,17 @@ const Register = () => {
                         placeholder={t('login_email_placeholder') || 'you@example.com'}
                     />
                     <PasswordEyeInput
-                        name="password"
-                        value={formData.password}
-                        setValue={(v) => handleFormDataChange('password', v)}
+                        name="password1"
+                        value={formData.password1}
+                        setValue={(v) => handleFormDataChange('password1', v)}
                         label={t('login_password_label') || 'Password'}
                         placeholder={t('login_password_placeholder') || 'Create a password'}
                     />
                     <PasswordEyeInput
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        setValue={(v) => handleFormDataChange('confirmPassword', v)}
-                          label={t('login_confirm_password_label') || 'Confirm password'}
+                        name="password2"
+                        value={formData.password2}
+                        setValue={(v) => handleFormDataChange('password2', v)}
+                        label={t('login_confirm_password_label') || 'Confirm password'}
                         placeholder={t('login_confirm_password_placeholder') || 'Repeat your password'}
                     />
 
@@ -96,9 +97,9 @@ const Register = () => {
                         variant="primary"
                         size="lg"
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || registerMutation.isPending}
                     >
-                        {isSubmitting ? <Spinner variant="primary" /> : (t('login_create_account_button') || 'Create account')}
+                        {(isSubmitting || registerMutation.isPending) ? <Spinner variant="primary" /> : (t('login_create_account_button') || 'Create account')}
                     </Button>
 
                     <Button
