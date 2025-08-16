@@ -27,7 +27,7 @@ const Login = () => {
     // Wallet login temporarily disabled
     // const [authMethod, setAuthMethod] = useState<'credentials' | 'wallet'>('credentials')
     const [formData, setFormData] = useState<{ [key: string]: any }>({
-        username: '',
+        identifier: '', // email or username
         password: '',
     })
 
@@ -39,8 +39,8 @@ const Login = () => {
     }
 
     const validateForm = (formData: { [key: string]: any }) => {
-        const { username, password } = formData
-        console.log(username, password)
+        const { identifier, password } = formData
+        console.log(identifier, password)
 
         // const alphanumericRegex = /^[a-zA-Z0-9]+$/
 
@@ -67,11 +67,15 @@ const Login = () => {
         }
 
         try {
-            const data = await loginMutation.mutateAsync({ username: formData.username, password: formData.password })
-            const user = data?.user || { username: formData.username }
+            const looksLikeEmail = /@/.test(formData.identifier)
+            const payload = looksLikeEmail
+                ? { email: formData.identifier, password: formData.password }
+                : { username: formData.identifier, password: formData.password }
+            const data = await loginMutation.mutateAsync(payload)
+            const user = data?.user || { username: formData.identifier }
             applyLogin({
                 id: String(user?.id ?? 'self'),
-                username: user?.username ?? formData.username,
+                username: user?.username ?? (looksLikeEmail ? '' : formData.identifier),
                 email: user?.email ?? '',
             })
             toast.success(t('login_success'))
@@ -177,11 +181,11 @@ const Login = () => {
                 {/* Only credentials login enabled */}
                 <form className="login-register-form-cont" onSubmit={(e) => handleFormSubmit(e)}>
                     <Input
-                        name="username"
-                        value={formData.username}
-                        setValue={(value) => handleFormDataChange('username', value)}
-                        label={t('login_username_label')}
-                        placeholder={t('login_username_placeholder')}
+                        name="identifier"
+                        value={formData.identifier}
+                        setValue={(value) => handleFormDataChange('identifier', value)}
+                        label={t('login_identifier_label') || 'Email or username'}
+                        placeholder={t('login_identifier_placeholder') || 'you@example.com or username'}
                     />
                     <PasswordEyeInput
                         name="password"

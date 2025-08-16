@@ -165,11 +165,13 @@ const common = {
         // Login Page
         login_welcome: "Bienvenido a KuskaPay",
         login_back_to_home_button: "Volver a Inicio",
-
+        
+        login_identifier_label: "Usuario",
         login_username_label: "Usuario",
         login_email_label: "Correo electrónico",
         login_password_label: "Contraseña",
         login_confirm_password_label: "Confirmar contraseña",
+        login_identifier_placeholder: "Ingresa tu usuario",
         login_username_placeholder: "Ingresa tu usuario",
         login_email_placeholder: "Ingresa tu correo electrónico",
         login_password_placeholder: "Ingresa tu contraseña",
@@ -185,8 +187,11 @@ const common = {
         login_forgot_password_button: "¿Olvidaste tu contraseña?",
         login_with_google: "Continuar con Google",
 
+        login_forgot_password_title: "Reestablecer contraseña",
         login_new_user: "¿Nuevo en KuskaPay?",
         login_old_user: "¿Ya tienes una cuenta?",
+        login_forgot_password: "¿Olvidaste tu contraseña?",
+        login_reset_password: "Enivar solicitud",
         
         // ProjectDetail Page
         projectDetailDonation: {
@@ -543,11 +548,13 @@ const common = {
         // Login Page
         login_welcome: "Bienvenido a KuskaPay",
         login_back_to_home_button: "Volver a Inicio",
-
+        
+        login_identifier_label: "Usuario",
         login_username_label: "Usuario",
         login_email_label: "Correo electrónico",
         login_password_label: "Contraseña",
         login_confirm_password_label: "Confirmar contraseña",
+        login_identifier_placeholder: "Ingresa tu usuario",
         login_username_placeholder: "Ingresa tu usuario",
         login_email_placeholder: "Ingresa tu correo electrónico",
         login_password_placeholder: "Ingresa tu contraseña",
@@ -563,8 +570,11 @@ const common = {
         login_forgot_password_button: "¿Olvidaste tu contraseña?",
         login_with_google: "Continuar con Google",
 
+        login_forgot_password_title: "Reestablecer contraseña",
         login_new_user: "¿Nuevo en KuskaPay?",
         login_old_user: "¿Ya tienes una cuenta?",
+        login_forgot_password: "¿Olvidaste tu contraseña?",
+        login_reset_password: "Enivar solicitud",
         
 
         // Profile Page

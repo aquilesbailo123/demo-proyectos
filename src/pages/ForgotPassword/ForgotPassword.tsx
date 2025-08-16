@@ -43,7 +43,7 @@ const ForgotPassword = () => {
             </div>
 
             <Card className="login-register-card-cont">
-                <div className="section-title">{t('forgot_password_title') || 'Forgot your password?'}</div>
+                <div className="section-title">{t('login_forgot_password_title') || 'Forgot your password?'}</div>
                 <form className="login-register-form-cont" onSubmit={onSubmit}>
                     <Input
                         name="email"
@@ -54,7 +54,7 @@ const ForgotPassword = () => {
                         placeholder={t('login_email_placeholder') || 'you@example.com'}
                     />
                     <Button variant="primary" size="lg" type="submit" disabled={resetMutation.isPending}>
-                        {resetMutation.isPending ? <Spinner variant="primary" /> : (t('send_reset_link') || 'Send reset link')}
+                        {resetMutation.isPending ? <Spinner variant="primary" /> : (t('login_reset_password') || 'Send reset link')}
                     </Button>
                 </form>
             </Card>

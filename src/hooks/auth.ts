@@ -10,6 +10,7 @@ export interface LoginPayload {
 }
 
 export interface RegisterPayload {
+    username?: string;
     email: string;
     password1: string;
     password2: string;
@@ -39,12 +40,23 @@ export interface BaseOkResponse {
     detail: string; // e.g., 'login_ok', 'register_ok', etc.
 }
 export interface UserInfo {
-    id: number | string;
+    id?: number | string; // some endpoints use id
+    pk?: number | string; // dj-rest-auth typically exposes pk
     email?: string;
     username?: string;
+    first_name?: string;
+    last_name?: string;
 }
-export interface LoginResponse extends BaseOkResponse { user: UserInfo }
-export interface RegisterResponse extends BaseOkResponse { user: UserInfo }
+export interface LoginResponse extends BaseOkResponse {
+    access_token?: string;
+    refresh_token?: string;
+    user: UserInfo;
+}
+export interface RegisterResponse extends BaseOkResponse {
+    access_token?: string;
+    refresh_token?: string;
+    user: UserInfo;
+}
 export interface PasswordResetResponse extends BaseOkResponse {}
 export interface PasswordResetConfirmResponse extends BaseOkResponse {}
 export interface GoogleLoginResponse extends BaseOkResponse { user: UserInfo }
@@ -119,7 +131,7 @@ export const usePasswordResetConfirm = () => {
 export const useGoogleLogin = () => {
     return useMutation<GoogleLoginResponse, AxiosError<ApiErrorResponse>, GoogleLoginPayload>({
         mutationFn: async (payload: GoogleLoginPayload) => {
-            const res = await axiosInstance.post("/auth/login/google/", payload);
+            const res = await axiosInstance.post("/auth/google/", payload);
             return res.data as GoogleLoginResponse;
         },
     });

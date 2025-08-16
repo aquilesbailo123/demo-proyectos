@@ -22,6 +22,7 @@ const Register = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [formData, setFormData] = useState({
+        username: '', // optional depending on backend settings
         email: '',
         password1: '',
         password2: '',
@@ -35,11 +36,13 @@ const Register = () => {
         e.preventDefault()
         try {
             setIsSubmitting(true)
-            await registerMutation.mutateAsync({
+            const payload: any = {
                 email: formData.email,
                 password1: formData.password1,
                 password2: formData.password2,
-            })
+            }
+            if (formData.username) payload.username = formData.username
+            await registerMutation.mutateAsync(payload)
             toast.success(t('register_success') || 'Account created')
             navigate('/login')
         } catch (error) {
@@ -70,6 +73,15 @@ const Register = () => {
                 <div className="section-title">{t('login_create_account_button') || 'Create your account'}</div>
 
                 <form className="login-register-form-cont" onSubmit={handleSubmit}>
+                    <Input
+                        name="username"
+                        type="text"
+                        value={formData.username}
+                        setValue={(v) => handleFormDataChange('username', v)}
+                        label={t('login_username_label') || 'Username'}
+                        placeholder={t('login_username_placeholder') || 'your-username'}
+                    />
+
                     <Input
                         name="email"
                         type="email"
