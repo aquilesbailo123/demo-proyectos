@@ -27,7 +27,7 @@ const Login = () => {
     // Wallet login temporarily disabled
     // const [authMethod, setAuthMethod] = useState<'credentials' | 'wallet'>('credentials')
     const [formData, setFormData] = useState<{ [key: string]: any }>({
-        identifier: '', // email or username
+        email: '',
         password: '',
     })
 
@@ -39,8 +39,8 @@ const Login = () => {
     }
 
     const validateForm = (formData: { [key: string]: any }) => {
-        const { identifier, password } = formData
-        console.log(identifier, password)
+        const { email, password } = formData
+        console.log(email, password)
 
         // const alphanumericRegex = /^[a-zA-Z0-9]+$/
 
@@ -54,6 +54,9 @@ const Login = () => {
         //     return { isValid: false, message: t('login.fields.password.invalid') }
         // }
 
+        if (!email || !password) {
+            return { isValid: false, message: t('login.error.missing_fields') }
+        }
         return { isValid: true, message: '' }
     }
 
@@ -67,16 +70,13 @@ const Login = () => {
         }
 
         try {
-            const looksLikeEmail = /@/.test(formData.identifier)
-            const payload = looksLikeEmail
-                ? { email: formData.identifier, password: formData.password }
-                : { username: formData.identifier, password: formData.password }
+            const payload = { email: formData.email, password: formData.password }
             const data = await loginMutation.mutateAsync(payload)
-            const user = data?.user || { username: formData.identifier }
+            const user = data?.user || { email: formData.email }
             applyLogin({
                 id: String(user?.id ?? 'self'),
-                username: user?.username ?? (looksLikeEmail ? '' : formData.identifier),
-                email: user?.email ?? '',
+                username: user?.username ?? user?.email ?? formData.email,
+                email: user?.email ?? formData.email,
             })
             toast.success(t('login_success'))
             navigate('/home')
@@ -181,11 +181,11 @@ const Login = () => {
                 {/* Only credentials login enabled */}
                 <form className="login-register-form-cont" onSubmit={(e) => handleFormSubmit(e)}>
                     <Input
-                        name="identifier"
-                        value={formData.identifier}
-                        setValue={(value) => handleFormDataChange('identifier', value)}
-                        label={t('login_identifier_label') || 'Email or username'}
-                        placeholder={t('login_identifier_placeholder') || 'you@example.com or username'}
+                        name="email"
+                        value={formData.email}
+                        setValue={(value) => handleFormDataChange('email', value)}
+                        label={t('login_email_label') || 'Email'}
+                        placeholder={t('login_email_placeholder') || 'you@example.com'}
                     />
                     <PasswordEyeInput
                         name="password"
