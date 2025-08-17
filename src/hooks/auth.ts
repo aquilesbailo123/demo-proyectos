@@ -61,12 +61,37 @@ export interface PasswordResetResponse extends BaseOkResponse {}
 export interface PasswordResetConfirmResponse extends BaseOkResponse {}
 export interface GoogleLoginResponse extends BaseOkResponse { user: UserInfo }
 
+export interface VerifyEmailPayload { key: string }
+export interface VerifyEmailResponse { detail: string }
+export interface ResendConfirmationPayload { email: string }
+export interface ResendConfirmationResponse { detail: string }
+
 // Error response payloads (DRF ValidationError or general API errors)
 export type ApiErrorResponse = {
     detail?: string;
     message?: string;
     type?: string;
     [key: string]: any; // field errors or nested structures
+};
+
+export const useVerifyEmail = () => {
+    return useMutation<VerifyEmailResponse, AxiosError<ApiErrorResponse>, VerifyEmailPayload>({
+        mutationFn: async (payload: VerifyEmailPayload) => {
+            // dj-rest-auth verify endpoint
+            const res = await axiosInstance.post("/auth/registration/verify-email/", payload);
+            return res.data as VerifyEmailResponse;
+        },
+    });
+};
+
+export const useResendConfirmation = () => {
+    return useMutation<ResendConfirmationResponse, AxiosError<ApiErrorResponse>, ResendConfirmationPayload>({
+        mutationFn: async (payload: ResendConfirmationPayload) => {
+            // Our custom endpoint under core
+            const res = await axiosInstance.post("/api/auth/resend-confirmation/", payload);
+            return res.data as ResendConfirmationResponse;
+        },
+    });
 };
 
 export const getApiErrorMessage = (error: unknown): string => {

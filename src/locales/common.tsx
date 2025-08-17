@@ -165,6 +165,7 @@ const common = {
         // Login Page
         login_welcome: "Bienvenido a KuskaPay",
         login_back_to_home_button: "Volver a Inicio",
+        login_back_to_login_button: "Volver a inicio de sesión",
         
         login_identifier_label: "Usuario",
         login_username_label: "Usuario",
@@ -192,6 +193,14 @@ const common = {
         login_old_user: "¿Ya tienes una cuenta?",
         login_forgot_password: "¿Olvidaste tu contraseña?",
         login_reset_password: "Enivar solicitud",
+
+        login_verify_email: "Verificar correo electrónico",
+        login_verify_email_message: "Hemos enviado un link de confirmación a: {{email}}. Por favor ingrese a ese link para confirmar su correo electrónico.",
+        login_verify_email_loading: "Verificando su cuenta...",
+        login_verify_email_success: "Cuenta verificada exitosamente",
+        login_verify_email_invalid: "El link de verificación es inválido o ha expirado",
+        login_verify_email_sent: "Correo de verificación enviado",
+        login_verify_resend_email: "Reenviar correo",
         
         // ProjectDetail Page
         projectDetailDonation: {
@@ -548,6 +557,7 @@ const common = {
         // Login Page
         login_welcome: "Bienvenido a KuskaPay",
         login_back_to_home_button: "Volver a Inicio",
+        login_back_to_login_button: "Volver a inicio de sesión",
         
         login_identifier_label: "Usuario",
         login_username_label: "Usuario",
@@ -575,6 +585,15 @@ const common = {
         login_old_user: "¿Ya tienes una cuenta?",
         login_forgot_password: "¿Olvidaste tu contraseña?",
         login_reset_password: "Enivar solicitud",
+
+        login_verify_email: "Verificar correo electrónico",
+        login_verify_email_message: "Hemos enviado un link de confirmación a: {{email}}. Por favor ingrese a ese link para confirmar su correo electrónico.",
+        login_verify_email_loading: "Verificando su cuenta...",
+        login_verify_email_success: "Cuenta verificada exitosamente",
+        login_verify_email_invalid: "El link de verificación es inválido o ha expirado",
+        login_verify_email_sent: "Correo de verificación enviado",
+        login_verify_resend_email: "Reenviar correo",
+
         
 
         // Profile Page

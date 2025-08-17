@@ -44,7 +44,9 @@ const Register = () => {
             if (formData.username) payload.username = formData.username
             await registerMutation.mutateAsync(payload)
             toast.success(t('register_success') || 'Account created')
-            navigate('/login')
+            // Redirect to check email page to prompt verification
+            const params = new URLSearchParams({ email: formData.email })
+            navigate(`/check-email?${params.toString()}`)
         } catch (error) {
             const msg = getApiErrorMessage(error)
             toast.error(msg || (t('registration_failed') as string) || 'Registration failed')

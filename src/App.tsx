@@ -9,6 +9,8 @@ import Main from "./pages/Main/Main"
 import Home from "./pages/Home/Home"
 import Login from "./pages/Login/Login"
 import Register from "./pages/Register/Register"
+import CheckEmail from "./pages/CheckEmail/CheckEmail"
+import VerifyEmail from "./pages/VerifyEmail/VerifyEmail"
 import NotFound from "./pages/NotFound/NotFound"
 import ProjectDetail from "./pages/ProjectDetail/ProjectDetail"
 import Donations from "./pages/Donations/Donations"
@@ -58,6 +60,8 @@ function App() {
                 <Route path={routes.register} element={<Register />} />
                 <Route path={routes.forgotPassword} element={<ForgotPassword />} />
                 <Route path={routes.resetPassword} element={<ResetPassword />} />
+                <Route path={routes.checkEmail} element={<CheckEmail />} />
+                <Route path={routes.verifyEmail} element={<VerifyEmail />} />
 
                 <Route path={routes.main} element={<Main />}>
                     <Route path={routes.home} element={<Home />} />
