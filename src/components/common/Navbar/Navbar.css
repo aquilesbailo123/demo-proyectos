@@ -277,6 +277,11 @@
     .navbar-mobile-toggle {
         display: flex; /* Only show toggle on mobile */
         color: var(--black-50);
+        margin-left: auto;
+    }
+    
+    .navbar-actions {
+        display: none; /* Hide user actions on mobile */
     }
 
     .navbar-nav-links {
