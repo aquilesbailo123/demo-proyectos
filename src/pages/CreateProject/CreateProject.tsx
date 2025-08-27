@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next'
 
 import Button from '@/components/common/Button/Button'
 import Input from '@/components/forms/Input/Input'
-import { useAuthStore } from '@/stores/AuthStore'
+import useAuthStore from '@/stores/AuthStore'
 import AuthRequired from '@/components/common/AuthRequired'
 import './CreateProject.css'
 
 const CreateProject = () => {
     const navigate = useNavigate()
-    const { isAuthenticated } = useAuthStore()
+    const { isLogged } = useAuthStore()
     const [loading, setLoading] = useState(false)
     const { t } = useTranslation('common')
     
@@ -94,7 +94,7 @@ const CreateProject = () => {
     ]
     
     // If not authenticated, show prompt to login
-    if (!isAuthenticated) {
+    if (!isLogged) {
         return <AuthRequired/>
     }
     

@@ -1,23 +1,31 @@
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "@/api/axiosInstance";
-import { useAuthStore } from "@/stores/AuthStore";
+import axiosInstance from "../api/axiosInstance";
+import useAuthStore from "@/stores/AuthStore";
 
-const fetchProfile = () => axiosInstance.get("/profile");
+export interface UserProfile {
+    id: number;
+    username: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    is_active: boolean;
+}
+
+const fetchProfile = async (): Promise<UserProfile> => {
+    const { data } = await axiosInstance.get("/api/auth/profile/");
+    return data;
+};
 
 export const useProfile = () => {
-    const { isAuthenticated } = useAuthStore((state) => ({
-        isAuthenticated: state.isAuthenticated,
+    const { isLogged } = useAuthStore((state) => ({
+        isLogged: state.isLogged,
     }));
 
     return useQuery({
         queryKey: ["profile"],
-        enabled: isAuthenticated,
+        enabled: isLogged,
         queryFn: fetchProfile,
-        select: (res: any) => res.data,
-        refetchInterval: (query: any) => {
-            // Optional: adapt to your backend's KYC/status shape if exists
-            const kycStatus = (query.state.data as any)?.data?.kyc_status;
-            return kycStatus === "green" ? false : 5000;
-        },
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        gcTime: 10 * 60 * 1000, // 10 minutes
     });
 };

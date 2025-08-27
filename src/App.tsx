@@ -1,8 +1,6 @@
 import { Routes, Route } from "react-router-dom"
 import { Toaster, ToastBar, toast } from "react-hot-toast"
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop"
-import { useEffect } from "react"
-import { useAuthStore } from "./stores/AuthStore"
 
 import routes from "./routes/routes"
 import Main from "./pages/Main/Main"
@@ -23,11 +21,8 @@ import ResetPassword from "./pages/ResetPassword/ResetPassword"
 import './App.css'
 
 function App() {
-    const initialize = useAuthStore((s) => s.initialize)
-
-    useEffect(() => {
-        initialize()
-    }, [initialize])
+    // The new AuthStore no longer needs initialization as it
+    // checks token validity on creation
     return (
         <div className="App">
             <ScrollToTop />

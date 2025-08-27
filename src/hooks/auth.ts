@@ -48,11 +48,17 @@ export interface UserInfo {
     last_name?: string;
 }
 export interface LoginResponse extends BaseOkResponse {
+    // Support both token naming conventions
+    access?: string;
+    refresh?: string;
     access_token?: string;
     refresh_token?: string;
     user: UserInfo;
 }
 export interface RegisterResponse extends BaseOkResponse {
+    // Support both token naming conventions
+    access?: string;
+    refresh?: string;
     access_token?: string;
     refresh_token?: string;
     user: UserInfo;
@@ -120,8 +126,25 @@ export const getApiErrorMessage = (error: unknown): string => {
 export const useLogin = () => {
     return useMutation<LoginResponse, AxiosError<ApiErrorResponse>, LoginPayload>({
         mutationFn: async (payload: LoginPayload) => {
-            const res = await axiosInstance.post("/auth/login/", payload);
-            return res.data as LoginResponse;
+            // Debug: log identifier (email/username) but never the password
+            const ident = payload.email ?? payload.username ?? '';
+            // eslint-disable-next-line no-console
+            console.debug("auth.login request", { identifier: ident });
+            try {
+                const res = await axiosInstance.post("/auth/login/", payload);
+                // eslint-disable-next-line no-console
+                console.debug("auth.login success", { user: res.data?.user, hasTokens: Boolean(res.data?.access_token) });
+                return res.data as LoginResponse;
+            } catch (err) {
+                const axiosErr = err as AxiosError<ApiErrorResponse>;
+                // eslint-disable-next-line no-console
+                console.error("auth.login failed", {
+                    status: axiosErr.response?.status,
+                    data: axiosErr.response?.data,
+                    message: axiosErr.message,
+                });
+                throw err;
+            }
         },
     });
 };

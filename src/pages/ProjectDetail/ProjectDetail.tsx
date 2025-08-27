@@ -10,7 +10,7 @@ import Spinner from '@/components/common/Spinner/Spinner'
 import Input from '@/components/forms/Input/Input'
 
 import { useProjectStore } from '@/stores/ProjectStore'
-import { useAuthStore } from '@/stores/AuthStore'
+import useAuthStore from '@/stores/AuthStore'
 
 import './ProjectDetail.css'
 import '@/styles/General.css'
@@ -25,7 +25,7 @@ const ProjectDetail = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     
     const { projects, isLoading, fetchProjects, donateToProject } = useProjectStore()
-    const { isAuthenticated } = useAuthStore()
+    const { isLogged } = useAuthStore() // Using isLogged from refactored AuthStore
     
     useEffect(() => {
         if (projects.length === 0) {
@@ -38,7 +38,7 @@ const ProjectDetail = () => {
     const handleDonate = async (e: React.FormEvent) => {
         e.preventDefault()
         
-        if (!isAuthenticated) {
+        if (!isLogged) {
             toast.error(t('projectDetail.errors.loginRequired'))
             navigate('/login')
             return
@@ -356,7 +356,7 @@ const ProjectDetail = () => {
                                 />
                             </div>
                             
-                            {!isAuthenticated && (
+                            {!isLogged && (
                                 <div className="auth-notice">
                                     <p>{t('projectDetail.donation.loginRequired')}</p>
                                 </div>

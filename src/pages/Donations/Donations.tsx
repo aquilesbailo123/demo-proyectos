@@ -9,7 +9,7 @@ import Spinner from '@/components/common/Spinner/Spinner'
 import AuthRequired from '@/components/common/AuthRequired'
 import { Table, TableHeader, TableBody, TableCell, TableRow, TableColumn } from '@/components/common/Table'
 
-import { useAuthStore } from '@/stores/AuthStore'
+import useAuthStore from '@/stores/AuthStore'
 import { useProjectStore } from '@/stores/ProjectStore'
 
 import './Donations.css'
@@ -17,18 +17,20 @@ import '../../animations.css'
 
 const Donations = () => {
     const navigate = useNavigate()
-    const { isAuthenticated, user } = useAuthStore()
+    const { isLogged } = useAuthStore()
+    // Create dummy user from localStorage as temporary solution
+    const user = isLogged ? JSON.parse(localStorage.getItem('user') || '{}') : null
     const { userDonations, isLoading, fetchUserDonations } = useProjectStore()
     const { t, i18n } = useTranslation('common')
     
     useEffect(() => {
-        if (isAuthenticated && user) {
+        if (isLogged && user) {
             fetchUserDonations(user.id)
         }
-    }, [isAuthenticated, user, fetchUserDonations])
+    }, [isLogged, user, fetchUserDonations])
     
     // Redirect to login if not authenticated
-    if (!isAuthenticated) {
+    if (!isLogged) {
         return <AuthRequired/>
     }
     

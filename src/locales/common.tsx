@@ -236,40 +236,24 @@ const common = {
         },
         
         // Profile Page
-        profile: {
-            loading: "Cargando datos del perfil...",
-            memberSince: "Miembro desde",
-            logout: "Cerrar Sesión",
-            tabs: {
-                profile: "Perfil",
-                settings: "Configuración"
-            },
-            donationStats: {
-                title: "Estadísticas de Donaciones",
-                totalDonated: "Total Donado",
-                activeDonations: "Donaciones Activas",
-                projectsSupported: "Proyectos Apoyados"
-            },
-            recentDonations: {
-                title: "Donaciones Recientes",
-                project: "Proyecto",
-                amount: "Monto",
-                date: "Fecha",
-                status: "Estado",
-                noDonations: "Aún no has realizado ninguna donación.",
-                exploreProjects: "Explorar Proyectos",
-                viewAll: "Ver Todas las Donaciones"
-            },
-            settings: {
-                title: "Configuración del Perfil",
-                displayName: "Nombre de Usuario",
-                emailNotifications: "Notificaciones por Email",
-                notifyDonations: "Recibir notificaciones por email sobre mis donaciones",
-                notifyUpdates: "Recibir actualizaciones de proyectos que he apoyado",
-                notifyNewsletter: "Recibir boletín informativo y emails promocionales",
-                saveButton: "Guardar Cambios"
-            }
-        },
+        loading: "Cargando",
+        logout: "Cerrar Sesión",
+        profile: "Perfil",
+        change: "Cambiar",
+        setup: "Configurar",
+        configuration: "Configuración",
+        security: "Seguridad",
+        personal_information: "Información Personal",
+        username_label: "Nombre de Usuario",
+        email_label: "Correo electrónico",
+        first_name_label: "Nombre",
+        last_name_label: "Apellido",
+        account_settings: "Configuración de Cuenta",
+        
+        profile_change_password: "Cambiar Contraseña",
+        profile_change_password_description: "Actualizar la contrseña de su cuenta",
+        profile_two_factor_authentication: "Autenticación en dos pasos",
+        profile_two_factor_authentication_description: "Añade una capa adicional de seguridad",
         
         // NotFound Page
         notFound: {
@@ -385,7 +369,27 @@ const common = {
             noData: "You haven't made any donations yet"
         },
         
-        
+        // Toast error keys
+        success: "Éxito",
+        error: "Ocurrió un error",
+        invalid: "Invalido",
+        wrong_data: "Datos incorrectos",
+        email_sent: "Correo enviado",
+
+        // Auth
+        invalid_email: "Correo electrónico inválido",
+        go2fa: "Continuar a Autenticación de dos pasos",
+        otp_fail: "OTP fallido",
+        reset_psw: "Restablecer contraseña",
+        account_block: "Cuenta bloqueada",
+        invalid_data: "Datos inválidos",
+        confirm_email: "Confirmar correo electrónico",
+        register_success: "Registro exitoso",
+        resent_code: "Código reenviado",
+        email_confirmed: "Correo electrónico confirmado",
+        password_reset_request_success: "Solicitud de restablecimiento de contraseña enviada",
+        password_reset_success: "Contraseña restablecida exitosamente",
+        missing_fields: "Por favor completa todos los campos",
         
     },
     en: {
@@ -597,40 +601,24 @@ const common = {
         
 
         // Profile Page
-        profile: {
-            loading: "Loading profile data...",
-            memberSince: "Member since",
-            logout: "Logout",
-            tabs: {
-                profile: "Profile",
-                settings: "Settings"
-            },
-            donationStats: {
-                title: "Donation Stats",
-                totalDonated: "Total Donated",
-                activeDonations: "Active Donations",
-                projectsSupported: "Projects Supported"
-            },
-            recentDonations: {
-                title: "Recent Donations",
-                project: "Project",
-                amount: "Amount",
-                date: "Date",
-                status: "Status",
-                noDonations: "You haven't made any donations yet.",
-                exploreProjects: "Explore Projects",
-                viewAll: "View All Donations"
-            },
-            settings: {
-                title: "Profile Settings",
-                displayName: "Display Name",
-                emailNotifications: "Email Notifications",
-                notifyDonations: "Receive email notifications about my donations",
-                notifyUpdates: "Receive updates from projects I've supported",
-                notifyNewsletter: "Receive newsletter and promotional emails",
-                saveButton: "Save Changes"
-            }
-        },
+        loading: "Cargando",
+        logout: "Cerrar Sesión",
+        profile: "Perfil",
+        change: "Cambiar",
+        setup: "Configurar",
+        configuration: "Configuración",
+        security: "Seguridad",
+        personal_information: "Información Personal",
+        username_label: "Nombre de Usuario",
+        email_label: "Correo electrónico",
+        first_name_label: "Nombre",
+        last_name_label: "Apellido",
+        account_settings: "Configuración de Cuenta",
+        
+        profile_change_password: "Cambiar Contraseña",
+        profile_change_password_description: "Actualizar la contrseña de su cuenta",
+        profile_two_factor_authentication: "Autenticación en dos pasos",
+        profile_two_factor_authentication_description: "Añade una capa adicional de seguridad",
         
         // ProjectDetail Page
         projectDetail: {
@@ -704,6 +692,28 @@ const common = {
                 }
             }
         },
+
+        // Toast error keys
+        success: "Éxito",
+        error: "Ocurrió un error",
+        invalid: "Invalido",
+        wrong_data: "Datos incorrectos",
+        email_sent: "Correo enviado",
+
+        // Auth
+        invalid_email: "Correo electrónico inválido",
+        go2fa: "Continuar a Autenticación de dos pasos",
+        otp_fail: "OTP fallido",
+        reset_psw: "Restablecer contraseña",
+        account_block: "Cuenta bloqueada",
+        invalid_data: "Datos inválidos",
+        confirm_email: "Confirmar correo electrónico",
+        register_success: "Registro exitoso",
+        resent_code: "Código reenviado",
+        email_confirmed: "Correo electrónico confirmado",
+        password_reset_request_success: "Solicitud de restablecimiento de contraseña enviada",
+        password_reset_success: "Contraseña restablecida exitosamente",
+        missing_fields: "Por favor completa todos los campos",
     }
 }
 

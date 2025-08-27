@@ -241,6 +241,10 @@
     box-shadow: 0 3px 10px rgba(35, 166, 213, 0.3);
 }
 
+.show-when-small {
+    display: none;
+}
+
 @media (max-width: 992px) {
     .navbar-main-cont {
         padding: 0.75rem 1rem;
@@ -265,6 +269,7 @@
 }
 
 @media (max-width: 768px) {
+    
     .navbar-mobile-toggle {
         display: flex; /* Only show toggle on mobile */
         color: var(--black-50);
@@ -330,14 +335,9 @@
     }
     
     .navbar-auth-actions {
-        gap: 0.5rem;
+        display: none;
     }
-    
-    .navbar-auth-actions button {
-        padding: 0.4rem 0.75rem !important;
-        font-size: 0.8rem;
-    }
-    
+
     .navbar-user-avatar {
         width: 32px;
         height: 32px;
@@ -347,5 +347,13 @@
     .navbar-wallet-badge {
         font-size: 0.7rem;
         padding: 4px 8px;
+    }
+
+    .navbar-user-info {
+        display: none;
+    }
+
+    .show-when-small {
+        display: block;
     }
 }

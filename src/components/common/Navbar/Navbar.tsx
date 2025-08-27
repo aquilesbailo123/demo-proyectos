@@ -6,28 +6,43 @@ import {
     RiAddCircleLine,
     RiMenuLine,
     RiCloseLine,
-    RiWallet3Line
+    RiUserLine
 } from 'react-icons/ri'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 
 import routes from '@/routes/routes'
 import { mainLogo } from "@/utils/constants/common"
-import { useAuthStore } from '@/stores/AuthStore'
+import useAuthStore, { UserDetails } from '@/stores/AuthStore'
 import Button from '@/components/common/Button/Button'
+import Spinner from '@/components/common/Spinner/Spinner'
 // import LanguageToggle from '@/components/general/LanguageToggle/LanguageToggle'
 
 import './Navbar.css'
 
 const Navbar = () => {
     const navigate = useNavigate()
-    const location = useLocation()
-    const { isAuthenticated, user } = useAuthStore() // connectWallet
     const { t } = useTranslation('common')
+    const location = useLocation()
+
+    const { isLogged, getUserDetails } = useAuthStore()
     
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [userDetails, setUserDetails] = useState<UserDetails | undefined>(undefined)
+    const [profileLoading, setProfileLoading] = useState(false)
     const [scrolled, setScrolled] = useState(false)
-    // const [walletConnecting, setWalletConnecting] = useState(false)
+
+    useEffect(() => {
+        if (isLogged) {
+            // Simulate loading state for better UX
+            setProfileLoading(true)
+            setTimeout(() => {
+                const userData = getUserDetails()
+                setUserDetails(userData)
+                setProfileLoading(false)
+            }, 500)
+        }
+    }, [isLogged, getUserDetails])
     
     // Handle scroll event to add glass effect when scrolled
     useEffect(() => {
@@ -55,18 +70,8 @@ const Navbar = () => {
         setMobileMenuOpen(prev => !prev)
     }
 
-    // const handleConnectWallet = async () => {
-    //     setWalletConnecting(true)
-    //     try {
-    //         await connectWallet('metamask')
-    //     } finally {
-    //         setTimeout(() => setWalletConnecting(false), 1500)
-    //     }
-    // }
-
     return (
         <nav className={`navbar-main-cont ${scrolled ? 'navbar-scrolled' : ''}`}>
-            {/* <div className="navbar-backdrop"></div> */}
             
             {/* Main logo */}
             <Link to={routes.home} className="navbar-logo">
@@ -85,11 +90,11 @@ const Navbar = () => {
             
             {/* DESKTOP: menu links */}
             <div className={`navbar-nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
-                {navItems.map((item, index) => (
+                {navItems.map((item) => (
                     <Link
                         key={item.path}
                         to={item.path}
-                        className={`navbar-nav-link ${isActive(item.path) ? 'active' : ''} staggered-entrance-${index+1}`}
+                        className={`navbar-nav-link ${isActive(item.path) ? 'active' : ''}`}
                         onClick={() => setMobileMenuOpen(false)}
                     >
                         <item.icon className="navbar-icon" />
@@ -100,48 +105,51 @@ const Navbar = () => {
                 
                 <Link 
                     to="/create-project"
-                    className="navbar-action-link staggered-entrance-4 button-hover-effect"
+                    // className="navbar-action-link staggered-entrance-4 button-hover-effect"
+                    className={`navbar-nav-link ${isActive('/create-project') ? 'active' : ''}`}
                     onClick={() => setMobileMenuOpen(false)}
                 >
                     <RiAddCircleLine className="navbar-icon pulse" />
                     <span>{t('nav_create_project')}</span>
                 </Link>
+
+                {isLogged && mobileMenuOpen ? (
+                    <Link 
+                        to="/profile"
+                        className={`navbar-nav-link ${isActive('/profile') ? 'active' : ''} show-when-small`}
+                        onClick={() => setMobileMenuOpen(false)}
+                    >
+                        <RiUserLine className="navbar-icon" />
+                        <span>{t('profile')}</span>
+                    </Link>
+                ) : (
+                    <Button 
+                        variant="secondary"
+                        size="sm"
+                        className="show-when-small"
+                        onClick={() => navigate(routes.login)}
+                    >
+                        {t('nav_login')}
+                    </Button>
+                )}
+                
             </div>
             
             {/* User actions */}
             <div className="navbar-actions">
-                {isAuthenticated ? (
+                {profileLoading ? (
+                    <Spinner/>
+                ) : isLogged ? (
                     <div className="navbar-user-info fade-in">
-                        <div className="navbar-wallet-badge">
-                            <RiWallet3Line className="navbar-wallet-icon" />
-                            <span className="navbar-wallet-connected">{t('wallet_connected')}</span>
-                        </div>
                         <Link to="/profile" className="navbar-user transform-3d">
                             <div className="navbar-user-avatar">
-                                <span className="avatar-text">{user?.username?.charAt(0).toUpperCase() || 'U'}</span>
+                                <span className="avatar-text">{userDetails?.username?.charAt(0).toUpperCase() || 'U'}</span>
                                 <div className="avatar-shine"></div>
                             </div>
                         </Link>
                     </div>
                 ) : (
                     <div className="navbar-auth-actions fade-in">
-                        {/* TODO ADDD THIS */}
-                        {/* <Button 
-                            variant="primary"
-                            size="sm"
-                            className={`navbar-connect-btn ${walletConnecting ? 'connecting' : ''}`}
-                            onClick={handleConnectWallet}
-                            disabled={walletConnecting}
-                        >
-                            {walletConnecting ? (
-                                <>
-                                    <span className="wallet-connecting-spinner"></span>
-                                    {t('wallet_connecting')}
-                                </>
-                            ) : (
-                                <>{t('wallet_connect')}</>
-                            )}
-                        </Button> */}
                         <Button 
                             variant="secondary"
                             size="sm"
@@ -149,7 +157,6 @@ const Navbar = () => {
                         >
                             {t('nav_login')}
                         </Button>
-                        {/* <LanguageToggle size="sm" /> */}
                     </div>
                 )}
             </div>
