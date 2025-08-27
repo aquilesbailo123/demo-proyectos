@@ -11,7 +11,7 @@ import Spinner from '@/components/common/Spinner/Spinner'
 import routes from '@/routes/routes'
 import useAuthStore, { ResetPasswordRequest } from '@/stores/AuthStore'
 
-import '@/styles/LoginRegister.css'
+import '@/styles/Auth.css'
 import '@/styles/General.css'
 
 const ForgotPassword = () => {

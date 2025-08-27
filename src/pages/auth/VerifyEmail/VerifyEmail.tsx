@@ -11,7 +11,7 @@ import useAuthStore from '@/stores/AuthStore'
 import routes from '@/routes/routes'
 
 import './VerifyEmail.css'
-import '@/styles/LoginRegister.css'
+import '@/styles/Auth.css'
 import '@/styles/General.css'
 
 const VerifyEmail = () => {

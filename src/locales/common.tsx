@@ -164,6 +164,7 @@ const common = {
         
         // Login Page
         login_welcome: "Bienvenido a KuskaPay",
+        login_back_to_profile_button: "Volver al perfil",
         login_back_to_home_button: "Volver a Inicio",
         login_back_to_login_button: "Volver a inicio de sesión",
         
@@ -244,10 +245,6 @@ const common = {
         configuration: "Configuración",
         security: "Seguridad",
         personal_information: "Información Personal",
-        username_label: "Nombre de Usuario",
-        email_label: "Correo electrónico",
-        first_name_label: "Nombre",
-        last_name_label: "Apellido",
         account_settings: "Configuración de Cuenta",
         
         profile_change_password: "Cambiar Contraseña",
@@ -393,10 +390,28 @@ const common = {
         password_reset_success: "Contraseña restablecida exitosamente",
         missing_fields: "Por favor completa todos los campos",
         passwords_do_not_match: "Las contraseñas no coinciden",
+        change_password: "Cambiar contraseña",
 
         // Signup
         signup_success: "Registro exitoso",
         signup_error: "Ocurrió un error durante el registro",
+
+        username_label: "Nombre de usuario",
+        username_placeholder: "Ingrese su nombre de usuario",
+        email_label: "Correo electrónico",
+        email_placeholder: "Ingrese su correo electrónico",
+        first_name_label: "Nombre",
+        first_name_placeholder: "Ingrese su nombre",
+        last_name_label: "Apellido",
+        last_name_placeholder: "Ingrese su apellido",
+        old_password_label: "Contraseña actual",
+        old_password_placeholder: "Ingrese su contraseña actual",
+        password_label: "Contraseña",
+        password_placeholder: "Ingrese su contraseña",
+        password1_label: "Nueva contraseña",
+        password1_placeholder: "Ingrese su nueva contraseña",
+        password2_label: "Confirmar contraseña",
+        password2_placeholder: "Confirme su nueva contraseña",
         
     },
     en: {
@@ -567,6 +582,7 @@ const common = {
         
         // Login Page
         login_welcome: "Bienvenido a KuskaPay",
+        login_back_to_profile_button: "Volver al perfil",
         login_back_to_home_button: "Volver a Inicio",
         login_back_to_login_button: "Volver a inicio de sesión",
         
@@ -616,10 +632,6 @@ const common = {
         configuration: "Configuración",
         security: "Seguridad",
         personal_information: "Información Personal",
-        username_label: "Nombre de Usuario",
-        email_label: "Correo electrónico",
-        first_name_label: "Nombre",
-        last_name_label: "Apellido",
         account_settings: "Configuración de Cuenta",
         
         profile_change_password: "Cambiar Contraseña",
@@ -724,10 +736,29 @@ const common = {
         password_reset_success: "Contraseña restablecida exitosamente",
         missing_fields: "Por favor completa todos los campos",
         passwords_do_not_match: "Las contraseñas no coinciden",
+        change_password: "Cambiar contraseña",
 
         // Signup
         signup_success: "Registro exitoso",
         signup_error: "Ocurrió un error durante el registro",
+
+        username_label: "Nombre de usuario",
+        username_placeholder: "Ingrese su nombre de usuario",
+        email_label: "Correo electrónico",
+        email_placeholder: "Ingrese su correo electrónico",
+        first_name_label: "Nombre",
+        first_name_placeholder: "Ingrese su nombre",
+        last_name_label: "Apellido",
+        last_name_placeholder: "Ingrese su apellido",
+        old_password_label: "Contraseña actual",
+        old_password_placeholder: "Ingrese su contraseña actual",
+        password_label: "Contraseña",
+        password_placeholder: "Ingrese su contraseña",
+        password1_label: "Nueva contraseña",
+        password1_placeholder: "Ingrese su nueva contraseña",
+        password2_label: "Confirmar contraseña",
+        password2_placeholder: "Confirme su nueva contraseña",
+        
     }
 }
 

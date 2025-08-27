@@ -12,7 +12,7 @@ import useAuthStore, { ChangePasswordRequest } from '@/stores/AuthStore'
 import routes from '@/routes/routes'
 
 import './ChangePassword.css'
-import '@/styles/LoginRegister.css'
+import '@/styles/Auth.css'
 import '@/styles/General.css'
 
 const ChangePassword = () => {
@@ -92,14 +92,14 @@ const ChangePassword = () => {
                     onClick={() => navigate(routes.profile)}
                     aria-label="Back to profile"
                 >
-                    <IoChevronBack /> Back to Profile
+                    <IoChevronBack /> {t('login_back_to_profile_button')}
                 </button>
             </div>
             
             <Card className="login-register-card-cont">
                 <div className="section-title">
-                    Change Password
-                </div>
+                    {t('change_password')}
+                </div>  
 
                 <form 
                     className="login-register-form-cont" 
@@ -109,24 +109,24 @@ const ChangePassword = () => {
                         name="old_password"
                         value={formData.old_password}
                         setValue={(value) => handleFormDataChange('old_password', value)}
-                        label="Current Password"
-                        placeholder="Enter your current password"
+                        label={t('old_password_label')}
+                        placeholder={t('old_password_placeholder')}
                     />
                     
                     <PasswordEyeInput
                         name="new_password1"
                         value={formData.new_password1}
                         setValue={(value) => handleFormDataChange('new_password1', value)}
-                        label="New Password"
-                        placeholder="Enter your new password"
+                        label={t('password1_label')}
+                        placeholder={t('password1_placeholder')}
                     />
                     
                     <PasswordEyeInput
                         name="new_password2"
                         value={formData.new_password2}
                         setValue={(value) => handleFormDataChange('new_password2', value)}
-                        label="Confirm New Password"
-                        placeholder="Confirm your new password"
+                        label={t('password2_label')}
+                        placeholder={t('password2_placeholder')}
                     />
 
                     <Button
@@ -135,7 +135,7 @@ const ChangePassword = () => {
                         type="submit"
                         disabled={isLoading}
                     >
-                        {isLoading ? <Spinner variant="secondary" /> : 'Change Password'}
+                        {isLoading ? <Spinner variant="secondary" /> : t('change_password')}
                     </Button>
                 </form>
             </Card>

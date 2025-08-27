@@ -5,17 +5,19 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop"
 import routes from "./routes/routes"
 import Main from "./pages/Main/Main"
 import Home from "./pages/Home/Home"
-import Login from "./pages/Login/Login"
-import Register from "./pages/Register/Register"
-import VerifyEmail from "./pages/VerifyEmail/VerifyEmail"
+
 import NotFound from "./pages/NotFound/NotFound"
 import ProjectDetail from "./pages/ProjectDetail/ProjectDetail"
 import Donations from "./pages/Donations/Donations"
 import Projects from "./pages/Projects/Projects"
 import CreateProject from "./pages/CreateProject/CreateProject"
 import Profile from "./pages/Profile/Profile"
-import ForgotPassword from "./pages/ForgotPassword/ForgotPassword"
-import ChangePassword from "./pages/ChangePassword/ChangePassword"
+
+import Login from "./pages/auth/Login/Login"
+import Register from "./pages/auth/Register/Register"
+import VerifyEmail from "./pages/auth/VerifyEmail/VerifyEmail"
+import ForgotPassword from "./pages/auth/ForgotPassword/ForgotPassword"
+import ChangePassword from "./pages/auth/ChangePassword/ChangePassword"
 
 import './App.css'
 
@@ -50,10 +52,11 @@ function App() {
                 )}
             />
             <Routes>
+                {/* Auth endpoints */}
                 <Route path={routes.login} element={<Login />} />
                 <Route path={routes.register} element={<Register />} />
-                <Route path={routes.forgotPassword} element={<ForgotPassword />} />
                 <Route path={routes.verifyEmail} element={<VerifyEmail />} />
+                <Route path={routes.forgotPassword} element={<ForgotPassword />} />
                 <Route path={routes.changePassword} element={<ChangePassword />} />
 
                 <Route path={routes.main} element={<Main />}>
