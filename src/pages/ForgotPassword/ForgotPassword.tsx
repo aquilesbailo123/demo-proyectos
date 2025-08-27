@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import toast from 'react-hot-toast'
@@ -8,7 +8,8 @@ import Card from '@/components/common/Card/Card'
 import Input from '@/components/forms/Input/Input'
 import Button from '@/components/common/Button/Button'
 import Spinner from '@/components/common/Spinner/Spinner'
-import { usePasswordReset } from '@/hooks/auth'
+import routes from '@/routes/routes'
+import useAuthStore, { ResetPasswordRequest } from '@/stores/AuthStore'
 
 import '@/styles/LoginRegister.css'
 import '@/styles/General.css'
@@ -16,17 +17,58 @@ import '@/styles/General.css'
 const ForgotPassword = () => {
     const { t } = useTranslation('common')
     const navigate = useNavigate()
-    const [email, setEmail] = useState('')
-    const resetMutation = usePasswordReset()
+    const { sendResetPasswordRequest, isLoading, isLogged } = useAuthStore()
+
+    const [formData, setFormData] = useState<ResetPasswordRequest>({
+        email: '',
+    })
+
+    useEffect(() => {
+        if (isLogged) {
+            navigate(routes.home);
+        }
+    }, [isLogged]);
+
+    const handleFormDataChange = (key: string, value: string) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            [key]: value,
+        }))
+    }
+
+    const validateForm = (formData: ResetPasswordRequest) => {
+        const { email } = formData;
+        
+        if (!email) {
+            return { isValid: false, message: t('missing_fields') }
+        }
+        
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(email)) {
+            return { isValid: false, message: t('invalid_email') }
+        }
+        
+        return { isValid: true, message: '' }
+    }
 
     const onSubmit = async (e: any) => {
-        e.preventDefault()
+        e.preventDefault();
+
+        const validation = validateForm(formData)
+        if (!validation.isValid) {
+            toast.error(validation.message);
+            return;
+        }
+
         try {
-            await resetMutation.mutateAsync({ email })
-            toast.success(t('reset_email_sent') || 'If an account exists, a reset email was sent')
-            navigate('/login')
+            const status: boolean = await sendResetPasswordRequest(formData);
+            if (status) {
+                navigate(routes.login);
+                return;
+            }
         } catch (e) {
-            toast.error(t('login_general_error') || 'Something went wrong')
+            toast.error(t('login_general_error'))
         }
     }
 
@@ -38,7 +80,7 @@ const ForgotPassword = () => {
                     onClick={() => navigate('/login')}
                     aria-label="Back to login"
                 >
-                    <IoChevronBack /> {t('login_back_to_home_button')}
+                    <IoChevronBack /> {t('login_back_to_login_button')}
                 </button>
             </div>
 
@@ -48,13 +90,13 @@ const ForgotPassword = () => {
                     <Input
                         name="email"
                         type="email"
-                        value={email}
-                        setValue={setEmail}
-                        label={t('login_email_label') || 'Email'}
-                        placeholder={t('login_email_placeholder') || 'you@example.com'}
+                        value={formData.email}
+                        setValue={(value) => handleFormDataChange('email', value)}
+                        label={t('login_email_label')}
+                        placeholder={t('login_email_placeholder')}
                     />
-                    <Button variant="primary" size="lg" type="submit" disabled={resetMutation.isPending}>
-                        {resetMutation.isPending ? <Spinner variant="primary" /> : (t('login_reset_password') || 'Send reset link')}
+                    <Button variant="primary" size="lg" type="submit" disabled={isLoading}>
+                        {isLoading ? <Spinner variant="secondary" /> : (t('login_reset_password') || 'Send reset link')}
                     </Button>
                 </form>
             </Card>

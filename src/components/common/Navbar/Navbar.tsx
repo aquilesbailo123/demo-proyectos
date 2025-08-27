@@ -138,7 +138,9 @@ const Navbar = () => {
             {/* User actions */}
             <div className="navbar-actions">
                 {profileLoading ? (
-                    <Spinner/>
+                    <div className="navbar-user-info fade-in">
+                        <Spinner className="navbar-user" />
+                    </div>
                 ) : isLogged ? (
                     <div className="navbar-user-info fade-in">
                         <Link to="/profile" className="navbar-user transform-3d">

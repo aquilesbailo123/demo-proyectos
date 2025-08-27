@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +10,7 @@ import Button from '@/components/common/Button/Button'
 import Spinner from '@/components/common/Spinner/Spinner'
 import Card from '@/components/common/Card/Card'
 import useAuthStore, { LoginRequest, AuthResult } from '@/stores/AuthStore'
+import routes from '@/routes/routes'
 
 import './Login.css'
 import '@/styles/LoginRegister.css'
@@ -17,13 +18,19 @@ import '@/styles/General.css'
 
 const Login = () => {
     const navigate = useNavigate()
-    const { logIn, isLoading } = useAuthStore()
+    const { logIn, isLoading, isLogged } = useAuthStore()
     const { t } = useTranslation('common')
 
     const [formData, setFormData] = useState<LoginRequest>({
         email: '',
         password: '',
     })
+
+    useEffect(() => {
+        if (isLogged) {
+            navigate(routes.home)
+        }
+    }, [isLogged])
 
     const handleFormDataChange = (key: string, value: string) => {
         setFormData((prevState) => ({
@@ -62,12 +69,12 @@ const Login = () => {
 
             if (status === 'success') {
                 toast.success(t('login_success'))
-                navigate('/home')
+                navigate(routes.home)
             }
 
             if (status === 'confirm_email') {
                 toast.success(t('login_confirm_email'))
-                navigate('/check-email')
+                navigate(routes.verifyEmail)
             }
 
             return
@@ -86,7 +93,7 @@ const Login = () => {
             <div className="login-register-header">
                 <button 
                     className="login-register-back-button"
-                    onClick={() => navigate('/home')}
+                    onClick={() => navigate(routes.home)}
                     aria-label="Back to home"
                 >
                     <IoChevronBack /> {t('login_back_to_home_button')}
@@ -137,14 +144,14 @@ const Login = () => {
             
                 <button 
                     className="text-btn login-register-footer" 
-                    onClick={() => navigate('/forgot-password')}
+                    onClick={() => navigate(routes.forgotPassword)}
                 >
                     <span>{t('login_forgot_password')}</span>
                 </button>
             
                 <button 
                     className="text-btn login-register-footer"
-                    onClick={() => navigate('/register')}
+                    onClick={() => navigate(routes.register)}
                 >
                     <span>{t('login_new_user')}</span>
                     <span className="login-register-color-text">

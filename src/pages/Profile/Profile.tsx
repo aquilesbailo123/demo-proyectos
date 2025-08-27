@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { RiUserLine, RiSettingsLine, RiLogoutBoxRLine, RiLockPasswordLine, RiShieldCheckLine, RiMailLine, RiUserAddLine } from 'react-icons/ri'
 import { useTranslation } from 'react-i18next'
@@ -7,6 +8,7 @@ import Button from '@/components/common/Button/Button'
 import AuthRequired from '@/components/common/AuthRequired'
 import Spinner from '@/components/common/Spinner/Spinner'
 import useAuthStore, { UserDetails } from '@/stores/AuthStore'
+import routes from '@/routes/routes'
 import './Profile.css'
 
 const Profile = () => {
@@ -36,13 +38,12 @@ const Profile = () => {
     }
     
     const handleChangePassword = () => {
-        // TODO: Implement change password functionality
-        console.log('Change password clicked')
+        navigate(routes.changePassword)
     }
     
     const handleSetup2FA = () => {
         // TODO: Implement 2FA setup functionality
-        console.log('Setup 2FA clicked')
+        toast.error("Aún no está disponible")
     }
     
     // If not authenticated, show prompt to login

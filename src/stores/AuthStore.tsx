@@ -145,6 +145,7 @@ interface ConfirmEmailSuccessResponse {
     detail: string;
     access_token?: string;
     refresh_token?: string;
+    user?: UserDetails;
 }
 interface ConfirmEmailErrorResponse {
     detail?: string;
@@ -444,7 +445,7 @@ const useAuthStore = create<AuthStore>()((set, get) => {
                 const res_payload: ConfirmEmailSuccessResponse = response.data;
                 set({ isLoading: false });
                 
-                if (res_payload?.access_token && res_payload?.refresh_token) {
+                if (res_payload?.access_token && res_payload?.refresh_token && res_payload?.user) {
                     localStorage.setItem(ACCESS_TOKEN_KEY, res_payload.access_token);
                     localStorage.setItem(REFRESH_TOKEN_KEY, res_payload.refresh_token);
                     

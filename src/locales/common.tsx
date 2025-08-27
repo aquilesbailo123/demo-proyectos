@@ -378,6 +378,7 @@ const common = {
 
         // Auth
         invalid_email: "Correo electrónico inválido",
+        bad_email: "Correo electrónico inválido",
         go2fa: "Continuar a Autenticación de dos pasos",
         otp_fail: "OTP fallido",
         reset_psw: "Restablecer contraseña",
@@ -387,9 +388,15 @@ const common = {
         register_success: "Registro exitoso",
         resent_code: "Código reenviado",
         email_confirmed: "Correo electrónico confirmado",
+        login_confirm_email: "Por favor confirma tu correo electrónico",
         password_reset_request_success: "Solicitud de restablecimiento de contraseña enviada",
         password_reset_success: "Contraseña restablecida exitosamente",
         missing_fields: "Por favor completa todos los campos",
+        passwords_do_not_match: "Las contraseñas no coinciden",
+
+        // Signup
+        signup_success: "Registro exitoso",
+        signup_error: "Ocurrió un error durante el registro",
         
     },
     en: {
@@ -702,6 +709,7 @@ const common = {
 
         // Auth
         invalid_email: "Correo electrónico inválido",
+        bad_email: "Correo electrónico inválido",
         go2fa: "Continuar a Autenticación de dos pasos",
         otp_fail: "OTP fallido",
         reset_psw: "Restablecer contraseña",
@@ -711,9 +719,15 @@ const common = {
         register_success: "Registro exitoso",
         resent_code: "Código reenviado",
         email_confirmed: "Correo electrónico confirmado",
+        login_confirm_email: "Por favor confirma tu correo electrónico",
         password_reset_request_success: "Solicitud de restablecimiento de contraseña enviada",
         password_reset_success: "Contraseña restablecida exitosamente",
         missing_fields: "Por favor completa todos los campos",
+        passwords_do_not_match: "Las contraseñas no coinciden",
+
+        // Signup
+        signup_success: "Registro exitoso",
+        signup_error: "Ocurrió un error durante el registro",
     }
 }
 
