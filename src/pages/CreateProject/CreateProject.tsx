@@ -1,277 +1,222 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { RiAddCircleLine, RiImageAddLine, RiCalendarLine } from 'react-icons/ri'
+import { RiArrowLeftLine, RiArrowRightLine, RiCheckLine } from 'react-icons/ri'
 import { useTranslation } from 'react-i18next'
 
 import Button from '@/components/common/Button/Button'
-import Input from '@/components/forms/Input/Input'
 import useAuthStore from '@/stores/AuthStore'
 import AuthRequired from '@/components/common/AuthRequired'
+import { useProjectStore } from '@/stores/ProjectStore'
+import { useCreateProject, useUserProject } from '@/hooks/useProject'
+
+// Import stage components
+import Stage1 from '@/components/project/Stage1/Stage1'
+import Stage2 from '@/components/project/Stage2/Stage2'
+import Stage3 from '@/components/project/Stage3/Stage3'
+import Stage4 from '@/components/project/Stage4/Stage4'
+import Stage5 from '@/components/project/Stage5/Stage5'
+import Stage6 from '@/components/project/Stage6/Stage6'
+import Stage7 from '@/components/project/Stage7/Stage7'
+
 import './CreateProject.css'
 
 const CreateProject = () => {
     const navigate = useNavigate()
     const { isLogged } = useAuthStore()
-    const [loading, setLoading] = useState(false)
     const { t } = useTranslation('common')
+    const [showSuccess, setShowSuccess] = useState(false)
     
-    // Form state
-    const [formData, setFormData] = useState({
-        title: '',
-        category: '',
-        shortDescription: '',
-        fullDescription: '',
-        fundingGoal: '',
-        endDate: '',
-        coverImage: null,
-        tags: ['']
-    })
+    const { 
+        currentStage, 
+        setCurrentStage, 
+        validateStage, 
+        getProjectData, 
+        resetProject 
+    } = useProjectStore()
     
-    // Handle input changes
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target
-        setFormData({
-            ...formData,
-            [name]: value
-        })
-    }
-    
-    // Handle tag changes
-    const handleTagChange = (index: number, value: string) => {
-        const newTags = [...formData.tags]
-        newTags[index] = value
-        setFormData({
-            ...formData,
-            tags: newTags
-        })
-    }
-    
-    // Add new tag input
-    const addTagField = () => {
-        if (formData.tags.length < 5) {
-            setFormData({
-                ...formData,
-                tags: [...formData.tags, '']
-            })
+    const createProjectMutation = useCreateProject()
+    const { data: userProjects, isLoading: isLoadingUserProject } = useUserProject()
+
+    // Check if user already has a project and redirect
+    useEffect(() => {
+        if (isLogged && !isLoadingUserProject && userProjects && userProjects.length > 0) {
+            navigate('/project')
         }
-    }
-    
-    // Remove tag input
-    const removeTagField = (index: number) => {
-        if (formData.tags.length > 1) {
-            const newTags = [...formData.tags]
-            newTags.splice(index, 1)
-            setFormData({
-                ...formData,
-                tags: newTags
-            })
-        }
-    }
-    
-    // Handle form submission
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        setLoading(true)
-        
-        // For MVP, simulate API call
-        setTimeout(() => {
-            // Navigate to home after "creating" project
-            navigate('/projects')
-            setLoading(false)
-        }, 1500)
-    }
-    
-    // Categories for dropdown
-    const projectCategories = [
-        t('createProject.categories.environment'),
-        t('createProject.categories.education'),
-        t('createProject.categories.healthcare'),
-        t('createProject.categories.technology'),
-        t('createProject.categories.agriculture'),
-        t('createProject.categories.energy'),
-        t('createProject.categories.artCulture'),
-        t('createProject.categories.community')
+    }, [isLogged, isLoadingUserProject, userProjects])
+
+    const stages = [
+        { id: 1, title: t('createProject.stages.identity.title'), component: Stage1 },
+        { id: 2, title: t('createProject.stages.valueProposition.title'), component: Stage2 },
+        { id: 3, title: t('createProject.stages.team.title'), component: Stage3 },
+        { id: 4, title: t('createProject.stages.financing.title'), component: Stage4 },
+        { id: 5, title: t('createProject.stages.traction.title'), component: Stage5 },
+        { id: 6, title: t('createProject.stages.impact.title'), component: Stage6 },
+        { id: 7, title: t('createProject.stages.legal.title'), component: Stage7 }
     ]
+
+    const currentStageData = stages.find(stage => stage.id === currentStage)
+    const CurrentStageComponent = currentStageData?.component
+
+    const canProceed = validateStage(currentStage)
+    const isLastStage = currentStage === stages.length
     
+    // Calculate actual progress based on completed stages
+    const completedStages = stages.filter(stage => validateStage(stage.id)).length
+    const actualProgress = (completedStages / stages.length) * 100
+
+    const handleNext = () => {
+        if (canProceed && !isLastStage) {
+            setCurrentStage(currentStage + 1)
+        }
+    }
+
+    const handlePrevious = () => {
+        if (currentStage > 1) {
+            setCurrentStage(currentStage - 1)
+        }
+    }
+
+    const handleStageClick = (stageId: number) => {
+        // Allow navigation to previous stages or current stage
+        if (validateStage(stageId) || validateStage(stageId - 1)) {
+            setCurrentStage(stageId)
+        }
+    }
+
+    const handleSubmit = async () => {
+        if (!canProceed) return
+
+        try {
+            const projectData = getProjectData()
+            await createProjectMutation.mutateAsync(projectData)
+            setShowSuccess(true)
+            
+            // Reset the store after successful creation
+            setTimeout(() => {
+                resetProject()
+                navigate('/myproject')
+            }, 3000)
+        } catch (error) {
+            console.error('Error creating project:', error)
+            // Handle error (show toast, etc.)
+        }
+    }
+
     // If not authenticated, show prompt to login
     if (!isLogged) {
         return <AuthRequired/>
+    }
+
+    // Success screen
+    if (showSuccess) {
+        return (
+            <div className="create-project-container">
+                <div className="success-screen">
+                    <div className="success-icon">
+                        <RiCheckLine />
+                    </div>
+                    <h1>{t('createProject.success.title')}</h1>
+                    <p>{t('createProject.success.description')}</p>
+                    <div className="success-actions">
+                        <Button 
+                            variant="primary" 
+                            size="lg"
+                            onClick={() => navigate('/myproject')}
+                        >
+                            {t('createProject.success.viewProject')}
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        )
     }
     
     return (
         <div className="create-project-container">
             <div className="create-project-header">
                 <h1>{t('createProject.title')}</h1>
-                <p>{t('createProject.subtitle')}</p>
+                {/* <p>{t('createProject.subtitle')}</p> */}
             </div>
-            
-            <form className="project-form" onSubmit={handleSubmit}>
-                <div className="form-section">
-                    <h2>{t('createProject.sections.basicInfo')}</h2>
-                    
-                    <div className="form-group">
-                        <label>{t('createProject.fields.title')}</label>
-                        <Input
-                            name="title"
-                            value={formData.title}
-                            setValue={(value) => setFormData({...formData, title: value})}
-                            placeholder={t('createProject.placeholders.title')}
-                            isRequired={true}
-                        />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>{t('createProject.fields.category')}</label>
-                        <select 
-                            name="category" 
-                            value={formData.category}
-                            onChange={handleChange}
-                            required
-                            className="form-select"
+
+            {/* Progress Bar */}
+            <div className="progress-container">
+                <div className="progress-bar">
+                    <div 
+                        className="progress-fill" 
+                        style={{ width: `${actualProgress}%` }}
+                    />
+                </div>
+                <div className="progress-steps">
+                    {stages.map((stage) => (
+                        <div
+                            key={stage.id}
+                            className={`progress-step ${
+                                stage.id === currentStage ? 'active' : 
+                                validateStage(stage.id) ? 'completed' : 'pending'
+                            }`}
+                            onClick={() => handleStageClick(stage.id)}
                         >
-                            <option value="" disabled>{t('createProject.placeholders.category')}</option>
-                            {projectCategories.map(category => (
-                                <option key={category} value={category}>
-                                    {category}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>{t('createProject.fields.shortDesc')}</label>
-                        <Input
-                            name="shortDescription"
-                            value={formData.shortDescription}
-                            setValue={(value) => setFormData({...formData, shortDescription: value})}
-                            placeholder={t('createProject.placeholders.shortDesc')}
-                            maxLength={150}
-                            isRequired={true}
-                        />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>{t('createProject.fields.coverImage')}</label>
-                        <div className="image-upload-container">
-                            <div className="image-upload">
-                                <RiImageAddLine size={48} />
-                                <span>Upload Cover Image</span>
-                                <p>Recommended size: 1200x630px</p>
-                                <input 
-                                    type="file" 
-                                    accept="image/*" 
-                                    className="file-input" 
-                                />
+                            <div className="step-number">
+                                {validateStage(stage.id) ? <RiCheckLine /> : stage.id}
                             </div>
+                            <span className="step-title">{stage.title}</span>
                         </div>
-                    </div>
+                    ))}
                 </div>
-                
-                <div className="form-section">
-                    <h2>Project Details</h2>
-                    
-                    <div className="form-group">
-                        <label>{t('createProject.fields.fullDesc')}</label>
-                        <textarea
-                            name="fullDescription"
-                            value={formData.fullDescription}
-                            onChange={handleChange}
-                            placeholder={t('createProject.placeholders.fullDesc')}
-                            rows={8}
-                            required
-                            className="form-textarea"
-                        />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>{t('createProject.fields.tags')}</label>
-                        <div className="tags-container">
-                            {formData.tags.map((tag, index) => (
-                                <div key={index} className="tag-input-group">
-                                    <Input
-                                        name={`tag-${index}`}
-                                        value={tag}
-                                        setValue={(value) => handleTagChange(index, value)}
-                                        placeholder={t('createProject.placeholders.tag')}
-                                    />
-                                    {formData.tags.length > 1 && (
-                                        <button 
-                                            type="button" 
-                                            className="tag-remove-btn"
-                                            onClick={() => removeTagField(index)}
-                                        >
-                                            {t('createProject.buttons.removeTag')}
-                                        </button>
-                                    )}
-                                </div>
-                            ))}
-                            
-                            {formData.tags.length < 5 && (
-                                <button 
-                                    type="button" 
-                                    className="add-tag-btn"
-                                    onClick={addTagField}
-                                >
-                                    <RiAddCircleLine size={20} />
-                                    {t('createProject.buttons.addTag')}
-                                </button>
-                            )}
+            </div>
+
+            {/* Current Stage Content */}
+            <div className="stage-wrapper">
+                {CurrentStageComponent && <CurrentStageComponent />}
+            </div>
+
+            {/* Navigation */}
+            <div className="wizard-navigation">
+                <Button
+                    variant="secondary"
+                    size="lg"
+                    onClick={handlePrevious}
+                    disabled={currentStage === 1}
+                >
+                    <RiArrowLeftLine />
+                    {t('createProject.navigation.previous')}
+                </Button>
+
+                <div className="nav-center">
+                    <span className="stage-indicator">
+                        {t('createProject.navigation.stage')} {currentStage} {t('createProject.navigation.of')} {stages.length}
+                    </span>
+                    {!canProceed && (
+                        <div className="validation-warning">
+                            {t('createProject.navigation.completeRequired')}
                         </div>
-                    </div>
+                    )}
                 </div>
-                
-                <div className="form-section">
-                    <h2>{t('createProject.sections.fundingDetails')}</h2>
-                    
-                    <div className="form-group">
-                        <label>{t('createProject.fields.fundingGoal')}</label>
-                        <Input
-                            type="text"
-                            name="fundingGoal"
-                            value={formData.fundingGoal}
-                            setValue={(value) => setFormData({...formData, fundingGoal: value})}
-                            placeholder={t('createProject.placeholders.fundingGoal')}
-                            min="100"
-                            isRequired={true}
-                        />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>{t('createProject.fields.endDate')}</label>
-                        <div className="date-input-container">
-                            <RiCalendarLine className="date-icon" />
-                            <input
-                                type="date"
-                                name="endDate"
-                                value={formData.endDate}
-                                onChange={handleChange}
-                                required
-                                min={new Date().toISOString().split('T')[0]}
-                                className="form-date-input"
-                            />
-                        </div>
-                    </div>
-                </div>
-                
-                <div className="form-actions">
-                    <Button 
-                        variant="secondary" 
+
+                {isLastStage ? (
+                    <Button
+                        variant="primary"
                         size="lg"
-                        type="button"
-                        onClick={() => navigate('/projects')}
+                        onClick={handleSubmit}
+                        disabled={!canProceed || createProjectMutation.isPending}
                     >
-                        {t('common_cancel')}
+                        {createProjectMutation.isPending 
+                            ? t('createProject.navigation.creating')
+                            : t('createProject.navigation.createProject')
+                        }
                     </Button>
-                    <Button 
-                        variant="primary" 
+                ) : (
+                    <Button
+                        variant="primary"
                         size="lg"
-                        type="submit"
-                        disabled={loading}
+                        onClick={handleNext}
+                        disabled={!canProceed}
                     >
-                        {loading ? t('createProject.buttons.creating') : t('createProject.buttons.create')}
+                        {t('createProject.navigation.next')}
+                        <RiArrowRightLine />
                     </Button>
-                </div>
-            </form>
+                )}
+            </div>
         </div>
     )
 }

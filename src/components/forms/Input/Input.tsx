@@ -36,6 +36,10 @@ interface InputProps {
     max?: string
     /** HTML input type attribute */
     type?: 'text' | 'email' | 'url' | 'password' | 'tel' | 'search' | 'file' | 'number'
+    /** Enable multiline textarea functionality */
+    multiline?: boolean
+    /** Number of visible text lines for textarea */
+    rows?: number
     /** Content to display before the input */
     startContent?: React.ReactNode
     /** Content to display after the input */
@@ -79,6 +83,8 @@ const Input = ({
     min,
     max,
     type = 'text',
+    multiline = false,
+    rows = 3,
     startContent,
     endContent,
     labelPlacement = 'outside',
@@ -222,39 +228,75 @@ const Input = ({
                     </label>
                 )}
 
-                <input
-                    id={name}
-                    className={`basic-input-field variant-${variant} size-${getHeightSize()} 
-                        ${variant !== "underlined" ? `radius-${radius}` : ""} 
-                        ${hasInsideLabel ? 'has-inside-label' : ''} 
-                        ${invalid ? 'input-invalid' : ''} 
-                        ${startContent ? 'has-start' : ''} 
-                        ${endContent || type === 'password' ? 'has-end' : ''}
-                        ${needsFloatingLabel ? 'with-floating-label' : ''}`}
-                    style={{
-                        borderColor: getBorderColor(),
-                        backgroundColor: variant === 'flat' || variant === 'faded'
-                            ? 'var(--background-secondary)' 
-                            : 'transparent'
-                    }}
-                    name={name}
-                    type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
-                    placeholder={shouldShowAsPlaceholder ? '' : placeholder}
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                    disabled={isDisabled}
-                    readOnly={isReadOnly}
-                    minLength={minLength}
-                    maxLength={maxLength}
-                    step={step}
-                    min={min}
-                    max={max}
-                    required={required || isRequired}
-                    aria-invalid={invalid}
-                    aria-describedby={computedErrorMessage ? `${name}-error` : undefined}
-                />
+                {multiline ? (
+                    <textarea
+                        id={name}
+                        className={`basic-input-field variant-${variant} size-${getHeightSize()} 
+                            ${variant !== "underlined" ? `radius-${radius}` : ""} 
+                            ${hasInsideLabel ? 'has-inside-label' : ''} 
+                            ${invalid ? 'input-invalid' : ''} 
+                            ${startContent ? 'has-start' : ''} 
+                            ${endContent ? 'has-end' : ''}
+                            ${needsFloatingLabel ? 'with-floating-label' : ''} 
+                            multiline-textarea`}
+                        style={{
+                            borderColor: getBorderColor(),
+                            backgroundColor: variant === 'flat' || variant === 'faded'
+                                ? 'var(--background-secondary)' 
+                                : 'transparent',
+                            minHeight: `${rows * 1.5}rem`,
+                            resize: 'vertical'
+                        }}
+                        name={name}
+                        placeholder={shouldShowAsPlaceholder ? '' : placeholder}
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        disabled={isDisabled}
+                        readOnly={isReadOnly}
+                        minLength={minLength}
+                        maxLength={maxLength}
+                        rows={rows}
+                        required={required || isRequired}
+                        aria-invalid={invalid}
+                        aria-describedby={computedErrorMessage ? `${name}-error` : undefined}
+                    />
+                ) : (
+                    <input
+                        id={name}
+                        className={`basic-input-field variant-${variant} size-${getHeightSize()} 
+                            ${variant !== "underlined" ? `radius-${radius}` : ""} 
+                            ${hasInsideLabel ? 'has-inside-label' : ''} 
+                            ${invalid ? 'input-invalid' : ''} 
+                            ${startContent ? 'has-start' : ''} 
+                            ${endContent || type === 'password' ? 'has-end' : ''}
+                            ${needsFloatingLabel ? 'with-floating-label' : ''}`}
+                        style={{
+                            borderColor: getBorderColor(),
+                            backgroundColor: variant === 'flat' || variant === 'faded'
+                                ? 'var(--background-secondary)' 
+                                : 'transparent'
+                        }}
+                        name={name}
+                        type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
+                        placeholder={shouldShowAsPlaceholder ? '' : placeholder}
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        disabled={isDisabled}
+                        readOnly={isReadOnly}
+                        minLength={minLength}
+                        maxLength={maxLength}
+                        step={step}
+                        min={min}
+                        max={max}
+                        required={required || isRequired}
+                        aria-invalid={invalid}
+                        aria-describedby={computedErrorMessage ? `${name}-error` : undefined}
+                    />
+                )}
 
                 {showClearButton && (
                     <button
@@ -267,10 +309,10 @@ const Input = ({
                     </button>
                 )}
 
-                {(endContent || type === 'password') && (
+                {(endContent || (type === 'password' && !multiline)) && (
                     <div className={`input-end-content ${hasInsideLabel ? 'has-inside-label' : ''}`}>
                         {endContent}
-                        {type === 'password' && ((labelPlacement === "outside") || shouldFloat) && (
+                        {type === 'password' && !multiline && ((labelPlacement === "outside") || shouldFloat) && (
                             <button
                                 type="button"
                                 className="password-toggle"

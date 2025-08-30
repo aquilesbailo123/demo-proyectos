@@ -7,7 +7,7 @@ import Button from '../../components/common/Button/Button'
 import Input from '../../components/forms/Input/Input'
 import Select from '../../components/forms/Select/Select'
 
-import { useProjectStore } from '../../stores/ProjectStore'
+import { useOldProjectStore } from '../../stores/OldProjectStore'
 import { ProjectData } from '../../components/common/ProductCard/ProductCard'
 
 import './Home.css'
@@ -36,7 +36,7 @@ const Home = () => {
         featuredProjects, 
         fetchProjects, 
         fetchFeaturedProjects 
-    } = useProjectStore()
+    } = useOldProjectStore()
 
     const categoryOptions = [
         { value: 'all', label: t('home_all_categories') },

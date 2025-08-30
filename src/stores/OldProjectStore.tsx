@@ -1,6 +1,11 @@
 import { create } from 'zustand'
 import i18n from 'i18next'
 
+/**
+ * IMPORTANT: DONT REMOVE THIS FILE ITS FOR TESTING
+ */
+
+
 export interface Tag {
     id: string;
     name: string;
@@ -171,7 +176,7 @@ const mockDonations: Donation[] = [
     },
 ];
 
-export const useProjectStore = create<ProjectState>((set) => ({
+export const useOldProjectStore = create<ProjectState>((set) => ({
     projects: [],
     featuredProjects: [],
     userDonations: [],

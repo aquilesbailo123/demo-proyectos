@@ -1,41 +1,41 @@
-/* Base styles */
-.basic-input-group {
+/* DateTimePicker Component Styles */
+.datetime-picker-group {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xxs);
 }
 
-.basic-input-group.full-width {
+.datetime-picker-group.full-width {
     width: 100%;
 }
 
 /* Label placement */
-.basic-input-group.label-placement-outside {
+.datetime-picker-group.label-placement-outside {
     flex-direction: column;
 }
 
-.basic-input-group.label-placement-outside-left {
+.datetime-picker-group.label-placement-outside-left {
     flex-direction: row;
     align-items: center;
     gap: var(--spacing-md);
 }
 
 /* Handle the floating outside label container height */
-.basic-input-group.has-floating-outside-label {
+.datetime-picker-group.has-floating-outside-label {
     position: relative;
     /* Add top margin to maintain the same height as if the label was outside */
     padding-top: calc(var(--text-md) + var(--spacing-md));
 }
 
 @media (max-width: 768px) {
-    .basic-input-group.label-placement-outside-left {
+    .datetime-picker-group.label-placement-outside-left {
         flex-direction: column;
         align-items: flex-start;
         gap: var(--spacing-xs);
     }
 }
 
-.basic-input-label {
+.datetime-picker-label {
     color: var(--text-primary);
     font-size: var(--text-sm);
     display: flex;
@@ -43,16 +43,7 @@
     margin-bottom: var(--spacing-xs);
 }
 
-.input-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    width: 100%;
-}
-
-
-.basic-input-field {
+.datetime-picker-field {
     width: 100%;
     padding: var(--spacing-sm);
     outline: none;
@@ -62,6 +53,85 @@
     border-style: solid;
     line-height: 1.5;
     box-sizing: border-box;
+}
+
+/* Variant Styles */
+.datetime-picker-field.variant-flat {
+    border: 1px solid transparent;
+    background-color: var(--background-secondary);
+}
+
+.datetime-picker-field.variant-bordered {
+    border: 1px solid var(--border-primary);
+    background-color: transparent;
+}
+
+.datetime-picker-field.variant-faded {
+    border: 1px solid var(--border-primary);
+    background-color: var(--background-secondary);
+}
+
+.datetime-picker-field.variant-underlined {
+    border: none;
+    border-bottom: 1px solid var(--border-primary);
+    background-color: transparent;
+    border-radius: 0;
+}
+
+/* Sizes */
+.datetime-picker-field.size-sm {
+    height: var(--size-sm);
+    font-size: var(--text-sm);
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
+}
+
+.datetime-picker-field.size-md {
+    height: var(--size-md);
+    font-size: var(--text-md);
+}
+
+.datetime-picker-field.size-lg {
+    height: var(--size-lg);
+    font-size: var(--text-lg);
+}
+
+/* Radius */
+.datetime-picker-field.radius-none { border-radius: var(--radius-none) }
+.datetime-picker-field.radius-sm { border-radius: var(--radius-sm) }
+.datetime-picker-field.radius-md { border-radius: var(--radius-md) }
+.datetime-picker-field.radius-lg { border-radius: var(--radius-lg) }
+.datetime-picker-field.radius-full { border-radius: var(--radius-full) }
+
+/* Focus state */
+.datetime-picker-field:focus {
+    box-shadow: 0 0 0 2px var(--main-primary);
+}
+
+/* Disabled state */
+.datetime-picker-field:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Error states */
+.datetime-picker-field.input-invalid,
+.datetime-picker-field.input-invalid:focus {
+    border-color: var(--state-danger) !important;
+    color: var(--state-danger);
+}
+
+/* Container with floating label */
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    width: 100%;
+}
+
+.input-container.with-floating-label {
+    margin-top: var(--spacing-sm);
 }
 
 /* Inside label styling */
@@ -90,7 +160,6 @@
 
 /* Floating outside label styles */
 .floating-outside-label {
-    /* color: var(--text-secondary); */
     font-size: var(--text-md);
     top: 50%;
     transform: translateY(-50%);
@@ -106,7 +175,8 @@
     padding: 0 var(--spacing-xxs);
 }
 
-.basic-input-field.has-inside-label {
+/* Padding adjustments for inside labels */
+.datetime-picker-field.has-inside-label {
     padding-top: calc(var(--spacing-md) + var(--spacing-xs));
     padding-bottom: 0;
 }
@@ -127,97 +197,12 @@
     align-items: center;
 }
 
-.basic-input-field.has-start {
+.datetime-picker-field.has-start {
     padding-left: calc(var(--spacing-md) + 1.25rem) !important;
 }
 
-.basic-input-field.has-end {
+.datetime-picker-field.has-end {
     padding-right: calc(var(--spacing-md) + 1.25rem) !important;
-}
-
-/* Password toggle */
-.password-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    padding: 0;
-    font-size: 1rem;
-}
-
-.password-toggle:hover {
-    color: var(--text-primary);
-}
-
-
-/* Variants */
-.basic-input-field.variant-bordered {
-    border-width: 1px;
-}
-
-.basic-input-field.variant-faded {
-    border-width: 1px;
-}
-
-.basic-input-field.variant-underlined {
-    border-width: 0 0 1px 0;
-    border-radius: 0;
-}
-
-/* Sizes */
-.basic-input-field.size-sm {
-    height: var(--size-sm);
-    font-size: var(--text-sm);
-    padding-left: var(--spacing-sm);
-    padding-right: var(--spacing-sm);
-}
-
-.basic-input-field.size-md {
-    height: var(--size-md);
-    font-size: var(--text-md);
-}
-
-.basic-input-field.size-lg {
-    height: var(--size-lg);
-    font-size: var(--text-lg);
-}
-
-/* Radius */
-.basic-input-field.radius-none { border-radius: var(--radius-none) }
-.basic-input-field.radius-sm { border-radius: var(--radius-sm) }
-.basic-input-field.radius-md { border-radius: var(--radius-md) }
-.basic-input-field.radius-lg { border-radius: var(--radius-lg) }
-.basic-input-field.radius-full { border-radius: var(--radius-full) }
-
-/* Focus state */
-.basic-input-field:focus {
-    box-shadow: 0 0 0 2px var(--main-primary);
-}
-
-/* Disabled state */
-.basic-input-field:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-/* Error states */
-.basic-input-field.input-invalid,
-.basic-input-field.input-invalid:focus {
-    border-color: var(--state-danger) !important;
-    color: var(--state-danger);
-}
-
-.input-error {
-    color: var(--state-danger);
-    font-size: var(--text-sm);
-    margin-top: var(--spacing-xs);
-}
-
-.required-mark {
-    color: var(--state-danger);
 }
 
 /* Clear button */
@@ -237,19 +222,14 @@
     color: var(--text-secondary);
 }
 
-
-/* Multiline textarea styles */
-.basic-input-field.multiline-textarea {
-    resize: vertical;
-    min-height: 3rem;
-    height: auto;
-    padding: var(--spacing-sm);
-    line-height: 1.5;
-    font-family: inherit;
+.input-error {
+    color: var(--state-danger);
+    font-size: var(--text-sm);
+    margin-top: var(--spacing-xs);
 }
 
-.basic-input-field.multiline-textarea.has-inside-label {
-    padding-top: calc(var(--spacing-md) + var(--spacing-xs));
+.required-mark {
+    color: var(--state-danger);
 }
 
 /* Content positioning */
@@ -264,4 +244,17 @@
 .input-end-content.has-inside-label {
     padding-top: calc(var(--spacing-md) + var(--spacing-xs));
     padding-bottom: 0;
+}
+
+/* DateTime specific styles */
+.datetime-picker-field::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: var(--calendar-icon-filter, none);
+}
+
+/* Dark mode support for calendar icon */
+@media (prefers-color-scheme: dark) {
+    .datetime-picker-field::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
 }

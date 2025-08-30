@@ -9,7 +9,7 @@ import Card from '@/components/common/Card/Card'
 import Spinner from '@/components/common/Spinner/Spinner'
 import Input from '@/components/forms/Input/Input'
 
-import { useProjectStore } from '@/stores/ProjectStore'
+import { useOldProjectStore } from '@/stores/OldProjectStore'
 import useAuthStore from '@/stores/AuthStore'
 
 import './ProjectDetail.css'
@@ -24,7 +24,7 @@ const ProjectDetail = () => {
     const [donationMessage, setDonationMessage] = useState<string>('')
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     
-    const { projects, isLoading, fetchProjects, donateToProject } = useProjectStore()
+    const { projects, isLoading, fetchProjects, donateToProject } = useOldProjectStore()
     const { isLogged } = useAuthStore() // Using isLogged from refactored AuthStore
     
     useEffect(() => {

@@ -1,0 +1,156 @@
+/* Stage 4 specific styles */
+
+.funds-usage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.percentage-symbol {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.funds-usage-total {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border-primary);
+}
+
+.funds-usage-total.valid {
+  border-color: var(--state-success);
+  background-color: rgba(var(--state-success-rgb), 0.05);
+}
+
+.funds-usage-total.invalid {
+  border-color: var(--state-warning);
+  background-color: rgba(var(--state-warning-rgb), 0.05);
+}
+
+.total-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.total-percentage {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.total-percentage.complete {
+  color: var(--state-success);
+}
+
+.total-percentage.incomplete {
+  color: var(--state-warning);
+}
+
+.error-message {
+  color: var(--state-danger);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.datetime-input {
+  padding: 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.datetime-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.input-help {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.financing-summary {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--background-secondary);
+  border-radius: 12px;
+}
+
+.financing-summary h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.summary-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.funds-breakdown {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 0.25rem 0;
+}
+
+.breakdown-label {
+  color: var(--text-secondary);
+}
+
+.breakdown-value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .funds-usage-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .funds-breakdown {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,81 @@
+/* Stage 2 specific styles */
+
+.stage2-value-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.stage2-value-item {
+  padding: 1.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--background-primary);
+  transition: border-color 0.2s ease;
+}
+
+.stage2-value-item:focus-within {
+  border-color: var(--primary-color);
+}
+
+.stage2-value-item h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stage2-value-icon {
+  font-size: 1.25rem;
+  color: var(--primary-color);
+}
+
+.stage2-progress-indicator {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--background-secondary);
+  border-radius: 8px;
+}
+
+.stage2-progress-indicator h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.stage2-progress-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.stage2-progress-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.stage2-progress-list .complete {
+  color: var(--success-color);
+}
+
+.stage2-progress-list .incomplete {
+  color: var(--error-color);
+}
+
+@media (max-width: 768px) {
+  .stage2-value-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stage2-progress-list {
+    grid-template-columns: 1fr;
+  }
+}

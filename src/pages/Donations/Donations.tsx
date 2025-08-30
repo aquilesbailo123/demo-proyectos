@@ -10,7 +10,7 @@ import AuthRequired from '@/components/common/AuthRequired'
 import { Table, TableHeader, TableBody, TableCell, TableRow, TableColumn } from '@/components/common/Table'
 
 import useAuthStore from '@/stores/AuthStore'
-import { useProjectStore } from '@/stores/ProjectStore'
+import { useOldProjectStore } from '@/stores/OldProjectStore'
 
 import './Donations.css'
 import '../../animations.css'
@@ -20,7 +20,7 @@ const Donations = () => {
     const { isLogged } = useAuthStore()
     // Create dummy user from localStorage as temporary solution
     const user = isLogged ? JSON.parse(localStorage.getItem('user') || '{}') : null
-    const { userDonations, isLoading, fetchUserDonations } = useProjectStore()
+    const { userDonations, isLoading, fetchUserDonations } = useOldProjectStore()
     const { t, i18n } = useTranslation('common')
     
     useEffect(() => {

@@ -97,46 +97,209 @@ const common = {
         
         // Create Project Page
         createProject: {
-            title: "Crear Nuevo Proyecto",
+            title: "Formulario de postulación",
             subtitle: "Comparte tu visión con la comunidad y recauda fondos utilizando criptomonedas",
-            sections: {
-                basicInfo: "Información Básica",
-                fundingDetails: "Detalles de Financiación"
+            navigation: {
+                previous: "Anterior",
+                next: "Siguiente",
+                stage: "Etapa",
+                of: "de",
+                completeRequired: "Completa todos los campos requeridos para continuar",
+                creating: "Creando Proyecto...",
+                createProject: "Crear Proyecto"
             },
-            fields: {
-                title: "Título del Proyecto",
-                category: "Categoría",
-                shortDesc: "Descripción Corta",
-                fullDesc: "Descripción Completa",
-                coverImage: "Imagen de Portada",
-                tags: "Etiquetas del Proyecto (hasta 5)",
-                fundingGoal: "Meta de Financiación (USD)",
-                endDate: "Fecha de Finalización de Campaña"
+            success: {
+                title: "¡Proyecto Creado Exitosamente!",
+                description: "Tu proyecto ha sido creado y está siendo revisado. Te notificaremos cuando esté listo para recibir donaciones.",
+                viewProject: "Ver Mi Proyecto"
             },
-            placeholders: {
-                title: "Ingresa un título atractivo para tu proyecto",
-                category: "Selecciona una categoría",
-                shortDesc: "Breve descripción (máximo 150 caracteres)",
-                fullDesc: "Descripción detallada de tu proyecto, objetivos, cronograma e impacto...",
-                tag: "Ingresa una etiqueta",
-                fundingGoal: "Monto en USD"
-            },
-            buttons: {
-                addTag: "Añadir Etiqueta",
-                removeTag: "Eliminar",
-                create: "Crear Proyecto",
-                creating: "Creando Proyecto..."
-            },
-            categories: {
-                environment: "Medio Ambiente",
-                education: "Educación",
-                healthcare: "Salud",
-                technology: "Tecnología",
-                agriculture: "Agricultura",
-                energy: "Energía",
-                artCulture: "Arte y Cultura",
-                community: "Comunidad"
-            },
+            stages: {
+                identity: {
+                    title: "Identidad del Proyecto",
+                    description: "Define la identidad básica de tu proyecto y cómo se presentará a la comunidad",
+                    fields: {
+                        name: "Nombre del Proyecto",
+                        slogan: "Eslogan",
+                        executiveSummary: "Resumen Ejecutivo",
+                        industry: "Industria",
+                        logo: "Logo (URL)",
+                        website: "Sitio Web",
+                        twitter: "Twitter",
+                        linkedin: "LinkedIn"
+                    },
+                    placeholders: {
+                        name: "Ingresa el nombre de tu proyecto",
+                        slogan: "Un eslogan memorable para tu proyecto",
+                        executiveSummary: "Describe tu proyecto en un párrafo conciso...",
+                        industry: "Selecciona la industria de tu proyecto",
+                        logo: "https://ejemplo.com/logo.png",
+                        website: "https://tuproyecto.com",
+                        twitter: "https://twitter.com/tuproyecto",
+                        linkedin: "https://linkedin.com/company/tuproyecto"
+                    }
+                },
+                valueProposition: {
+                    title: "Propuesta de Valor",
+                    description: "Define claramente el problema que resuelves y tu propuesta única de valor",
+                    fields: {
+                        problem: "Problema que Resuelves",
+                        solution: "Tu Solución",
+                        uniqueValue: "Propuesta Única de Valor",
+                        businessModel: "Modelo de Negocio"
+                    },
+                    placeholders: {
+                        problem: "Describe el problema específico que tu proyecto aborda...",
+                        solution: "Explica cómo tu proyecto resuelve este problema...",
+                        uniqueValue: "¿Qué hace único a tu proyecto? ¿Por qué es mejor que las alternativas?",
+                        businessModel: "Describe cómo tu proyecto genera valor y se sostiene económicamente..."
+                    }
+                },
+                team: {
+                    title: "El Equipo",
+                    description: "Presenta a las personas clave detrás de tu proyecto",
+                    addMember: "Agregar Miembro",
+                    editMember: "Editar Miembro",
+                    emptyState: "Aún no has agregado miembros al equipo. Agrega al menos una persona para continuar.",
+                    fields: {
+                        name: "Nombre Completo",
+                        title: "Título Académico/Profesional",
+                        country: "País",
+                        photo: "Foto (URL)",
+                        description: "Descripción",
+                        linkedin: "LinkedIn"
+                    },
+                    placeholders: {
+                        name: "Nombre completo del miembro",
+                        title: "CEO, CTO, PhD en..., etc.",
+                        country: "País de residencia",
+                        photo: "https://ejemplo.com/foto.jpg",
+                        description: "Experiencia y rol en el proyecto...",
+                        linkedin: "https://linkedin.com/in/perfil"
+                    }
+                },
+                financing: {
+                    title: "Financiamiento",
+                    description: "Define los detalles financieros de tu campaña de recaudación",
+                    fields: {
+                        objectiveAmount: "Monto Objetivo (USDT)",
+                        financingType: "Tipo de Financiamiento",
+                        fundsUsage: "Uso de Fondos",
+                        productDevelopment: "Desarrollo de Producto",
+                        marketingSales: "Marketing y Ventas",
+                        expansionOperations: "Expansión y Operaciones",
+                        operationalExpenses: "Gastos Operativos Generales",
+                        campaignEnd: "Fin de Campaña"
+                    },
+                    placeholders: {
+                        objectiveAmount: "100000",
+                        financingType: "Selecciona el tipo de financiamiento"
+                    },
+                    help: {
+                        objectiveAmount: "Monto mínimo recomendado: $1,000 USDT",
+                        campaignEnd: "Selecciona cuándo terminará tu campaña de recaudación"
+                    },
+                    total: "Total",
+                    totalError: "El total debe sumar exactamente 100%"
+                },
+                traction: {
+                    title: "Tracción y Validación",
+                    description: "Demuestra el progreso y validación de tu proyecto",
+                    fields: {
+                        projectStage: "Etapa del Proyecto",
+                        activeUsers: "Usuarios Activos",
+                        monthlyRevenue: "Ingresos Mensuales (USDT)",
+                        numberOfClients: "Número de Clientes",
+                        communitySize: "Tamaño de Comunidad",
+                        tractionDocument: "Documento de Prueba de Tracción"
+                    },
+                    placeholders: {
+                        projectStage: "Selecciona la etapa actual de tu proyecto",
+                        activeUsers: "1000",
+                        monthlyRevenue: "5000",
+                        numberOfClients: "50",
+                        communitySize: "2000",
+                        tractionDocument: "https://ejemplo.com/traccion.pdf"
+                    },
+                    metricsTitle: "Métricas de Tracción",
+                    metricsSubtitle: "Proporciona métricas que demuestren el progreso de tu proyecto (opcional)",
+                    help: {
+                        tractionDocument: "Sube un documento que demuestre la tracción de tu proyecto (analytics, testimonios, etc.)"
+                    },
+                    examplesTitle: "Ejemplos de Documentos de Tracción:",
+                    examples: {
+                        analytics: "Reportes de Google Analytics o métricas de uso",
+                        testimonials: "Testimonios de usuarios o clientes",
+                        partnerships: "Cartas de intención o acuerdos de partnership",
+                        media: "Cobertura mediática o menciones en prensa",
+                        awards: "Premios o reconocimientos recibidos"
+                    }
+                },
+                impact: {
+                    title: "Impacto y Sostenibilidad",
+                    description: "Define el impacto social y ambiental de tu proyecto",
+                    fields: {
+                        sdg: "Objetivos de Desarrollo Sostenible (ODS)",
+                        keyMetrics: "Métricas Clave de Impacto"
+                    },
+                    help: {
+                        sdg: "Selecciona los ODS que tu proyecto contribuye a alcanzar",
+                        keyMetrics: "Define métricas específicas para medir el impacto de tu proyecto"
+                    },
+                    addMetric: "Agregar Métrica",
+                    editMetric: "Editar Métrica",
+                    exampleMetrics: "Ejemplos de Métricas:",
+                    validation: {
+                        sdgRequired: "Debes seleccionar al menos un ODS"
+                    },
+                    metricFields: {
+                        name: "Nombre de la Métrica",
+                        method: "Método de Medición",
+                        currentValue: "Valor Actual"
+                    },
+                    metricPlaceholders: {
+                        name: "Ej: Usuarios Activos Mensuales",
+                        method: "Describe cómo mides esta métrica...",
+                        currentValue: "1,000"
+                    }
+                },
+                legal: {
+                    title: "Documentación Legal",
+                    description: "Proporciona la documentación legal de tu proyecto (opcional)",
+                    fields: {
+                        incorporationAct: "Acta Constitutiva",
+                        representativeId: "Identificación del Representante",
+                        whitepaper: "Whitepaper",
+                        capTable: "Cap Table"
+                    },
+                    placeholders: {
+                        incorporationAct: "https://ejemplo.com/acta-constitutiva.pdf",
+                        representativeId: "https://ejemplo.com/cedula.pdf",
+                        whitepaper: "https://ejemplo.com/whitepaper.pdf",
+                        capTable: "https://ejemplo.com/cap-table.pdf"
+                    },
+                    descriptions: {
+                        incorporationAct: "Documento legal de constitución de la empresa",
+                        representativeId: "Documento de identidad del representante legal",
+                        whitepaper: "Documento técnico detallado del proyecto",
+                        capTable: "Tabla de capitalización y estructura accionaria"
+                    },
+                    optional: "Opcional",
+                    notice: {
+                        title: "Documentación Opcional",
+                        description: "Estos documentos son opcionales pero pueden aumentar la confianza de los inversionistas en tu proyecto."
+                    },
+                    guidelines: {
+                        title: "Recomendaciones:",
+                        secure: "Asegúrate de que los enlaces sean seguros (HTTPS)",
+                        accessible: "Los documentos deben ser accesibles públicamente",
+                        updated: "Mantén los documentos actualizados",
+                        backup: "Guarda copias de respaldo de todos los documentos"
+                    },
+                    completion: {
+                        title: "Estado de Documentación"
+                    }
+                }
+            }
         },
         
         // Projects Page
@@ -246,6 +409,11 @@ const common = {
         security: "Seguridad",
         personal_information: "Información Personal",
         account_settings: "Configuración de Cuenta",
+        name: "Nombre",
+        academic_title: "Titulo Academico",
+        country: "Pais",
+        description: "Descripcion",
+        section: "Sección",
         
         profile_change_password: "Cambiar Contraseña",
         profile_change_password_description: "Actualizar la contrseña de su cuenta",
@@ -516,45 +684,208 @@ const common = {
         // Create Project Page
         createProject: {
             title: "Create New Project",
-            subtitle: "Share your vision with the community and raise funds using cryptocurrency",
-            sections: {
-                basicInfo: "Basic Information",
-                fundingDetails: "Funding Details"
+            subtitle: "Share your vision with the community and raise funds using cryptocurrencies",
+            navigation: {
+                previous: "Previous",
+                next: "Next",
+                stage: "Stage",
+                of: "of",
+                completeRequired: "Complete all required fields to continue",
+                creating: "Creating Project...",
+                createProject: "Create Project"
             },
-            fields: {
-                title: "Project Title",
-                category: "Category",
-                shortDesc: "Short Description",
-                fullDesc: "Full Description",
-                coverImage: "Cover Image",
-                tags: "Project Tags (up to 5)",
-                fundingGoal: "Funding Goal (USD)",
-                endDate: "Campaign End Date"
+            success: {
+                title: "Project Created Successfully!",
+                description: "Your project has been created and is under review. We'll notify you when it's ready to receive donations.",
+                viewProject: "View My Project"
             },
-            placeholders: {
-                title: "Enter a catchy title for your project",
-                category: "Select a category",
-                shortDesc: "Brief description (150 characters max)",
-                fullDesc: "Detailed description of your project, goals, timeline, and impact...",
-                tag: "Enter a tag",
-                fundingGoal: "Amount in USD"
-            },
-            buttons: {
-                addTag: "Add Tag",
-                removeTag: "Remove",
-                create: "Create Project",
-                creating: "Creating Project..."
-            },
-            categories: {
-                environment: "Environment",
-                education: "Education",
-                healthcare: "Healthcare",
-                technology: "Technology",
-                agriculture: "Agriculture",
-                energy: "Energy",
-                artCulture: "Art & Culture",
-                community: "Community"
-            },
+            stages: {
+                identity: {
+                    title: "Project Identity",
+                    description: "Define the basic identity of your project and how it will be presented to the community",
+                    fields: {
+                        name: "Project Name",
+                        slogan: "Slogan",
+                        executiveSummary: "Executive Summary",
+                        industry: "Industry",
+                        logo: "Logo (URL)",
+                        website: "Website",
+                        twitter: "Twitter",
+                        linkedin: "LinkedIn"
+                    },
+                    placeholders: {
+                        name: "Enter your project name",
+                        slogan: "A memorable slogan for your project",
+                        executiveSummary: "Describe your project in a concise paragraph...",
+                        industry: "Select your project's industry",
+                        logo: "https://example.com/logo.png",
+                        website: "https://yourproject.com",
+                        twitter: "https://twitter.com/yourproject",
+                        linkedin: "https://linkedin.com/company/yourproject"
+                    }
+                },
+                valueProposition: {
+                    title: "Value Proposition",
+                    description: "Clearly define the problem you solve and your unique value proposition",
+                    fields: {
+                        problem: "Problem You Solve",
+                        solution: "Your Solution",
+                        uniqueValue: "Unique Value Proposition",
+                        businessModel: "Business Model"
+                    },
+                    placeholders: {
+                        problem: "Describe the specific problem your project addresses...",
+                        solution: "Explain how your project solves this problem...",
+                        uniqueValue: "What makes your project unique? Why is it better than alternatives?",
+                        businessModel: "Describe how your project generates value and sustains itself economically..."
+                    }
+                },
+                team: {
+                    title: "The Team",
+                    description: "Present the key people behind your project",
+                    addMember: "Add Member",
+                    editMember: "Edit Member",
+                    emptyState: "You haven't added team members yet. Add at least one person to continue.",
+                    fields: {
+                        name: "Full Name",
+                        title: "Academic/Professional Title",
+                        country: "Country",
+                        photo: "Photo (URL)",
+                        description: "Description",
+                        linkedin: "LinkedIn"
+                    },
+                    placeholders: {
+                        name: "Member's full name",
+                        title: "CEO, CTO, PhD in..., etc.",
+                        country: "Country of residence",
+                        photo: "https://example.com/photo.jpg",
+                        description: "Experience and role in the project...",
+                        linkedin: "https://linkedin.com/in/profile"
+                    }
+                },
+                financing: {
+                    title: "Financing",
+                    description: "Define the financial details of your fundraising campaign",
+                    fields: {
+                        objectiveAmount: "Target Amount (USDT)",
+                        financingType: "Financing Type",
+                        fundsUsage: "Funds Usage",
+                        productDevelopment: "Product Development",
+                        marketingSales: "Marketing and Sales",
+                        expansionOperations: "Expansion and Operations",
+                        operationalExpenses: "General Operational Expenses",
+                        campaignEnd: "Campaign End"
+                    },
+                    placeholders: {
+                        objectiveAmount: "100000",
+                        financingType: "Select financing type"
+                    },
+                    help: {
+                        objectiveAmount: "Recommended minimum amount: $1,000 USDT",
+                        campaignEnd: "Select when your fundraising campaign will end"
+                    },
+                    total: "Total",
+                    totalError: "Total must sum exactly to 100%"
+                },
+                traction: {
+                    title: "Traction and Validation",
+                    description: "Demonstrate the progress and validation of your project",
+                    fields: {
+                        projectStage: "Project Stage",
+                        activeUsers: "Active Users",
+                        monthlyRevenue: "Monthly Revenue (USDT)",
+                        numberOfClients: "Number of Clients",
+                        communitySize: "Community Size",
+                        tractionDocument: "Traction Proof Document"
+                    },
+                    placeholders: {
+                        projectStage: "Select your project's current stage",
+                        activeUsers: "1000",
+                        monthlyRevenue: "5000",
+                        numberOfClients: "50",
+                        communitySize: "2000",
+                        tractionDocument: "https://example.com/traction.pdf"
+                    },
+                    metricsTitle: "Traction Metrics",
+                    metricsSubtitle: "Provide metrics that demonstrate your project's progress (optional)",
+                    help: {
+                        tractionDocument: "Upload a document that demonstrates your project's traction (analytics, testimonials, etc.)"
+                    },
+                    examplesTitle: "Examples of Traction Documents:",
+                    examples: {
+                        analytics: "Google Analytics reports or usage metrics",
+                        testimonials: "User or client testimonials",
+                        partnerships: "Letters of intent or partnership agreements",
+                        media: "Media coverage or press mentions",
+                        awards: "Awards or recognitions received"
+                    }
+                },
+                impact: {
+                    title: "Impact and Sustainability",
+                    description: "Define the social and environmental impact of your project",
+                    fields: {
+                        sdg: "Sustainable Development Goals (SDG)",
+                        keyMetrics: "Key Impact Metrics"
+                    },
+                    help: {
+                        sdg: "Select the SDGs your project contributes to achieving",
+                        keyMetrics: "Define specific metrics to measure your project's impact"
+                    },
+                    addMetric: "Add Metric",
+                    editMetric: "Edit Metric",
+                    exampleMetrics: "Example Metrics:",
+                    validation: {
+                        sdgRequired: "You must select at least one SDG"
+                    },
+                    metricFields: {
+                        name: "Metric Name",
+                        method: "Measurement Method",
+                        currentValue: "Current Value"
+                    },
+                    metricPlaceholders: {
+                        name: "Ex: Monthly Active Users",
+                        method: "Describe how you measure this metric...",
+                        currentValue: "1,000"
+                    }
+                },
+                legal: {
+                    title: "Legal Documentation",
+                    description: "Provide legal documentation for your project (optional)",
+                    fields: {
+                        incorporationAct: "Incorporation Act",
+                        representativeId: "Representative ID",
+                        whitepaper: "Whitepaper",
+                        capTable: "Cap Table"
+                    },
+                    placeholders: {
+                        incorporationAct: "https://example.com/incorporation-act.pdf",
+                        representativeId: "https://example.com/id.pdf",
+                        whitepaper: "https://example.com/whitepaper.pdf",
+                        capTable: "https://example.com/cap-table.pdf"
+                    },
+                    descriptions: {
+                        incorporationAct: "Legal document of company incorporation",
+                        representativeId: "Legal representative's identity document",
+                        whitepaper: "Detailed technical document of the project",
+                        capTable: "Capitalization table and shareholding structure"
+                    },
+                    optional: "Optional",
+                    notice: {
+                        title: "Optional Documentation",
+                        description: "These documents are optional but can increase investor confidence in your project."
+                    },
+                    guidelines: {
+                        title: "Recommendations:",
+                        secure: "Ensure links are secure (HTTPS)",
+                        accessible: "Documents must be publicly accessible",
+                        updated: "Keep documents up to date",
+                        backup: "Keep backup copies of all documents"
+                    },
+                    completion: {
+                        title: "Documentation Status"
+                    }
+                }
+            }
         },
         
         // Projects Page
@@ -633,6 +964,11 @@ const common = {
         security: "Seguridad",
         personal_information: "Información Personal",
         account_settings: "Configuración de Cuenta",
+        name: "Nombre",
+        academic_title: "Titulo Academico",
+        country: "Pais",
+        description: "Descripcion",
+        section: "Sección",
         
         profile_change_password: "Cambiar Contraseña",
         profile_change_password_description: "Actualizar la contrseña de su cuenta",

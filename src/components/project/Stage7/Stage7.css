@@ -1,0 +1,199 @@
+/* Stage 7 specific styles */
+
+.legal-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--warning-bg);
+  border: 2px solid var(--warning-color);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.notice-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.notice-content h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--warning-color);
+}
+
+.notice-content p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.documents-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.document-item {
+  padding: 1.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--background-primary);
+  transition: border-color 0.2s ease;
+}
+
+.document-item:focus-within {
+  border-color: var(--primary-color);
+}
+
+.document-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.optional-badge {
+  padding: 0.25rem 0.75rem;
+  background: var(--background-secondary);
+  color: var(--text-secondary);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.document-description {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.legal-guidelines {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--info-bg);
+  border: 1px solid var(--info-color);
+  border-radius: 12px;
+}
+
+.legal-guidelines h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: var(--info-color);
+}
+
+.guidelines-list {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+
+.guidelines-list li {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.completion-status {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--background-secondary);
+  border-radius: 12px;
+}
+
+.completion-status h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--background-primary);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.status-item.completed {
+  border-color: var(--success-color);
+  background: var(--success-bg);
+}
+
+.status-item.pending {
+  border-color: var(--border-color);
+}
+
+.status-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.status-label {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.document-upload-area {
+  margin-top: 1rem;
+  padding: 2rem;
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  text-align: center;
+  background: var(--background-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.document-upload-area:hover {
+  border-color: var(--primary-color);
+  background: var(--primary-bg);
+}
+
+.document-upload-area.has-file {
+  border-color: var(--success-color);
+  background: var(--success-bg);
+}
+
+.upload-icon {
+  font-size: 2rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.upload-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .legal-notice {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .document-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+}

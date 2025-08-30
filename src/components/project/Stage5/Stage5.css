@@ -1,0 +1,118 @@
+/* Stage 5 specific styles */
+
+.traction-metrics {
+  padding: 1.5rem;
+  /* background: var(--background-secondary); */
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+}
+
+.traction-metrics h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.metrics-subtitle {
+  margin: 0 0 1.5rem 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.traction-examples {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: var(--primary-bg);
+  border-radius: 12px;
+  border: 1px solid var(--primary-color);
+}
+
+.traction-examples h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: var(--primary-color);
+}
+
+.examples-list {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+
+.examples-list li {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.stage-validation {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--background-secondary);
+  border-radius: 8px;
+}
+
+.stage-validation h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.validation-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.validation-item.complete {
+  color: var(--success-color);
+}
+
+.validation-item.incomplete {
+  color: var(--error-color);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.metric-card {
+  padding: 1rem;
+  background: var(--background-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.metric-card h5 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.metric-value.empty {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}

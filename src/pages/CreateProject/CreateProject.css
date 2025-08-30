@@ -1,221 +1,278 @@
+/* CreateProject page styles */
+
 .create-project-container {
-    max-width: 900px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 2rem;
+    min-height: 100vh;
 }
 
 .create-project-header {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
 .create-project-header h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(90deg, var(--main-primary), var(--main-secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
 }
 
 .create-project-header p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--text-secondary);
     max-width: 600px;
     margin: 0 auto;
 }
 
-.form-section {
-    background-color: var(--background-primary);
-    border-radius: 12px;
-    padding: 2rem;
+/* Progress Bar Styles */
+.progress-container {
     margin-bottom: 2rem;
-    box-shadow: 0 4px 15px var(--black-10);
 }
 
-.form-section h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-    position: relative;
-    padding-bottom: 0.75rem;
-}
-
-.form-section h2:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--main-secondary), var(--logo-secondary));
-    border-radius: 3px;
-}
-
-.form-group {
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--border-primary);
+    border-radius: 4px;
+    overflow: hidden;
     margin-bottom: 1.5rem;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: var(--text-primary);
-}
-
-.form-select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background-color: var(--background-primary);
-    color: var(--text-primary);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.form-select:focus {
-    border-color: var(--main-secondary);
-    outline: none;
-    box-shadow: 0 0 0 2px var(--main-secondary-25);
-}
-
-.form-textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background-color: var(--background-primary);
-    color: var(--text-primary);
-    font-size: 1rem;
-    font-family: inherit;
-    transition: all 0.3s ease;
-    resize: vertical;
-}
-
-.form-textarea:focus {
-    border-color: var(--main-secondary);
-    outline: none;
-    box-shadow: 0 0 0 2px var(--main-secondary-25);
-}
-
-.image-upload-container {
-    margin-top: 0.5rem;
-}
-
-.image-upload {
-    border: 2px dashed var(--border-color);
-    border-radius: 8px;
-    padding: 2rem;
-    text-align: center;
-    color: var(--text-secondary);
-    position: relative;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.image-upload:hover {
-    border-color: var(--main-secondary);
-    background-color: var(--background-secondary);
-}
-
-.image-upload svg {
-    color: var(--text-tertiary);
-    margin-bottom: 1rem;
-}
-
-.image-upload span {
-    display: block;
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
-}
-
-.image-upload p {
-    font-size: 0.85rem;
-}
-
-.file-input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+.progress-fill {
     height: 100%;
-    opacity: 0;
-    cursor: pointer;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    transition: width 0.3s ease;
+    border-radius: 4px;
 }
 
-.tags-container {
+.progress-steps {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    align-items: flex-start;
     gap: 1rem;
 }
 
-.tag-input-group {
+.progress-step {
     display: flex;
-    gap: 0.5rem;
+    flex-direction: column;
     align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+    min-width: 0;
 }
 
-.tag-remove-btn {
-    background: none;
-    border: none;
-    color: var(--state-error);
-    cursor: pointer;
+.progress-step.active .step-number {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.progress-step.completed .step-number {
+    background: var(--state-success);
+    color: white;
+    border-color: var(--state-success);
+}
+
+.progress-step.pending .step-number {
+    background: var(--background-primary);
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
     font-size: 0.9rem;
-    padding: 0.25rem 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.tag-remove-btn:hover {
-    text-decoration: underline;
-}
-
-.add-tag-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: none;
-    border: none;
-    color: var(--main-secondary);
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 0.5rem;
-    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     transition: all 0.2s ease;
 }
 
-.add-tag-btn:hover {
-    color: var(--main-primary);
-    transform: translateX(5px);
-}
-
-.date-input-container {
-    position: relative;
-}
-
-.date-icon {
-    position: absolute;
-    top: 50%;
-    left: 12px;
-    transform: translateY(-50%);
+.step-title {
+    font-size: 0.8rem;
     color: var(--text-secondary);
-    pointer-events: none;
+    text-align: center;
+    line-height: 1.2;
+    word-break: break-word;
 }
 
-.date-input-container input {
-    padding-left: 2.5rem;
+.progress-step.active .step-title {
+    color: var(--primary-color);
+    font-weight: 600;
 }
 
-.form-actions {
+.progress-step.completed .step-title {
+    color: var(--success-color);
+    font-weight: 500;
+}
+
+/* Stage Wrapper */
+.stage-wrapper {
+    background: var(--background-primary);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    min-height: 600px;
+}
+
+/* Wizard Navigation */
+.wizard-navigation {
     display: flex;
     justify-content: space-between;
-    margin-top: 2rem;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.nav-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stage-indicator {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.validation-warning {
+    font-size: 0.85rem;
+    color: var(--state-danger);
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background: var(--error-bg);
+    max-width: 150px;
+    border-radius: 6px;
+    border: 1px solid var(--state-danger);
+}
+
+/* Success Screen */
+.success-screen {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--background-primary);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--success-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem auto;
+    color: white;
+    font-size: 2.5rem;
+}
+
+.success-screen h1 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.success-screen p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.success-actions {
+    display: flex;
+    justify-content: center;
     gap: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+
+    .stage-wrapper {
+        border-radius: 0;
+
+    }
+
+    .create-project-container {
+        padding: 0;
+    }
+
+    /* Progress Bar Styles */
+    .progress-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .create-project-header h1 {
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        font-size: 2rem;
+    }
+    
+    .progress-steps {
+        padding: 1rem;
+        border: 1px solid var(--border-primary);
+        border-radius: 12px;
+        gap: 0.5rem;
+    }
+    
+    .progress-step {
+        flex: 0 0 calc(50% - 0.25rem);
+    }
+    
+    .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+    
+    .step-title {
+        font-size: 0.75rem;
+    }
+    
+    .wizard-navigation {
+        width: 100%;
+        gap: 0.3rem;
+        padding: 1rem;
+    }
+
+    
+    .success-screen {
+        padding: 3rem 1rem;
+    }
+    
+    .success-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+    
+    .success-screen h1 {
+        font-size: 1.5rem;
+    }
+    
+    .success-actions {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 /* Authentication required message */

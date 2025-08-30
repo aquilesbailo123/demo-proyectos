@@ -7,7 +7,7 @@ import i18next from 'i18next'
 
 import Button from '@/components/common/Button/Button'
 // import Input from '../../components/forms/Input/Input'
-import { useProjectStore } from '../../stores/ProjectStore'
+import { useOldProjectStore } from '../../stores/OldProjectStore'
 import './Projects.css'
 
 // ProjectData type is already defined in ProductCard component
@@ -22,7 +22,7 @@ const Projects = () => {
     const [searchQuery, _] = useState('')
     
     // Using ProjectStore instead of local mockProjects
-    const { projects, fetchProjects } = useProjectStore()
+    const { projects, fetchProjects } = useOldProjectStore()
 
     // Language change handling
     const [currentLanguage, setCurrentLanguage] = useState(i18next.language)
