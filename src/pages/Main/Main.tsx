@@ -8,7 +8,6 @@ import "./Main.css"
 // import Sidebar from "../../components/common/Sidebar/Sidebar"
 import Navbar from "@/components/common/Navbar/Navbar"
 import Footer from "../../components/common/Footer/Footer"
-import ModalBase from "@/modals/ModalBase/ModalBase"
 
 import routes from '@/routes/routes'
 
@@ -29,7 +28,6 @@ const Main = () => {
                     <Navbar/>
                     <div className="main-content-wrapper">
                         <Outlet />
-                        <ModalBase />
                         <Footer />
                     </div>
                 </div>

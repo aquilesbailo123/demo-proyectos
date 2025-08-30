@@ -176,7 +176,7 @@ export const useProjectStore = create<ProjectCreationState & ProjectStoreActions
           case 6:
             return state.relevant_sdg.length > 0;
           case 7:
-            return state.relevant_sdg.length > 0; // Legal documents are optional
+            return !!(state.acta_constitutiva && state.identificacion_representante);
           default:
             return false;
         }

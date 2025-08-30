@@ -1,12 +1,13 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RiAddLine, RiDeleteBin6Line, RiEditLine, RiCloseLine } from 'react-icons/ri';
+import { RiAddLine, RiDeleteBin6Line, RiEditLine } from 'react-icons/ri';
 import { FaLeaf, FaUtensils, FaHeartbeat, FaGraduationCap, FaVenus, FaWater, FaBolt, FaHandshake, FaIndustry, FaBalanceScale, FaCity, FaRecycle, FaGlobe, FaFish, FaSeedling, FaDove } from 'react-icons/fa';
-import Input from '@/components/forms/Input/Input';
-import Button from '@/components/common/Button/Button';
+
 import { useProjectStore } from '@/stores/ProjectStore';
 import { useODS } from '@/hooks/useOptions';
 import { KeyMetric } from '@/hooks/useProject';
+import useModalStore from '@/stores/ModalStore';
+import AddMetricModal from '@/modals/projects/AddMetricModal/AddMetricModal';
+
 import '../Stages.css';
 import './Stage6.css';
 
@@ -14,15 +15,8 @@ const Stage6 = () => {
     const { t } = useTranslation('common');
     const { relevant_sdg, metricas_clave, updateProjectData, addKeyMetric, updateKeyMetric, removeKeyMetric } = useProjectStore();
     const { data: odsOptions, isLoading: odsLoading } = useODS();
-    
-    const [showMetricModal, setShowMetricModal] = useState(false);
-    const [editingMetricIndex, setEditingMetricIndex] = useState<number | null>(null);
-    const [metricForm, setMetricForm] = useState<Omit<KeyMetric, 'id' | 'created' | 'updated'>>({
-        metrica: '',
-        metodo_medicion: '',
-        valor_actual: ''
-    });
-
+    const { setModalContent, closeModal } = useModalStore();
+  
     // ODS icons mapping
     const odsIcons: { [key: string]: any } = {
         'ods_1': FaHandshake,
@@ -73,43 +67,35 @@ const Stage6 = () => {
         updateProjectData({ relevant_sdg: newSDG });
     };
 
-    const resetMetricForm = () => {
-        setMetricForm({
-            metrica: '',
-            metodo_medicion: '',
-            valor_actual: ''
-        });
-    };
-
     const handleAddMetric = () => {
-        resetMetricForm();
-        setEditingMetricIndex(null);
-        setShowMetricModal(true);
+        setModalContent(
+            <AddMetricModal
+                isAdding={true}
+                onSubmit={handleSaveMetric}
+            />
+        )
     };
 
     const handleEditMetric = (index: number) => {
-        setMetricForm(metricas_clave[index]);
-        setEditingMetricIndex(index);
-        setShowMetricModal(true);
+        setModalContent(
+            <AddMetricModal
+                data={metricas_clave[index]}
+                isAdding={false}
+                index={index}
+                onSubmit={handleSaveMetric}
+            />
+        )
     };
 
-    const handleSaveMetric = () => {
-        if (metricForm.metrica.trim() && metricForm.metodo_medicion.trim()) {
-            if (editingMetricIndex !== null) {
-                updateKeyMetric(editingMetricIndex, metricForm);
+    const handleSaveMetric = (metric: KeyMetric, index?: number | null) => {
+        if (metric.metrica.trim() && metric.metodo_medicion.trim()) {
+            if (index !== null && index !== undefined) {
+                updateKeyMetric(index, metric);
             } else {
-                addKeyMetric(metricForm);
+                addKeyMetric(metric);
             }
-            resetMetricForm();
-            setShowMetricModal(false);
-            setEditingMetricIndex(null);
+            closeModal();
         }
-    };
-
-    const handleCancel = () => {
-        resetMetricForm();
-        setShowMetricModal(false);
-        setEditingMetricIndex(null);
     };
 
     const addExampleMetric = (metric: Omit<KeyMetric, 'id' | 'created' | 'updated'>) => {
@@ -264,76 +250,6 @@ const Stage6 = () => {
                     )}
                 </div>
             </div>
-
-            {/* Metric Form Modal */}
-            {showMetricModal && (
-                <div className="form-modal">
-                    <div className="form-modal-content">
-                        <div className="form-modal-header">
-                            <h3>
-                                {editingMetricIndex !== null 
-                                    ? t('createProject.stages.impact.editMetric')
-                                    : t('createProject.stages.impact.addMetric')
-                                }
-                            </h3>
-                            <button onClick={handleCancel} className="close-btn">
-                                <RiCloseLine />
-                            </button>
-                        </div>
-
-                        <div className="form-group">
-                            <label className="form-label required">
-                                {t('createProject.stages.impact.metricFields.name')}
-                            </label>
-                            <Input
-                                name="metrica"
-                                value={metricForm.metrica}
-                                setValue={(value) => setMetricForm({...metricForm, metrica: value})}
-                                placeholder={t('createProject.stages.impact.metricPlaceholders.name')}
-                                isRequired={true}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <Input
-                                name="metric-method"
-                                value={metricForm.metodo_medicion}
-                                setValue={(value) => setMetricForm({...metricForm, metodo_medicion: value})}
-                                label={t('createProject.stages.impact.metricFields.method')}
-                                placeholder={t('createProject.stages.impact.metricPlaceholders.method')}
-                                multiline={true}
-                                rows={3}
-                                isRequired={true}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label className="form-label">
-                                {t('createProject.stages.impact.metricFields.currentValue')}
-                            </label>
-                            <Input
-                                name="valor_actual"
-                                value={metricForm.valor_actual}
-                                setValue={(value) => setMetricForm({...metricForm, valor_actual: value})}
-                                placeholder={t('createProject.stages.impact.metricPlaceholders.currentValue')}
-                            />
-                        </div>
-
-                        <div className="form-modal-actions">
-                            <Button variant="secondary" onClick={handleCancel}>
-                                {t('common.cancel')}
-                            </Button>
-                            <Button 
-                                variant="primary" 
-                                onClick={handleSaveMetric}
-                                disabled={!metricForm.metrica.trim() || !metricForm.metodo_medicion.trim()}
-                            >
-                                {editingMetricIndex !== null ? t('common.update') : t('common.add')}
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            )}
       </div>
     );
 };

@@ -1,67 +1,49 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RiAddLine, RiDeleteBin6Line, RiEditLine, RiCloseLine } from 'react-icons/ri';
-import Input from '@/components/forms/Input/Input';
-import Button from '@/components/common/Button/Button';
+import { RiAddLine, RiDeleteBin6Line, RiEditLine } from 'react-icons/ri';
+
+import useModalStore from '@/stores/ModalStore';
 import { useProjectStore } from '@/stores/ProjectStore';
 import { ProjectMember } from '@/hooks/useProject';
+import AddMemberModal from '@/modals/projects/AddMemberModal/AddMemberModal';
+
 import '../Stages.css';
 import './Stage3.css';
 
 const Stage3 = () => {
     const { t } = useTranslation('common');
-    const { equipo, addTeamMember, updateTeamMember, removeTeamMember } = useProjectStore();
-    const [showModal, setShowModal] = useState(false);
-    const [editingIndex, setEditingIndex] = useState<number | null>(null);
-    const [memberForm, setMemberForm] = useState<Omit<ProjectMember, 'id' | 'created' | 'updated'>>({
-        name: '',
-        academic_title: '',
-        country: '',
-        photo: '',
-        description: '',
-        linkedin: ''
-    });
 
-    const resetForm = () => {
-        setMemberForm({
-            name: '',
-            academic_title: '',
-            country: '',
-            photo: '',
-            description: '',
-            linkedin: ''
-        });
-    };
+    const { setModalContent, closeModal } = useModalStore();
+    const { equipo, addTeamMember, updateTeamMember, removeTeamMember } = useProjectStore();
 
     const handleAddMember = () => {
-        resetForm();
-        setEditingIndex(null);
-        setShowModal(true);
+        setModalContent(
+            <AddMemberModal
+                isAdding={true}
+                onSubmit={handleSaveMember}
+            />
+        )
     };
 
     const handleEditMember = (index: number) => {
-        setMemberForm(equipo[index]);
-        setEditingIndex(index);
-        setShowModal(true);
+        setModalContent(
+            <AddMemberModal
+                data={equipo[index]}
+                isAdding={false}
+                index={index}
+                onSubmit={handleSaveMember}
+            />
+        )
     };
 
-    const handleSaveMember = () => {
-        if (memberForm.name.trim()) {
-            if (editingIndex !== null) {
-                updateTeamMember(editingIndex, memberForm);
+    const handleSaveMember = (member: ProjectMember, index?: number | null) => {
+        if (member.name.trim()) {
+            if (index !== null && index !== undefined) {
+                updateTeamMember(index, member);
             } else {
-                addTeamMember(memberForm);
+                addTeamMember(member);
             }
-            resetForm();
-            setShowModal(false);
-            setEditingIndex(null);
+            closeModal();
         }
-    };
-
-    const handleCancel = () => {
-        resetForm();
-        setShowModal(false);
-        setEditingIndex(null);
     };
 
     return (
@@ -134,114 +116,6 @@ const Stage3 = () => {
                     </div>
                 )}
             </div>
-
-            {/* Member Form Modal */}
-            {showModal && (
-                <div className="form-modal">
-                    <div className="form-modal-content">
-                        <div className="form-modal-header">
-                            <h3>
-                                {editingIndex !== null 
-                                    ? t('createProject.stages.team.editMember')
-                                    : t('createProject.stages.team.addMember')
-                                }
-                            </h3>
-                            <button onClick={handleCancel} className="close-btn">
-                                <RiCloseLine />
-                            </button>
-                        </div>
-
-                        <div className="form-group">
-                            <label className="form-label required">
-                                {t('createProject.stages.team.fields.name')}
-                            </label>
-                            <Input
-                                name="member-name"
-                                value={memberForm.name}
-                                setValue={(value) => setMemberForm({...memberForm, name: value})}
-                                placeholder={t('createProject.stages.team.placeholders.name')}
-                                isRequired={true}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label className="form-label">
-                                {t('createProject.stages.team.fields.title')}
-                            </label>
-                            <Input
-                                name="member-title"
-                                value={memberForm.academic_title || ''}
-                                setValue={(value) => setMemberForm({...memberForm, academic_title: value})}
-                                placeholder={t('createProject.stages.team.placeholders.title')}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label className="form-label">
-                                {t('createProject.stages.team.fields.country')}
-                            </label>
-                            <Input
-                                name="member-country"
-                                value={memberForm.country || ''}
-                                setValue={(value) => setMemberForm({...memberForm, country: value})}
-                                placeholder={t('createProject.stages.team.placeholders.country')}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label className="form-label">
-                                {t('createProject.stages.team.fields.photo')}
-                            </label>
-                            <Input
-                                name="member-photo"
-                                value={memberForm.photo || ''}
-                                setValue={(value) => setMemberForm({...memberForm, photo: value})}
-                                placeholder={t('createProject.stages.team.placeholders.photo')}
-                                type="url"
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <Input
-                                name="member-description"
-                                value={memberForm.description || ''}
-                                setValue={(value) => setMemberForm({...memberForm, description: value})}
-                                label={t('createProject.stages.team.fields.description')}
-                                placeholder={t('createProject.stages.team.placeholders.description')}
-                                multiline={true}
-                                rows={3}
-                                maxLength={300}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label className="form-label">
-                                {t('createProject.stages.team.fields.linkedin')}
-                            </label>
-                            <Input
-                                name="member-linkedin"
-                                value={memberForm.linkedin || ''}
-                                setValue={(value) => setMemberForm({...memberForm, linkedin: value})}
-                                placeholder={t('createProject.stages.team.placeholders.linkedin')}
-                                type="url"
-                            />
-                        </div>
-
-                        <div className="form-modal-actions">
-                            <Button variant="secondary" onClick={handleCancel}>
-                                {t('common.cancel')}
-                            </Button>
-                            <Button 
-                                variant="primary" 
-                                onClick={handleSaveMember}
-                                disabled={!memberForm.name.trim()}
-                            >
-                                {editingIndex !== null ? t('common.update') : t('common.add')}
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

@@ -1,6 +1,7 @@
 import useModalStore from "@/stores/ModalStore"
 import { useEffect } from "react"
 import { useLocation } from "react-router-dom"
+import { RiCloseLine } from "react-icons/ri"
 import "./ModalBase.css"
 
 const ModalBase = () => {
@@ -21,6 +22,13 @@ const ModalBase = () => {
         }
     }
 
+    const handleCloseClick = () => {
+        if (modalContent && typeof modalContent.props.handleClose === 'function') {
+            modalContent.props.handleClose()
+        }
+        closeModal()
+    }
+
     useEffect((() => {
         if (isModalOpen) {
         closeModal()
@@ -32,6 +40,13 @@ const ModalBase = () => {
     return (
         <div className="modal-overlay" onClick={handleOverlayClick}>
             <div className="modal-content">
+                <button 
+                    className="modal-close-button"
+                    onClick={handleCloseClick}
+                    aria-label="Close modal"
+                >
+                    <RiCloseLine size={24} />
+                </button>
                 {modalContent && <div>{modalContent}</div>}
             </div>
         </div>

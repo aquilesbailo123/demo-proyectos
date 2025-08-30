@@ -5,6 +5,7 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop"
 import routes from "./routes/routes"
 import Main from "./pages/Main/Main"
 import Home from "./pages/Home/Home"
+import ModalBase from "./modals/ModalBase/ModalBase"
 
 import NotFound from "./pages/NotFound/NotFound"
 import ProjectDetail from "./pages/ProjectDetail/ProjectDetail"
@@ -26,6 +27,7 @@ function App() {
     // checks token validity on creation
     return (
         <div className="App">
+            <ModalBase />
             <ScrollToTop />
             <Toaster
                 position="top-center"
