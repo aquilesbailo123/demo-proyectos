@@ -69,7 +69,7 @@ const Stage7 = () => {
                     </div>
                 </div> */}
 
-                <div className="documents-grid">
+                <div className="documents-grid-stage">
                     {documents.map((doc) => (
                         <div key={doc.field} className="document-item">
                             <FileUpload

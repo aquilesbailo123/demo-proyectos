@@ -415,7 +415,7 @@
 .fund-bar {
     width: 100%;
     height: 8px;
-    background-color: var(--border-color);
+    background-color: var(--border-secondary);
     border-radius: 4px;
     overflow: hidden;
 }

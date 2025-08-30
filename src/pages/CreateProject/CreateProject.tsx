@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { RiArrowLeftLine, RiArrowRightLine, RiCheckLine } from 'react-icons/ri'
 import { useTranslation } from 'react-i18next'
@@ -8,8 +9,6 @@ import useAuthStore from '@/stores/AuthStore'
 import AuthRequired from '@/components/common/AuthRequired'
 import { useProjectStore } from '@/stores/ProjectStore'
 import { useCreateProject, useUserProject } from '@/hooks/useProject'
-import useModalStore from '@/stores/ModalStore'
-import ProjectUploadModal from '@/components/modals/ProjectUploadModal/ProjectUploadModal'
 import Spinner from '@/components/common/Spinner/Spinner'
 import routes from '@/routes/routes'
 
@@ -28,7 +27,6 @@ const CreateProject = () => {
     const navigate = useNavigate()
     const { isLogged } = useAuthStore()
     const { t } = useTranslation('common')
-    const { setModalContent, closeModal } = useModalStore()
     
     const { 
         currentStage, 
@@ -98,28 +96,18 @@ const CreateProject = () => {
     const handleSubmit = async () => {
         if (!canProceed) return
 
-        // Open the upload modal
-        setModalContent(
-            <ProjectUploadModal 
-                isUploading={createProjectMutation.isPending}
-                onSuccess={() => {
-                    closeModal()
-                    resetProject()
-                    navigate('/myproject')
-                }}
-                handleClose={() => closeModal()}
-            />
-        )
-
         try {
             const projectData = getProjectData()
             const projectFiles = getProjectFiles()
             const memberPhotos = getMemberPhotos()
             await createProjectMutation.mutateAsync({ projectData, files: projectFiles, memberPhotos })
+            
+            resetProject()
+            toast.success(t('project_create_success'))
+            navigate(routes.myProject)
         } catch (error) {
             console.error('Error creating project:', error)
-            closeModal()
-            // Handle error (show toast, etc.)
+            toast.error(t('project_create_error'))
         }
     }
 

@@ -67,6 +67,7 @@ const Stage5 = () => {
                                 setValue={(value) => handleInputChange('usuarios_activos', value ? parseInt(value) : null)}
                                 placeholder={t('createProject.stages.traction.placeholders.activeUsers')}
                                 type="number"
+                                required={true}
                                 min="0"
                             />               
                             <Input
@@ -76,6 +77,7 @@ const Stage5 = () => {
                                 setValue={(value) => handleInputChange('ingresos_mensuales', value)}
                                 placeholder={t('createProject.stages.traction.placeholders.monthlyRevenue')}
                                 type="number"
+                                isRequired={true}
                                 min="0"
                             />
                         </div>
@@ -88,6 +90,7 @@ const Stage5 = () => {
                                 setValue={(value) => handleInputChange('numero_clientes', value ? parseInt(value) : null)}
                                 placeholder={t('createProject.stages.traction.placeholders.numberOfClients')}
                                 type="number"
+                                isRequired={true}
                                 min="0"
                             />
                             <Input
@@ -97,6 +100,7 @@ const Stage5 = () => {
                                 setValue={(value) => handleInputChange('tamano_comunidad', value ? parseInt(value) : null)}
                                 placeholder={t('createProject.stages.traction.placeholders.communitySize')}
                                 type="number"
+                                isRequired={true}
                                 min="0"
                             />
                         </div>

@@ -605,6 +605,8 @@ const common = {
         },
 
         // Projects
+        project_create_success: "Proyecto creado exitosamente!",
+        project_create_error: "Error al crear el proyecto. Por favor revise todos los campos.",
         project_goal: "Meta Total",
         project_days_left: "Días Restantes",
         project_team_members: "Miembros del Equipo",

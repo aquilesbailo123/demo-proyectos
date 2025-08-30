@@ -289,7 +289,7 @@ export const useProjectStore = create<ProjectCreationState & ProjectStoreActions
             return !!(state.objective_amount && state.financing_type_id && state.end_date &&
                      Math.abs(Object.values(state.funds_usage).reduce((a, b) => a + b, 0) - 1) < 0.01);
           case 5:
-            return !!(state.etapa_actual);
+            return !!(state.etapa_actual && state.usuarios_activos && state.ingresos_mensuales && state.numero_clientes && state.tamano_comunidad);
           case 6:
             return state.relevant_sdg.length > 0;
           case 7:
