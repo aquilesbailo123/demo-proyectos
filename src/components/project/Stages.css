@@ -337,7 +337,7 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .stage-container {
-    padding: 1rem;
+    padding: 2rem 1rem;
   }
   
   .form-row {

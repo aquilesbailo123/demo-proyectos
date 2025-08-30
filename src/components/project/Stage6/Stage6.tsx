@@ -104,23 +104,23 @@ const Stage6 = () => {
 
     const exampleMetrics = [
         {
-            metrica: 'Monthly Active Users',
-            metodo_medicion: 'Google Analytics tracking',
+            metrica: 'Usuarios Activos Mensuales',
+            metodo_medicion: 'Siguiendo Google Analytics',
             valor_actual: '1,000'
         },
         {
-            metrica: 'Customer Acquisition Cost',
-            metodo_medicion: 'Total marketing spend / new customers',
+            metrica: 'Costo de Adquisición de Clientes',
+            metodo_medicion: 'Gasto en marketing / nuevos clientes',
             valor_actual: '$50'
         },
         {
-            metrica: 'Monthly Recurring Revenue',
-            metodo_medicion: 'Subscription revenue per month',
+            metrica: 'Ingresos Recurrentes Mensuales',
+            metodo_medicion: 'Ingresos por suscripción por mes',
             valor_actual: '$10,000'
         },
         {
-            metrica: 'Net Promoter Score',
-            metodo_medicion: 'Customer satisfaction survey',
+            metrica: 'Calificación Net Promoter Score',
+            metodo_medicion: 'Encuesta de satisfacción del cliente',
             valor_actual: '8.5/10'
         }
     ];
@@ -227,27 +227,25 @@ const Stage6 = () => {
                     </div>
 
                     {/* Example Metrics */}
-                    {metricas_clave.length === 0 && (
-                        <div className="example-metrics">
-                            <h4>{t('createProject.stages.impact.exampleMetrics')}</h4>
-                            <div className="example-metrics-grid">
-                                {exampleMetrics.map((metric, index) => (
-                                    <div key={index} className="example-metric-card">
-                                        <h5>{metric.metrica}</h5>
-                                        <p>{metric.metodo_medicion}</p>
-                                        <button
-                                            type="button"
-                                            onClick={() => addExampleMetric(metric)}
-                                            className="add-example-btn"
-                                        >
-                                            <RiAddLine />
-                                            {t('common_add')}
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
+                    <div className="example-metrics">
+                        <h4>{t('createProject.stages.impact.exampleMetrics')}</h4>
+                        <div className="example-metrics-grid">
+                            {exampleMetrics.map((metric, index) => (
+                                <div key={index} className="example-metric-card">
+                                    <h5>{metric.metrica}</h5>
+                                    <p>{metric.metodo_medicion}</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => addExampleMetric(metric)}
+                                        className="add-example-btn"
+                                    >
+                                        <RiAddLine />
+                                        {t('common_add')}
+                                    </button>
+                                </div>
+                            ))}
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
       </div>

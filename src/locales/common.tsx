@@ -118,12 +118,15 @@ const common = {
                 identity: {
                     title: "Identidad del Proyecto",
                     description: "Define la identidad básica de tu proyecto y cómo se presentará a la comunidad",
+                    descriptions: {
+                        logo: "Logo de tu proyecto",
+                    },
                     fields: {
                         name: "Nombre del Proyecto",
                         slogan: "Eslogan",
                         executiveSummary: "Resumen Ejecutivo",
                         industry: "Industria",
-                        logo: "Logo (URL)",
+                        logo: "Logo",
                         website: "Sitio Web",
                         twitter: "Twitter",
                         linkedin: "LinkedIn"
@@ -505,34 +508,34 @@ const common = {
         // Donations Page
         donations: {
             header: {
-                title: "My Donations & Stakes",
-                subtitle: "Track your contributions and project stakes"
+                title: "Mis Donaciones",
+                subtitle: "Rastrea tus contribuciones"
             },
             summary: {
-                donationsMade: "Donations Made",
-                totalContributed: "Total Contributed",
-                projectsSupported: "Projects Supported"
+                donationsMade: "Donaciones Realizadas",
+                totalContributed: "Total Contribuido",
+                projectsSupported: "Proyectos Apoyados"
             },
             projectsTable: {
-                title: "Projects You've Supported",
+                title: "Proyectos Apoyados",
                 columns: {
-                    project: "Project",
-                    totalContributed: "Total Contributed",
-                    yourStake: "Your Stake",
-                    actions: "Actions"
+                    project: "Proyecto",
+                    totalContributed: "Total Contribuido",
+                    yourStake: "Tu Participación",
+                    actions: "Acciones"
                 },
-                viewProject: "View Project"
+                viewProject: "Ver Proyecto"
             },
             history: {
-                title: "Donation History",
+                title: "Historial de Donaciones",
                 columns: {
-                    project: "Project",
-                    date: "Date",
-                    amount: "Amount",
-                    transaction: "Transaction"
+                    project: "Proyecto",
+                    date: "Fecha",
+                    amount: "Monto",
+                    transaction: "Transacción"
                 }
             },
-            noData: "You haven't made any donations yet"
+            noData: "No has realizado ninguna donación"
         },
         
         // Toast error keys

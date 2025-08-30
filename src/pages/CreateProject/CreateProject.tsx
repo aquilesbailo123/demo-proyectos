@@ -66,15 +66,21 @@ const CreateProject = () => {
     const completedStages = stages.filter(stage => validateStage(stage.id)).length
     const actualProgress = (completedStages / stages.length) * 100
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
     const handleNext = () => {
-        if (canProceed && !isLastStage) {
+        if (canProceed && currentStage < stages.length) {
             setCurrentStage(currentStage + 1)
+            scrollToTop()
         }
     }
 
     const handlePrevious = () => {
         if (currentStage > 1) {
             setCurrentStage(currentStage - 1)
+            scrollToTop()
         }
     }
 

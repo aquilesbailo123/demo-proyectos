@@ -61,7 +61,8 @@ const Footer = () => {
           {`© ${currentYear} - ${t('footer_rights')}`}
         </p>
         <p className="footer-made-with">
-          {t('footer_made_with')} <RiHeartFill className="footer-heart" /> {t('footer_in')} {t('footer_location')}
+          {/* {t('footer_made_with')} <RiHeartFill className="footer-heart" /> {t('footer_in')}  */}
+          {t('footer_location')}
         </p>
       </div>
     </footer>

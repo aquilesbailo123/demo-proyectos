@@ -105,13 +105,13 @@ const Donations = () => {
                 {projectSummaries.length === 0 ? (
                     <Card>
                         <div className="no-donations">
-                            <h2>No Donations Yet</h2>
-                            <p>You haven't made any donations yet. Start supporting projects you believe in!</p>
+                            <h2>No Donaciones Realizadas</h2>
+                            <p>No has realizado ninguna donación. Comienza apoyando proyectos que creas importantes!</p>
                             <Button 
                                 variant="primary" 
                                 onClick={() => navigate('/home')}
                             >
-                                Explore Projects
+                                Explorar Proyectos
                             </Button>
                         </div>
                     </Card>
