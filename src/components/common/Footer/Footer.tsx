@@ -5,7 +5,6 @@ import {
     RiTwitterXFill,
     RiTelegramFill,
     RiDiscordFill,
-    RiHeartFill
 } from 'react-icons/ri'
 
 import routes from '@/routes/routes'
