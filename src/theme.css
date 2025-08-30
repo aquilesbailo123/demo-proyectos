@@ -4,13 +4,13 @@
     --main-secondary: #2EC4B6; /* Fresh teal */
 
     /* Border - Cool grays */
-    --border-primary: #E0E0E0;
-    --border-secondary: #EDEDED;
+    --border-primary: #a1a1a1;
+    --border-secondary: #cbcbcb;
     --border-tertiary: #F5F5F5;
 
     /* Background - Soft neutrals */
     --background-primary: #FFFFFF;
-    --background-secondary: #F8F9FA;
+    --background-secondary: #f8f9faf2;
     --background-tertiary: #F1F3F5;
     --background-accent: #F3F0FF;
 
@@ -21,9 +21,9 @@
 
     /* Text - High contrast */
     --text-primary: #2D3436;
-    --text-secondary: #636E72;
+    --text-secondary: #636e72d7;
     --text-tertiary: #B2BEC3;
-    --text-inverse: #FFFFFF;
+    --text-inverse: #ffffffdd;
 
     /* States - Modern alert colors */
     --state-danger: #FF4757;
