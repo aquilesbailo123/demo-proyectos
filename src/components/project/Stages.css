@@ -57,6 +57,12 @@
   gap: 1.5rem;
 }
 
+.form-row-three {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+
 .form-textarea {
   min-height: 120px;
   padding: 0.75rem;
@@ -335,6 +341,10 @@
   }
   
   .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row-three {
     grid-template-columns: 1fr;
   }
   

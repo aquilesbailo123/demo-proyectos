@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Input from '@/components/forms/Input/Input';
 import Select from '@/components/forms/Select/Select';
+import FileUpload from '@/components/forms/FileUpload/FileUpload';
 import { useProjectStore } from '@/stores/ProjectStore';
 import { useIndustries } from '@/hooks/useOptions';
 import '../Stages.css';
@@ -17,13 +18,17 @@ const Stage1 = () => {
         website,
         twitter,
         linkedin,
-        updateProjectData
+        updateProject
     } = useProjectStore();
 
     const { data: industries, isLoading: industriesLoading } = useIndustries();
 
     const handleInputChange = (field: string, value: string | number) => {
-        updateProjectData({ [field]: value });
+        updateProject({ [field]: value });
+    };
+
+    const handleFileChange = (field: string, file: File | null) => {
+        updateProject({ [field]: file });
     };
 
     return (
@@ -88,16 +93,16 @@ const Stage1 = () => {
                         required={true}
                     />
                 </div>
-
-                <div className="form-row">
-                    <Input
-                        name="project-logo"
-                        value={logo}
-                        label={t('createProject.stages.identity.fields.logo')}
-                        setValue={(value) => handleInputChange('logo', value)}
-                        placeholder={t('createProject.stages.identity.placeholders.logo')}
-                        type="url"
-                    />
+                <FileUpload
+                    name="project-logo"
+                    file={logo}
+                    setFile={(file) => handleFileChange('logo', file)}
+                    label={t('createProject.stages.identity.fields.logo')}
+                    accept="image/*"
+                    maxSizeMB={5}
+                    description={t('createProject.stages.identity.descriptions.logo')}
+                />
+                <div className="form-row-three">
                     <Input
                         name="project-website"
                         value={website}
@@ -106,9 +111,6 @@ const Stage1 = () => {
                         placeholder={t('createProject.stages.identity.placeholders.website')}
                         type="url"
                     />
-                </div>
-
-                <div className="form-row">
                     <Input
                         name="project-twitter"
                         value={twitter}

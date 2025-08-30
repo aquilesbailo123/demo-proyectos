@@ -63,6 +63,7 @@ const common = {
         home_cta_button: "Explorar Proyectos",
         
         // Common
+        common_add: "Agregar",
         common_cancel: "Cancelar",
         common_days: "días",
         common_loading: "Cargando...",
@@ -290,10 +291,10 @@ const common = {
                     },
                     guidelines: {
                         title: "Recomendaciones:",
-                        secure: "Asegúrate de que los enlaces sean seguros (HTTPS)",
-                        accessible: "Los documentos deben ser accesibles públicamente",
-                        updated: "Mantén los documentos actualizados",
-                        backup: "Guarda copias de respaldo de todos los documentos"
+                        secure: "Sube archivos en formato PDF para mejor compatibilidad",
+                        accessible: "Asegúrate de que los documentos estén completos y legibles",
+                        updated: "Verifica que los documentos estén actualizados y vigentes",
+                        backup: "Mantén copias de seguridad de todos tus documentos originales"
                     },
                     completion: {
                         title: "Estado de Documentación"
@@ -581,6 +582,16 @@ const common = {
         password2_label: "Confirmar contraseña",
         password2_placeholder: "Confirme su nueva contraseña",
         
+        // File Upload
+        fileUpload: {
+            clickToUpload: "Haz clic para subir archivo",
+            dragAndDrop: "o arrastra y suelta aquí",
+            supportedFormats: "Formatos soportados",
+            maxSize: "Tamaño máximo",
+            removeFile: "Eliminar archivo",
+            memberPhotoDescription: "Sube la foto del miembro del equipo (PNG, JPG, JPEG)"
+        },
+        
     },
     en: {
         // General
@@ -646,6 +657,7 @@ const common = {
         home_cta_button: "Explore Projects",
 
         // Common
+        common_add: "Add",
         common_cancel: "Cancel",
         common_days: "days",
         common_loading: "Loading...",
@@ -876,10 +888,10 @@ const common = {
                     },
                     guidelines: {
                         title: "Recommendations:",
-                        secure: "Ensure links are secure (HTTPS)",
-                        accessible: "Documents must be publicly accessible",
-                        updated: "Keep documents up to date",
-                        backup: "Keep backup copies of all documents"
+                        secure: "Upload files in PDF format for better compatibility",
+                        accessible: "Ensure documents are complete and legible",
+                        updated: "Verify documents are current and up to date",
+                        backup: "Keep backup copies of all your original documents"
                     },
                     completion: {
                         title: "Documentation Status"
@@ -1094,6 +1106,16 @@ const common = {
         password1_placeholder: "Ingrese su nueva contraseña",
         password2_label: "Confirmar contraseña",
         password2_placeholder: "Confirme su nueva contraseña",
+        
+        // File Upload
+        fileUpload: {
+            clickToUpload: "Click to upload file",
+            dragAndDrop: "or drag and drop here",
+            supportedFormats: "Supported formats",
+            maxSize: "Max size",
+            removeFile: "Remove file",
+            memberPhotoDescription: "Upload team member photo (PNG, JPG, JPEG)"
+        },
         
     }
 }

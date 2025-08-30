@@ -13,7 +13,7 @@ import './Stage6.css';
 
 const Stage6 = () => {
     const { t } = useTranslation('common');
-    const { relevant_sdg, metricas_clave, updateProjectData, addKeyMetric, updateKeyMetric, removeKeyMetric } = useProjectStore();
+    const { relevant_sdg, metricas_clave, updateProject, addMetric, updateMetric, removeMetric } = useProjectStore();
     const { data: odsOptions, isLoading: odsLoading } = useODS();
     const { setModalContent, closeModal } = useModalStore();
   
@@ -64,7 +64,7 @@ const Stage6 = () => {
             ? relevant_sdg.filter(sdg => sdg !== odsValue)
             : [...relevant_sdg, odsValue];
         
-        updateProjectData({ relevant_sdg: newSDG });
+        updateProject({ relevant_sdg: newSDG });
     };
 
     const handleAddMetric = () => {
@@ -90,16 +90,16 @@ const Stage6 = () => {
     const handleSaveMetric = (metric: KeyMetric, index?: number | null) => {
         if (metric.metrica.trim() && metric.metodo_medicion.trim()) {
             if (index !== null && index !== undefined) {
-                updateKeyMetric(index, metric);
+                updateMetric(index, metric);
             } else {
-                addKeyMetric(metric);
+                addMetric(metric);
             }
             closeModal();
         }
     };
 
     const addExampleMetric = (metric: Omit<KeyMetric, 'id' | 'created' | 'updated'>) => {
-        addKeyMetric(metric);
+        addMetric(metric);
     };
 
     const exampleMetrics = [
@@ -206,7 +206,7 @@ const Stage6 = () => {
                                     </button>
                                     <button
                                         type="button"
-                                        onClick={() => removeKeyMetric(index)}
+                                        onClick={() => removeMetric(index)}
                                         className="card-action-btn danger"
                                         title={t('common.delete')}
                                     >
@@ -241,7 +241,7 @@ const Stage6 = () => {
                                             className="add-example-btn"
                                         >
                                             <RiAddLine />
-                                            {t('common.add')}
+                                            {t('common_add')}
                                         </button>
                                     </div>
                                 ))}

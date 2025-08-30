@@ -6,10 +6,10 @@ import './Stage2.css';
 
 const Stage2 = () => {
     const { t } = useTranslation('common');
-    const { value_proposition, updateProjectData } = useProjectStore();
+    const { value_proposition, updateProject } = useProjectStore();
 
     const handleInputChange = (field: keyof typeof value_proposition, value: string) => {
-        updateProjectData({
+        updateProject({
             value_proposition: {
                 ...value_proposition,
                 [field]: value

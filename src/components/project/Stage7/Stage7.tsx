@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import Input from '@/components/forms/Input/Input';
+import FileUpload from '@/components/forms/FileUpload/FileUpload';
 import { useProjectStore } from '@/stores/ProjectStore';
 import '../Stages.css';
 import './Stage7.css';
@@ -11,41 +11,45 @@ const Stage7 = () => {
         identificacion_representante,
         whitepaper,
         cap_table,
-        updateProjectData
+        updateProject
     } = useProjectStore();
 
-    const handleInputChange = (field: string, value: string) => {
-        updateProjectData({ [field]: value });
+    const handleFileChange = (field: string, file: File | null) => {
+        updateProject({ [field]: file });
     };
 
     const documents = [
         {
             field: 'acta_constitutiva',
-            value: acta_constitutiva,
+            file: acta_constitutiva,
             label: t('createProject.stages.legal.fields.incorporationAct'),
-            placeholder: t('createProject.stages.legal.placeholders.incorporationAct'),
-            description: t('createProject.stages.legal.descriptions.incorporationAct')
+            description: t('createProject.stages.legal.descriptions.incorporationAct'),
+            accept: '.pdf,.doc,.docx',
+            required: true
         },
         {
             field: 'identificacion_representante',
-            value: identificacion_representante,
+            file: identificacion_representante,
             label: t('createProject.stages.legal.fields.representativeId'),
-            placeholder: t('createProject.stages.legal.placeholders.representativeId'),
-            description: t('createProject.stages.legal.descriptions.representativeId')
+            description: t('createProject.stages.legal.descriptions.representativeId'),
+            accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+            required: true
         },
         {
             field: 'whitepaper',
-            value: whitepaper,
+            file: whitepaper,
             label: t('createProject.stages.legal.fields.whitepaper'),
-            placeholder: t('createProject.stages.legal.placeholders.whitepaper'),
-            description: t('createProject.stages.legal.descriptions.whitepaper')
+            description: t('createProject.stages.legal.descriptions.whitepaper'),
+            accept: '.pdf,.doc,.docx',
+            required: false
         },
         {
             field: 'cap_table',
-            value: cap_table,
+            file: cap_table,
             label: t('createProject.stages.legal.fields.capTable'),
-            placeholder: t('createProject.stages.legal.placeholders.capTable'),
-            description: t('createProject.stages.legal.descriptions.capTable')
+            description: t('createProject.stages.legal.descriptions.capTable'),
+            accept: '.pdf,.doc,.docx,.xls,.xlsx',
+            required: false
         }
     ];
 
@@ -57,37 +61,32 @@ const Stage7 = () => {
             </div>
 
             <div className="stage-content">
-                <div className="legal-notice">
+                {/* <div className="legal-notice">
                     <div className="notice-icon">📋</div>
                     <div className="notice-content">
                         <h4>{t('createProject.stages.legal.notice.title')}</h4>
                         <p>{t('createProject.stages.legal.notice.description')}</p>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="documents-grid">
                     {documents.map((doc) => (
                         <div key={doc.field} className="document-item">
-                            <div className="document-header">
-                                <label className="form-label">
-                                    {doc.label}
-                                </label>
+                            <FileUpload
+                                name={doc.field}
+                                file={doc.file}
+                                setFile={(file) => handleFileChange(doc.field, file)}
+                                label={doc.label}
+                                accept={doc.accept}
+                                maxSizeMB={10}
+                                isRequired={doc.required}
+                                description={doc.description}
+                            />
+                            {/* {!doc.required && (
                                 <span className="optional-badge">
                                     {t('createProject.stages.legal.optional')}
                                 </span>
-                            </div>
-                
-                            <p className="document-description">
-                                {doc.description}
-                            </p>
-                
-                            <Input
-                                name={doc.field}
-                                value={doc.value}
-                                setValue={(value) => handleInputChange(doc.field, value)}
-                                placeholder={doc.placeholder}
-                                type="url"
-                            />
+                            )} */}
                         </div>
                     ))}
                 </div>
@@ -102,19 +101,19 @@ const Stage7 = () => {
                     </ul>
                 </div>
 
-                <div className="completion-status">
+                {/* <div className="completion-status">
                     <h4>{t('createProject.stages.legal.completion.title')}</h4>
                     <div className="status-grid">
                         {documents.map((doc) => (
-                            <div key={doc.field} className={`status-item ${doc.value ? 'completed' : 'pending'}`}>
+                            <div key={doc.field} className={`status-item ${doc.file ? 'completed' : 'pending'}`}>
                                 <div className="status-icon">
-                                    {doc.value ? '✅' : '⏳'}
+                                    {doc.file ? '✅' : '⏳'}
                                 </div>
                                 <span className="status-label">{doc.label}</span>
                             </div>
                         ))}
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

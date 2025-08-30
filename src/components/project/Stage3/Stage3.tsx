@@ -4,6 +4,11 @@ import { RiAddLine, RiDeleteBin6Line, RiEditLine } from 'react-icons/ri';
 import useModalStore from '@/stores/ModalStore';
 import { useProjectStore } from '@/stores/ProjectStore';
 import { ProjectMember } from '@/hooks/useProject';
+
+// Extended interface for member creation with file support
+interface ProjectMemberForm extends Omit<ProjectMember, 'id' | 'created' | 'updated' | 'photo'> {
+    photo?: File | string | null;
+}
 import AddMemberModal from '@/modals/projects/AddMemberModal/AddMemberModal';
 
 import '../Stages.css';
@@ -13,7 +18,7 @@ const Stage3 = () => {
     const { t } = useTranslation('common');
 
     const { setModalContent, closeModal } = useModalStore();
-    const { equipo, addTeamMember, updateTeamMember, removeTeamMember } = useProjectStore();
+    const { equipo, addMember, updateMember, removeMember, setMemberPhoto } = useProjectStore();
 
     const handleAddMember = () => {
         setModalContent(
@@ -35,12 +40,34 @@ const Stage3 = () => {
         )
     };
 
-    const handleSaveMember = (member: ProjectMember, index?: number | null) => {
+    const handleSaveMember = (member: ProjectMemberForm, index?: number | null) => {
         if (member.name.trim()) {
+            // Separate the file from the member data
+            const { photo, ...memberData } = member;
+            
+            // Convert to ProjectMember (without photo file)
+            const projectMember: ProjectMember = {
+                ...memberData,
+                photo: undefined // Will be set to URL after upload
+            };
+            
             if (index !== null && index !== undefined) {
-                updateTeamMember(index, member);
+                // Update existing member
+                updateMember(index, projectMember);
+                // Store/update the photo file separately
+                if (photo instanceof File) {
+                    setMemberPhoto(index, photo);
+                } else {
+                    setMemberPhoto(index, null);
+                }
             } else {
-                addTeamMember(member);
+                // Add new member
+                const newIndex = equipo.length;
+                addMember(projectMember);
+                // Store the photo file separately
+                if (photo instanceof File) {
+                    setMemberPhoto(newIndex, photo);
+                }
             }
             closeModal();
         }
@@ -90,7 +117,7 @@ const Stage3 = () => {
                                 </button>
                                 <button
                                     type="button"
-                                    onClick={() => removeTeamMember(index)}
+                                    onClick={() => removeMember(index)}
                                     className="card-action-btn danger"
                                     title={t('common.delete')}
                                 >

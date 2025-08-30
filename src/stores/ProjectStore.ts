@@ -2,6 +2,15 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { CreateProjectData, ValueProposition, FundsUsage, KeyMetric, ProjectMember } from '@/hooks/useProject';
 
+// Serializable file representation for persistence
+interface SerializableFile {
+  name: string;
+  type: string;
+  size: number;
+  lastModified: number;
+  data: string; // Base64 encoded file data
+}
+
 export interface ProjectCreationState {
   currentStage: number;
   
@@ -10,7 +19,7 @@ export interface ProjectCreationState {
   slogan: string;
   resumen_ejecutivo: string;
   industry_id: number | null;
-  logo: string;
+  logo: File | null;
   website: string;
   twitter: string;
   linkedin: string;
@@ -20,6 +29,7 @@ export interface ProjectCreationState {
   
   // Stage 3: El Equipo
   equipo: Omit<ProjectMember, 'id' | 'created' | 'updated'>[];
+  memberPhotos: { [key: number]: File };
   
   // Stage 4: Financiamiento
   objective_amount: string;
@@ -33,31 +43,34 @@ export interface ProjectCreationState {
   ingresos_mensuales: string;
   numero_clientes: number | null;
   tamano_comunidad: number | null;
-  documento_traccion: string;
+  documento_traccion: File | null;
   
   // Stage 6: Impacto y Sostenibilidad
   relevant_sdg: string[];
   metricas_clave: Omit<KeyMetric, 'id' | 'created' | 'updated'>[];
   
   // Stage 7: Documentación Legal
-  acta_constitutiva: string;
-  identificacion_representante: string;
-  whitepaper: string;
-  cap_table: string;
+  acta_constitutiva: File | null;
+  identificacion_representante: File | null;
+  whitepaper: File | null;
+  cap_table: File | null;
 }
 
 interface ProjectStoreActions {
   setCurrentStage: (stage: number) => void;
-  updateProjectData: (data: Partial<ProjectCreationState>) => void;
-  resetProject: () => void;
+  updateProject: (data: Partial<ProjectCreationState>) => void;
+  addMember: (member: Omit<ProjectMember, 'id' | 'created' | 'updated'>) => void;
+  updateMember: (index: number, member: Omit<ProjectMember, 'id' | 'created' | 'updated'>) => void;
+  removeMember: (index: number) => void;
+  setMemberPhoto: (index: number, file: File | null) => void;
+  addMetric: (metric: KeyMetric) => void;
+  updateMetric: (index: number, metric: KeyMetric) => void;
+  removeMetric: (index: number) => void;
   getProjectData: () => CreateProjectData;
+  getProjectFiles: () => { logo: File | null; documento_traccion: File | null; acta_constitutiva: File | null; identificacion_representante: File | null; whitepaper: File | null; cap_table: File | null; };
+  getMemberPhotos: () => { [key: number]: File };
   validateStage: (stage: number) => boolean;
-  addTeamMember: (member: Omit<ProjectMember, 'id' | 'created' | 'updated'>) => void;
-  updateTeamMember: (index: number, member: Omit<ProjectMember, 'id' | 'created' | 'updated'>) => void;
-  removeTeamMember: (index: number) => void;
-  addKeyMetric: (metric: Omit<KeyMetric, 'id' | 'created' | 'updated'>) => void;
-  updateKeyMetric: (index: number, metric: Omit<KeyMetric, 'id' | 'created' | 'updated'>) => void;
-  removeKeyMetric: (index: number) => void;
+  resetProject: () => void;
 }
 
 const initialState: ProjectCreationState = {
@@ -68,7 +81,7 @@ const initialState: ProjectCreationState = {
   slogan: '',
   resumen_ejecutivo: '',
   industry_id: null,
-  logo: '',
+  logo: null,
   website: '',
   twitter: '',
   linkedin: '',
@@ -83,6 +96,7 @@ const initialState: ProjectCreationState = {
   
   // Stage 3
   equipo: [],
+  memberPhotos: {},
   
   // Stage 4
   objective_amount: '',
@@ -101,17 +115,51 @@ const initialState: ProjectCreationState = {
   ingresos_mensuales: '',
   numero_clientes: null,
   tamano_comunidad: null,
-  documento_traccion: '',
+  documento_traccion: null,
   
   // Stage 6
   relevant_sdg: [],
   metricas_clave: [],
   
   // Stage 7
-  acta_constitutiva: '',
-  identificacion_representante: '',
-  whitepaper: '',
-  cap_table: ''
+  acta_constitutiva: null,
+  identificacion_representante: null,
+  whitepaper: null,
+  cap_table: null
+};
+
+// File conversion utilities
+const fileToSerializable = async (file: File): Promise<SerializableFile> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        lastModified: file.lastModified,
+        data: reader.result as string
+      });
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
+
+const serializableToFile = (serializable: SerializableFile): File => {
+  // Convert base64 back to blob
+  const byteCharacters = atob(serializable.data.split(',')[1]);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: serializable.type });
+  
+  return new File([blob], serializable.name, {
+    type: serializable.type,
+    lastModified: serializable.lastModified
+  });
 };
 
 export const useProjectStore = create<ProjectCreationState & ProjectStoreActions>()(
@@ -121,11 +169,69 @@ export const useProjectStore = create<ProjectCreationState & ProjectStoreActions
       
       setCurrentStage: (stage: number) => set({ currentStage: stage }),
       
-      updateProjectData: (data: Partial<ProjectCreationState>) => set((state) => ({ ...state, ...data })),
+      updateProject: (data: Partial<ProjectCreationState>) => set((state) => ({ ...state, ...data })),
       
-      resetProject: () => set(initialState),
+      addMember: (member: Omit<ProjectMember, 'id' | 'created' | 'updated'>) => {
+        set((state) => ({
+          equipo: [...state.equipo, member]
+        }));
+      },
+
+      updateMember: (index: number, member: Omit<ProjectMember, 'id' | 'created' | 'updated'>) => {
+        set((state) => ({
+          equipo: state.equipo.map((m, i) => i === index ? member : m)
+        }));
+      },
+
+      removeMember: (index: number) => {
+        set((state) => {
+          const newMemberPhotos = { ...state.memberPhotos };
+          delete newMemberPhotos[index];
+          
+          // Reindex photos for remaining members
+          const reindexedPhotos: { [key: number]: File } = {};
+          Object.entries(newMemberPhotos).forEach(([key, file]) => {
+            const oldIndex = parseInt(key);
+            if (oldIndex > index) {
+              reindexedPhotos[oldIndex - 1] = file;
+            } else {
+              reindexedPhotos[oldIndex] = file;
+            }
+          });
+
+          return {
+            equipo: state.equipo.filter((_, i) => i !== index),
+            memberPhotos: reindexedPhotos
+          };
+        });
+      },
+
+      setMemberPhoto: (index: number, file: File | null) => {
+        set((state) => {
+          const newMemberPhotos = { ...state.memberPhotos };
+          if (file) {
+            newMemberPhotos[index] = file;
+          } else {
+            delete newMemberPhotos[index];
+          }
+          return { memberPhotos: newMemberPhotos };
+        });
+      },
+      addMetric: (metric: KeyMetric) => set((state) => ({
+        metricas_clave: [...state.metricas_clave, metric]
+      })),
       
-      getProjectData: (): CreateProjectData => {
+      updateMetric: (index: number, metric: KeyMetric) => set((state) => ({
+        metricas_clave: state.metricas_clave.map((m, i) => i === index ? metric : m)
+      })),
+      
+      removeMetric: (index: number) => set((state) => ({
+        metricas_clave: state.metricas_clave.filter((_, i) => i !== index)
+      })),
+      
+      resetProject: () => set({ ...initialState, memberPhotos: {} }),
+      
+      getProjectData: () => {
         const state = get();
         return {
           name: state.name,
@@ -133,7 +239,6 @@ export const useProjectStore = create<ProjectCreationState & ProjectStoreActions
           resumen_ejecutivo: state.resumen_ejecutivo,
           industry_id: state.industry_id || 0,
           financing_type_id: state.financing_type_id || 0,
-          logo: state.logo,
           website: state.website,
           twitter: state.twitter,
           linkedin: state.linkedin,
@@ -147,14 +252,26 @@ export const useProjectStore = create<ProjectCreationState & ProjectStoreActions
           ingresos_mensuales: state.ingresos_mensuales,
           numero_clientes: state.numero_clientes ?? undefined,
           tamano_comunidad: state.tamano_comunidad ?? undefined,
-          documento_traccion: state.documento_traccion,
           relevant_sdg: state.relevant_sdg,
-          metricas_clave: state.metricas_clave,
+          metricas_clave: state.metricas_clave
+        };
+      },
+
+      getProjectFiles: () => {
+        const state = get();
+        return {
+          logo: state.logo,
+          documento_traccion: state.documento_traccion,
           acta_constitutiva: state.acta_constitutiva,
           identificacion_representante: state.identificacion_representante,
           whitepaper: state.whitepaper,
           cap_table: state.cap_table
         };
+      },
+
+      getMemberPhotos: () => {
+        const state = get();
+        return state.memberPhotos;
       },
       
       validateStage: (stage: number): boolean => {
@@ -182,61 +299,69 @@ export const useProjectStore = create<ProjectCreationState & ProjectStoreActions
         }
       },
       
-      addTeamMember: (member) => set((state) => ({
-        equipo: [...state.equipo, member]
-      })),
       
-      updateTeamMember: (index, member) => set((state) => ({
-        equipo: state.equipo.map((m, i) => i === index ? member : m)
-      })),
-      
-      removeTeamMember: (index) => set((state) => ({
-        equipo: state.equipo.filter((_, i) => i !== index)
-      })),
-      
-      addKeyMetric: (metric) => set((state) => ({
-        metricas_clave: [...state.metricas_clave, metric]
-      })),
-      
-      updateKeyMetric: (index, metric) => set((state) => ({
-        metricas_clave: state.metricas_clave.map((m, i) => i === index ? metric : m)
-      })),
-      
-      removeKeyMetric: (index) => set((state) => ({
+      removeKeyMetric: (index: number) => set((state) => ({
         metricas_clave: state.metricas_clave.filter((_, i) => i !== index)
       }))
     }),
     {
       name: 'project-creation-storage',
-      partialize: (state) => ({
-        currentStage: state.currentStage,
-        name: state.name,
-        slogan: state.slogan,
-        resumen_ejecutivo: state.resumen_ejecutivo,
-        industry_id: state.industry_id,
-        logo: state.logo,
-        website: state.website,
-        twitter: state.twitter,
-        linkedin: state.linkedin,
-        value_proposition: state.value_proposition,
-        equipo: state.equipo,
-        objective_amount: state.objective_amount,
-        financing_type_id: state.financing_type_id,
-        funds_usage: state.funds_usage,
-        end_date: state.end_date,
-        etapa_actual: state.etapa_actual,
-        usuarios_activos: state.usuarios_activos,
-        ingresos_mensuales: state.ingresos_mensuales,
-        numero_clientes: state.numero_clientes,
-        tamano_comunidad: state.tamano_comunidad,
-        documento_traccion: state.documento_traccion,
-        relevant_sdg: state.relevant_sdg,
-        metricas_clave: state.metricas_clave,
-        acta_constitutiva: state.acta_constitutiva,
-        identificacion_representante: state.identificacion_representante,
-        whitepaper: state.whitepaper,
-        cap_table: state.cap_table
-      })
+      storage: {
+        getItem: async (name: string) => {
+          const str = localStorage.getItem(name);
+          if (!str) return null;
+          
+          const data = JSON.parse(str);
+          
+          // Convert serialized files back to File objects
+          const fileFields = ['logo', 'documento_traccion', 'acta_constitutiva', 'identificacion_representante', 'whitepaper', 'cap_table'];
+          for (const field of fileFields) {
+            if (data.state[field] && typeof data.state[field] === 'object' && data.state[field].data) {
+              data.state[field] = serializableToFile(data.state[field]);
+            }
+          }
+          
+          // Convert member photos back to File objects
+          if (data.state.memberPhotos) {
+            const memberPhotos: { [key: number]: File } = {};
+            for (const [index, serializedFile] of Object.entries(data.state.memberPhotos)) {
+              if (serializedFile && typeof serializedFile === 'object' && (serializedFile as any).data) {
+                memberPhotos[parseInt(index)] = serializableToFile(serializedFile as SerializableFile);
+              }
+            }
+            data.state.memberPhotos = memberPhotos;
+          }
+          
+          return data;
+        },
+        setItem: async (name: string, value: any) => {
+          const data = { ...value };
+          
+          // Convert File objects to serializable format
+          const fileFields = ['logo', 'documento_traccion', 'acta_constitutiva', 'identificacion_representante', 'whitepaper', 'cap_table'];
+          for (const field of fileFields) {
+            if (data.state[field] instanceof File) {
+              data.state[field] = await fileToSerializable(data.state[field]);
+            }
+          }
+          
+          // Convert member photo Files to serializable format
+          if (data.state.memberPhotos) {
+            const serializedMemberPhotos: { [key: number]: SerializableFile } = {};
+            for (const [index, file] of Object.entries(data.state.memberPhotos)) {
+              if (file instanceof File) {
+                serializedMemberPhotos[parseInt(index)] = await fileToSerializable(file);
+              }
+            }
+            data.state.memberPhotos = serializedMemberPhotos;
+          }
+          
+          localStorage.setItem(name, JSON.stringify(data));
+        },
+        removeItem: (name: string) => {
+          localStorage.removeItem(name);
+        }
+      }
     }
   )
 );

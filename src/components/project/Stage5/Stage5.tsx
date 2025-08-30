@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Input from '@/components/forms/Input/Input';
 import Select from '@/components/forms/Select/Select';
+import FileUpload from '@/components/forms/FileUpload/FileUpload';
 import { useProjectStore } from '@/stores/ProjectStore';
 import { useProjectStages } from '@/hooks/useOptions';
 import '../Stages.css';
@@ -15,13 +16,17 @@ const Stage5 = () => {
         numero_clientes,
         tamano_comunidad,
         documento_traccion,
-        updateProjectData
+        updateProject
     } = useProjectStore();
 
     const { data: projectStages, isLoading: stagesLoading } = useProjectStages();
 
     const handleInputChange = (field: string, value: string | number | null) => {
-        updateProjectData({ [field]: value });
+        updateProject({ [field]: value });
+    };
+
+    const handleFileChange = (field: string, file: File | null) => {
+        updateProject({ [field]: file });
     };
 
     return (
@@ -99,19 +104,15 @@ const Stage5 = () => {
                 </div>
 
                 <div className="form-group">
-                    <label className="form-label">
-                        {t('createProject.stages.traction.fields.tractionDocument')}
-                    </label>
-                    <Input
+                    <FileUpload
                         name="traction-document"
-                        value={documento_traccion}
-                        setValue={(value) => handleInputChange('documento_traccion', value)}
-                        placeholder={t('createProject.stages.traction.placeholders.tractionDocument')}
-                        type="url"
+                        file={documento_traccion}
+                        setFile={(file) => handleFileChange('documento_traccion', file)}
+                        label={t('createProject.stages.traction.fields.tractionDocument')}
+                        accept=".pdf,.doc,.docx,.ppt,.pptx"
+                        maxSizeMB={10}
+                        description={t('createProject.stages.traction.help.tractionDocument')}
                     />
-                    <div className="input-help">
-                        {t('createProject.stages.traction.help.tractionDocument')}
-                    </div>
                 </div>
 
                 <div className="traction-examples">

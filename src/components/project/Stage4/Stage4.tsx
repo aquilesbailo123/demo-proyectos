@@ -14,17 +14,17 @@ const Stage4 = () => {
         financing_type_id,
         funds_usage,
         end_date,
-        updateProjectData
+        updateProject
     } = useProjectStore();
 
     const { data: financingTypes, isLoading: financingTypesLoading } = useFinancingTypes();
 
     const handleInputChange = (field: string, value: string | number) => {
-        updateProjectData({ [field]: value });
+        updateProject({ [field]: value });
     };
 
     const handleFundsUsageChange = (field: keyof typeof funds_usage, value: number) => {
-        updateProjectData({
+        updateProject({
             funds_usage: {
                 ...funds_usage,
                 [field]: value / 100 // Convert percentage to decimal

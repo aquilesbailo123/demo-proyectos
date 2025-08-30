@@ -2,9 +2,15 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ProjectMember } from '@/hooks/useProject';
+
+// Extended interface for member creation with file support
+interface ProjectMemberForm extends Omit<ProjectMember, 'id' | 'created' | 'updated' | 'photo'> {
+    photo?: File | string | null;
+}
 import useModalStore from '@/stores/ModalStore';
 import Input from "@/components/forms/Input/Input"
 import Button from "@/components/common/Button/Button"
+import FileUpload from "@/components/forms/FileUpload/FileUpload"
 
 import "../ProjectModals.css"
 
@@ -17,7 +23,7 @@ const AddMemberModal = ({
         data?: ProjectMember | null,
         isAdding?: boolean,
         index?: number | null,
-        onSubmit: (member: ProjectMember, index?: number | null) => void
+        onSubmit: (member: ProjectMemberForm, index?: number | null) => void
     }) => {
 
     const { t } = useTranslation('common');
@@ -32,6 +38,8 @@ const AddMemberModal = ({
         description: data?.description || '',
         linkedin: data?.linkedin || ''
     });
+    
+    const [memberPhoto, setMemberPhoto] = useState<File | null>(null);
     
     return (
         <div className="project-modal-content">
@@ -63,13 +71,15 @@ const AddMemberModal = ({
                 setValue={(value) => setMemberForm({...memberForm, country: value})}
                 placeholder={t('createProject.stages.team.placeholders.country')}
             />
-            <Input
+            <FileUpload
                 name="member-photo"
-                value={memberForm.photo || ''}
+                file={memberPhoto}
+                setFile={setMemberPhoto}
                 label={t('createProject.stages.team.fields.photo')}
-                setValue={(value) => setMemberForm({...memberForm, photo: value})}
-                placeholder={t('createProject.stages.team.placeholders.photo')}
-                type="url"
+                accept="image/*"
+                maxSizeMB={5}
+                isRequired={false}
+                description={t('fileUpload.memberPhotoDescription')}
             />
             <Input
                 name="member-description"
@@ -95,7 +105,7 @@ const AddMemberModal = ({
                 </Button>
                 <Button 
                     variant="primary" 
-                    onClick={() => onSubmit(memberForm, index)}
+                    onClick={() => onSubmit({...memberForm, photo: memberPhoto || memberForm.photo}, index)}
                     disabled={!memberForm.name.trim()}
                 >
                     {t('common_save')}

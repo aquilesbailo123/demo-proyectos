@@ -31,6 +31,8 @@ const CreateProject = () => {
         setCurrentStage, 
         validateStage, 
         getProjectData, 
+        getProjectFiles,
+        getMemberPhotos,
         resetProject 
     } = useProjectStore()
     
@@ -88,7 +90,9 @@ const CreateProject = () => {
 
         try {
             const projectData = getProjectData()
-            await createProjectMutation.mutateAsync(projectData)
+            const projectFiles = getProjectFiles()
+            const memberPhotos = getMemberPhotos()
+            await createProjectMutation.mutateAsync({ projectData, files: projectFiles, memberPhotos })
             setShowSuccess(true)
             
             // Reset the store after successful creation

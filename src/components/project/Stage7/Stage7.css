@@ -32,19 +32,7 @@
 .documents-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
-}
-
-.document-item {
-  padding: 1.5rem;
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--background-primary);
-  transition: border-color 0.2s ease;
-}
-
-.document-item:focus-within {
-  border-color: var(--primary-color);
+  gap: 1rem;
 }
 
 .document-header {
@@ -73,8 +61,8 @@
 }
 
 .legal-guidelines {
-  margin-top: 2rem;
-  padding: 1.5rem;
+  /* margin-top: 2rem; */
+  padding: 1rem;
   background: var(--info-bg);
   border: 1px solid var(--info-color);
   border-radius: 12px;
