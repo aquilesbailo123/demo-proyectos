@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -18,16 +18,19 @@ import '../../animations.css'
 const Donations = () => {
     const navigate = useNavigate()
     const { isLogged } = useAuthStore()
-    // Create dummy user from localStorage as temporary solution
-    const user = isLogged ? JSON.parse(localStorage.getItem('user') || '{}') : null
     const { userDonations, isLoading, fetchUserDonations } = useOldProjectStore()
     const { t, i18n } = useTranslation('common')
     
+    // Memoize user object to prevent recreation on every render
+    const user = useMemo(() => {
+        return isLogged ? JSON.parse(localStorage.getItem('user') || '{}') : null
+    }, [isLogged])
+    
     useEffect(() => {
-        if (isLogged && user) {
+        if (isLogged && user?.id) {
             fetchUserDonations(user.id)
         }
-    }, [isLogged, user, fetchUserDonations])
+    }, [isLogged, user?.id, fetchUserDonations])
     
     // Redirect to login if not authenticated
     if (!isLogged) {
