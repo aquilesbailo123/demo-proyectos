@@ -12,6 +12,7 @@ import ProjectDetail from "./pages/ProjectDetail/ProjectDetail"
 import Donations from "./pages/Donations/Donations"
 import Projects from "./pages/Projects/Projects"
 import CreateProject from "./pages/CreateProject/CreateProject"
+import MyProject from "./pages/MyProject/MyProject"
 import Profile from "./pages/Profile/Profile"
 
 import Login from "./pages/auth/Login/Login"
@@ -67,9 +68,9 @@ function App() {
                     <Route path={routes.projectDetail} element={<ProjectDetail />} />
                     <Route path={routes.donations} element={<Donations />} />
                     <Route path={routes.createProject} element={<CreateProject />} />
+                    <Route path={routes.myProject} element={<MyProject />} />
                     <Route path={routes.profile} element={<Profile />} />
                 </Route>
-
                 <Route path={routes.notFound} element={<NotFound />} />
             </Routes>
         </div>

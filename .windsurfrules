@@ -43,7 +43,7 @@ This is a React Vite crowdfunding platform with TypeScript, React Router, React 
 ## Component Architecture
 
 ### Pre-built Components
-- **ALWAYS use existing components** from `src/components/` (Button, Input, etc.)
+- **ALWAYS use existing components** from `src/components/common/` or `src/components/forms/` (Button, Input, Select, etc.)
 - **Small modifications allowed** for compatibility, but keep changes minimal and smart
 - **New common components** must follow the style and layout of existing base components
 
@@ -63,6 +63,143 @@ src/components/pagename/
 │   ├── ComponentName.css
 │   └── README.md (optional)
 ```
+
+### Modal System
+
+#### Modal Architecture
+- **Global modal system** using `ModalStore` with Zustand for state management
+- **Single modal display** - only one modal can be open at a time
+- **Base modal component** (`ModalBase`) handles overlay, close button, and content rendering
+- **Automatic route cleanup** - modals close when navigating to different pages
+
+#### Modal Store Usage
+```typescript
+// Import the store
+import useModalStore from '@/stores/ModalStore';
+
+// In your component
+const { setModalContent, closeModal } = useModalStore();
+
+// Open a modal
+setModalContent(<YourModalComponent prop1={value1} prop2={value2} />);
+
+// Close modal (usually handled automatically)
+closeModal();
+```
+
+#### Creating New Modals
+
+##### File Structure
+```
+src/modals/ModalName/
+├── ModalName.tsx
+├── ModalName.css
+└── README.md (optional)
+```
+
+##### Modal Component Rules
+- **Import modal store**: Always import `useModalStore` for `closeModal` functionality
+- **Handle close events**: Accept optional `handleClose` prop that executes before modal closes
+- **No overlay/backdrop**: `ModalBase` handles all overlay functionality
+- **Focus on content**: Modal components only contain the inner modal content
+- **Consistent styling**: Use the same CSS class naming conventions (`modalname_element`)
+
+##### Modal Component Template
+```typescript
+import useModalStore from '@/stores/ModalStore';
+import { useTranslation } from 'react-i18next';
+import Button from '@/components/common/Button/Button';
+import './ModalName.css';
+
+interface ModalNameProps {
+    // Your modal props
+    data?: any;
+    onSubmit?: (data: any) => void;
+    handleClose?: () => void; // Optional cleanup function
+}
+
+const ModalName = ({ data, onSubmit, handleClose }: ModalNameProps) => {
+    const { t } = useTranslation('common');
+    const { closeModal } = useModalStore();
+
+    const handleSubmit = () => {
+        // Your submit logic
+        onSubmit?.(data);
+        closeModal();
+    };
+
+    return (
+        <div className="modalname-content">
+            <h3>{t('modal_title')}</h3>
+            {/* Your modal content */}
+            
+            <div className="modalname-actions">
+                <Button variant="secondary" onClick={closeModal}>
+                    {t('common_cancel')}
+                </Button>
+                <Button variant="primary" onClick={handleSubmit}>
+                    {t('common_save')}
+                </Button>
+            </div>
+        </div>
+    );
+};
+
+export default ModalName;
+```
+
+#### Opening Modals from Components
+```typescript
+import useModalStore from '@/stores/ModalStore';
+import YourModalComponent from '@/modals/YourModal/YourModal';
+
+const YourPage = () => {
+    const { setModalContent } = useModalStore();
+
+    const handleOpenModal = () => {
+        setModalContent(
+            <YourModalComponent
+                data={someData}
+                onSubmit={handleModalSubmit}
+                handleClose={handleModalClose} // Optional cleanup
+            />
+        );
+    };
+
+    const handleModalSubmit = (data: any) => {
+        // Handle the submitted data
+        console.log('Modal submitted:', data);
+    };
+
+    const handleModalClose = () => {
+        // Optional: cleanup before modal closes
+        console.log('Modal is closing');
+    };
+
+    return (
+        <div>
+            <button onClick={handleOpenModal}>Open Modal</button>
+        </div>
+    );
+};
+```
+
+#### Modal Best Practices
+- **Always use translations** for all modal text content
+- **Implement proper form validation** before allowing modal submission
+- **Handle loading states** during async operations within modals
+- **Use consistent button layouts** with cancel/save actions
+- **Provide clear visual feedback** for required fields and validation errors
+- **Test keyboard navigation** and accessibility within modals
+- **Clean up resources** using the optional `handleClose` prop when needed
+
+#### Modal CSS Guidelines
+- **Use modal-specific prefixes** for CSS classes (e.g., `addmember_form`, `deleteconfirm_actions`)
+- **Consistent spacing** using CSS variables from `theme.css`
+- **Responsive design** for mobile and desktop viewports
+- **Accessible focus states** for interactive elements
+- **Dark/light theme support** using existing CSS variables
+
 
 ## Routing
 

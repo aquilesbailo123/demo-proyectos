@@ -1,0 +1,231 @@
+.projectupload-content {
+    background: var(--color-background);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90vw;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+}
+
+.projectupload-header {
+    margin-bottom: 1.5rem;
+}
+
+.projectupload-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    transition: all 0.3s ease;
+}
+
+.projectupload-icon.uploading {
+    background: linear-gradient(135deg, var(--main-primary), var(--color-secondary));
+    color: white;
+}
+
+.projectupload-icon.success {
+    background: linear-gradient(135deg, var(--color-success), #22c55e);
+    color: white;
+    animation: success-bounce 0.6s ease-out;
+}
+
+.projectupload-icon.error {
+    background: linear-gradient(135deg, var(--color-error), #ef4444);
+    color: white;
+    animation: error-shake 0.6s ease-out;
+}
+
+.projectupload-icon .spin {
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes success-bounce {
+    0%, 20%, 60%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    80% { transform: translateY(-5px); }
+}
+
+@keyframes error-shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.projectupload-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.projectupload-body {
+    margin-bottom: 1.5rem;
+}
+
+.projectupload-message {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 1.5rem 0;
+    line-height: 1.5;
+}
+
+.projectupload-message.success {
+    color: var(--color-success);
+    font-weight: 500;
+}
+
+.projectupload-message.error {
+    color: var(--color-error);
+    font-weight: 500;
+}
+
+.projectupload-error-detail {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-error);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-top: 0.5rem;
+    text-align: left;
+}
+
+.projectupload-progress {
+    margin: 1.5rem 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--color-background-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--main-primary), var(--color-secondary));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--main-primary);
+}
+
+.projectupload-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.upload-step {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    text-align: left;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.upload-step.active {
+    background: var(--main-primary-light);
+    border-color: var(--main-primary);
+    color: var(--main-primary);
+    font-weight: 500;
+}
+
+.upload-step.completed {
+    background: var(--color-success-light);
+    border-color: var(--color-success);
+    color: var(--color-success);
+    font-weight: 500;
+}
+
+.upload-step.completed::before {
+    content: '✓ ';
+    font-weight: bold;
+}
+
+.projectupload-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.projectupload-close-btn {
+    background: var(--main-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+.projectupload-close-btn:hover {
+    background: var(--main-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.projectupload-close-btn:active {
+    transform: translateY(0);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .projectupload-content {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .projectupload-icon {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .projectupload-title {
+        font-size: 1.25rem;
+    }
+    
+    .upload-step {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+    }
+}

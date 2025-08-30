@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { RiArrowLeftLine, RiArrowRightLine, RiCheckLine } from 'react-icons/ri'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +8,10 @@ import useAuthStore from '@/stores/AuthStore'
 import AuthRequired from '@/components/common/AuthRequired'
 import { useProjectStore } from '@/stores/ProjectStore'
 import { useCreateProject, useUserProject } from '@/hooks/useProject'
+import useModalStore from '@/stores/ModalStore'
+import ProjectUploadModal from '@/components/modals/ProjectUploadModal/ProjectUploadModal'
+import Spinner from '@/components/common/Spinner/Spinner'
+import routes from '@/routes/routes'
 
 // Import stage components
 import Stage1 from '@/components/project/Stage1/Stage1'
@@ -24,7 +28,7 @@ const CreateProject = () => {
     const navigate = useNavigate()
     const { isLogged } = useAuthStore()
     const { t } = useTranslation('common')
-    const [showSuccess, setShowSuccess] = useState(false)
+    const { setModalContent, closeModal } = useModalStore()
     
     const { 
         currentStage, 
@@ -42,7 +46,7 @@ const CreateProject = () => {
     // Check if user already has a project and redirect
     useEffect(() => {
         if (isLogged && !isLoadingUserProject && userProjects && userProjects.length > 0) {
-            navigate('/project')
+            navigate(routes.myProject)
         }
     }, [isLogged, isLoadingUserProject, userProjects])
 
@@ -94,20 +98,27 @@ const CreateProject = () => {
     const handleSubmit = async () => {
         if (!canProceed) return
 
+        // Open the upload modal
+        setModalContent(
+            <ProjectUploadModal 
+                isUploading={createProjectMutation.isPending}
+                onSuccess={() => {
+                    closeModal()
+                    resetProject()
+                    navigate('/myproject')
+                }}
+                handleClose={() => closeModal()}
+            />
+        )
+
         try {
             const projectData = getProjectData()
             const projectFiles = getProjectFiles()
             const memberPhotos = getMemberPhotos()
             await createProjectMutation.mutateAsync({ projectData, files: projectFiles, memberPhotos })
-            setShowSuccess(true)
-            
-            // Reset the store after successful creation
-            setTimeout(() => {
-                resetProject()
-                navigate('/myproject')
-            }, 3000)
         } catch (error) {
             console.error('Error creating project:', error)
+            closeModal()
             // Handle error (show toast, etc.)
         }
     }
@@ -115,33 +126,10 @@ const CreateProject = () => {
     // If not authenticated, show prompt to login
     if (!isLogged) {
         return <AuthRequired/>
-    }
+    } else if (isLoadingUserProject || (userProjects && userProjects.length > 0)) {
+        return <Spinner/>
+    } else return (
 
-    // Success screen
-    if (showSuccess) {
-        return (
-            <div className="create-project-container">
-                <div className="success-screen">
-                    <div className="success-icon">
-                        <RiCheckLine />
-                    </div>
-                    <h1>{t('createProject.success.title')}</h1>
-                    <p>{t('createProject.success.description')}</p>
-                    <div className="success-actions">
-                        <Button 
-                            variant="primary" 
-                            size="lg"
-                            onClick={() => navigate('/myproject')}
-                        >
-                            {t('createProject.success.viewProject')}
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-    
-    return (
         <div className="create-project-container">
             <div className="create-project-header">
                 <h1>{t('createProject.title')}</h1>

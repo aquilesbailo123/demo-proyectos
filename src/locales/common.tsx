@@ -18,6 +18,7 @@ const common = {
         nav_projects: "Proyectos",
         nav_donations: "Mis Donaciones",
         nav_create_project: "Crear Proyecto",
+        nav_my_project: "Mi Proyecto",
         nav_profile: "Perfil",
         nav_login: "Iniciar Sesión",
 
@@ -537,6 +538,14 @@ const common = {
             },
             noData: "No has realizado ninguna donación"
         },
+
+        // General
+        view: "Ver",
+        share: "Compartir",
+        website: "Sitio Web",
+        twitter: "Twitter",
+        linkedin: "LinkedIn",
+        
         
         // Toast error keys
         success: "Éxito",
@@ -594,6 +603,49 @@ const common = {
             removeFile: "Eliminar archivo",
             memberPhotoDescription: "Sube la foto del miembro del equipo (PNG, JPG, JPEG)"
         },
+
+        // Projects
+        project_goal: "Meta Total",
+        project_days_left: "Días Restantes",
+        project_team_members: "Miembros del Equipo",
+        project_metrics: "Métricas",
+        project_summary: "Resumen Ejecutivo",
+        project_links: "Enlaces",
+        project_team: "Equipo",
+        project_funding_progress: "Progreso de Financiamiento",
+        project_funded: "Financiado",
+        project_active_users: "Usuarios Activos",
+        project_monthly_revenue: "Ingresos Mensuales",
+        project_customers: "Clientes",
+        project_community_size: "Tamaño de la Comunidad",
+        project_value_proposition: "Proposición de Valor",
+        project_problem: "Problema",
+        project_solution: "Solución",
+        project_unique_value: "Valor Único",
+        project_business_model: "Modelo de Negocio",
+        project_funds_usage: "Uso de Fondos",
+        project_fund_development: "Desarrollo",
+        project_fund_marketing: "Marketing",
+        project_fund_expansion: "Expansión",
+        project_fund_operations: "Operaciones",
+        project_sdg_impact: "ODS de Impacto",
+        project_business_metrics: "Métricas de Negocio",
+        project_documents: "Documentación",
+        project_doc_traction: "Prueba de Tracción",
+        project_doc_incorporation: "Acta Constitutiva",
+        project_doc_id: "Identificación del Representante",
+        project_doc_whitepaper: "Plan de Negocio Detallado (Whitepaper)",
+        project_doc_cap_table: "Tabla de Capitalización (Cap Table)",
+
+        
+
+        project_stage: {
+            idea_concepto: "Idea/Concepto",
+            mvp: "MVP",
+            traccion_temprana: "Tracción Temprana",
+            crecimiento: "Crecimiento",
+            escalamiento: "Escalamiento"
+        }
         
     },
     en: {
@@ -615,6 +667,7 @@ const common = {
         nav_projects: "Projects",
         nav_donations: "My Donations",
         nav_create_project: "Create Project",
+        nav_my_project: "My Project",
         nav_profile: "Profile",
         nav_login: "Login",
 

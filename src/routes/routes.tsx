@@ -14,6 +14,7 @@ const routes = {
     projectDetail: "/project/:projectId",
     donations: "/donations",
     createProject: "/create-project",
+    myProject: "/myproject",
     profile: "/profile",
     notFound: "*",
 };

@@ -6,7 +6,8 @@ import {
     RiAddCircleLine,
     RiMenuLine,
     RiCloseLine,
-    RiUserLine
+    RiUserLine,
+    RiShieldLine
 } from 'react-icons/ri'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
@@ -14,6 +15,7 @@ import { useEffect, useState } from 'react'
 import routes from '@/routes/routes'
 import { mainLogo } from "@/utils/constants/common"
 import useAuthStore, { UserDetails } from '@/stores/AuthStore'
+import { useUserProject } from '@/hooks/useProject'
 import Button from '@/components/common/Button/Button'
 import Spinner from '@/components/common/Spinner/Spinner'
 // import LanguageToggle from '@/components/general/LanguageToggle/LanguageToggle'
@@ -26,11 +28,14 @@ const Navbar = () => {
     const location = useLocation()
 
     const { isLogged, getUserDetails } = useAuthStore()
+    const { data: userProjects, isLoading: isLoadingUserProject } = useUserProject()
     
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [userDetails, setUserDetails] = useState<UserDetails | undefined>(undefined)
     const [profileLoading, setProfileLoading] = useState(false)
     const [scrolled, setScrolled] = useState(false)
+    
+    const hasProject = isLogged && !isLoadingUserProject && userProjects && userProjects.length > 0
 
     useEffect(() => {
         if (isLogged) {
@@ -103,15 +108,25 @@ const Navbar = () => {
                     </Link>
                 ))}
                 
-                <Link 
-                    to="/create-project"
-                    // className="navbar-action-link staggered-entrance-4 button-hover-effect"
-                    className={`navbar-nav-link ${isActive('/create-project') ? 'active' : ''}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                >
-                    <RiAddCircleLine className="navbar-icon pulse" />
-                    <span>{t('nav_create_project')}</span>
-                </Link>
+                {hasProject ? (
+                    <Link 
+                        to={routes.myProject}
+                        className={`navbar-nav-link ${isActive(routes.myProject) ? 'active' : ''}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                    >
+                        <RiShieldLine className="navbar-icon" />
+                        <span>{t('nav_my_project')}</span>
+                    </Link>
+                ) : (
+                    <Link 
+                        to={routes.createProject}
+                        className={`navbar-nav-link ${isActive(routes.createProject) ? 'active' : ''}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                    >
+                        <RiAddCircleLine className="navbar-icon pulse" />
+                        <span>{t('nav_create_project')}</span>
+                    </Link>
+                )}
 
                 {isLogged && mobileMenuOpen ? (
                     <Link 
