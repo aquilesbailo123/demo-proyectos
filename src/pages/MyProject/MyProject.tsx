@@ -104,39 +104,52 @@ const MyProject: React.FC = () => {
     }
 
     if (error || !projects || projects.length === 0 || !project) {
-        return (
-            <div className="myproject-container">
-                <Card>
-                    <div className="myproject-empty">
-                        <h2>{t('myProject.noProject.title')}</h2>
-                        <p>{t('myProject.noProject.description')}</p>
-                        <Button 
-                            variant="primary" 
-                            onClick={() => navigate(routes.createProject)}
-                        >
-                            {t('myProject.noProject.createButton')}
-                        </Button>
-                    </div>
-                </Card>
-            </div>
-        );
+        navigate(routes.createProject);
+        return;
     }
 
-    const formatCurrency = (amount: string) => {
-        return new Intl.NumberFormat('es-ES', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        }).format(parseFloat(amount));
-    };
-
-    const calculateDaysRemaining = (endDate: string) => {
+    const calculateDaysRemaining = (endDate: string): string => {
         const end = new Date(endDate);
         const now = new Date();
         const diffTime = end.getTime() - now.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return Math.max(0, diffDays);
+        return diffDays > 0 ? diffDays.toString() : '0';
+    };
+
+    const getProjectStatusText = (project: any): string => {
+        if (!project.is_active) {
+            return t('project_status_rejected');
+        }
+        
+        if (project.is_featured) {
+            return t('project_status_approved');
+        } else {
+            return t('project_status_in_review');
+        }
+    };
+
+    const getProjectStatusClass = (project: any): string => {
+        if (!project.is_active) {
+            return 'status-rejected';
+        }
+        
+        if (project.is_featured) {
+            return 'status-approved';
+        } else {
+            return 'status-in-review';
+        }
+    };
+
+    const getProjectStatusTooltip = (project: any): string => {
+        if (!project.is_active) {
+            return t('project_status_rejected_tooltip');
+        }
+        
+        if (project.is_featured) {
+            return t('project_status_approved_tooltip');
+        } else {
+            return t('project_status_in_review_tooltip');
+        }
     };
 
     return (
@@ -161,6 +174,12 @@ const MyProject: React.FC = () => {
                                 </span>
                                 <span className="myproject-stage">
                                     {t(`project_stage.${project.etapa_actual}`)}
+                                </span>
+                                <span 
+                                    className={`myproject-status ${getProjectStatusClass(project)}`}
+                                    title={getProjectStatusTooltip(project)}
+                                >
+                                    {getProjectStatusText(project)}
                                 </span>
                             </div>
                         </div>
@@ -191,8 +210,9 @@ const MyProject: React.FC = () => {
                 <div className="funding-header">
                     <h3>{t('project_funding_progress')}</h3>
                     <div className="funding-stats">
-                        <span className="funding-raised">{formatCurrency('0')}</span>
-                        <span className="funding-goal">of {formatCurrency(project.objective_amount)}</span>
+                        {/* TODO get the project funding progress */}
+                        <span className="funding-raised">0 USDT</span>
+                        <span className="funding-goal">of {project.objective_amount} USDT</span>
                     </div>
                 </div>
                 <div className="funding-progress-bar">
@@ -214,7 +234,7 @@ const MyProject: React.FC = () => {
                         <RiMoneyDollarCircleLine />
                     </div>
                     <div className="stat-content">
-                        <h3>{formatCurrency(project.objective_amount)}</h3>
+                        <h3>{project.objective_amount} USDT</h3>
                         <p>{t('project_goal')}</p>
                     </div>
                 </Card>
@@ -272,7 +292,7 @@ const MyProject: React.FC = () => {
                                     <RiLineChartLine />
                                 </div>
                                 <div className="metric-info">
-                                    <h4>{formatCurrency(project.ingresos_mensuales)}</h4>
+                                    <h4>{project.ingresos_mensuales} USDT</h4>
                                     <p>{t('project_monthly_revenue')}</p>
                                 </div>
                             </Card>
@@ -531,12 +551,6 @@ const MyProject: React.FC = () => {
                                 <a href={project.acta_constitutiva} target="_blank" rel="noopener noreferrer" className="document-link">
                                     <RiFileTextLine />
                                     <span>{t('project_doc_incorporation')}</span>
-                                </a>
-                            )}
-                            {project.identificacion_representante && (
-                                <a href={project.identificacion_representante} target="_blank" rel="noopener noreferrer" className="document-link">
-                                    <RiFileTextLine />
-                                    <span>{t('project_doc_id')}</span>
                                 </a>
                             )}
                             {project.whitepaper && (

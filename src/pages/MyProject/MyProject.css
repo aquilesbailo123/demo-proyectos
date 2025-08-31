@@ -117,14 +117,40 @@
 .myproject-industry,
 .myproject-stage {
     background: var(--background-accent);
-    color: var(--main-primary);
+    color: var(--text-accent);
     padding: 0.5rem 1rem;
-    border-radius: 25px;
+    border-radius: 20px;
     font-size: 0.875rem;
     font-weight: 600;
-    border: 1px solid var(--main-primary);
-    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.15);
-    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.myproject-status {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-approved {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-in-review {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.status-rejected {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
 .myproject-industry:hover,

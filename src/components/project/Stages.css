@@ -85,7 +85,7 @@
   text-align: right;
 }
 
-.funds-usage-grid {
+.funds-usage-grid-stage {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
@@ -348,7 +348,7 @@
     grid-template-columns: 1fr;
   }
   
-  .funds-usage-grid {
+  .funds-usage-grid-stage {
     grid-template-columns: 1fr;
   }
   

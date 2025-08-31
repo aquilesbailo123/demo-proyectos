@@ -1,6 +1,6 @@
 /* Stage 4 specific styles */
 
-.funds-usage-grid {
+.funds-usage-grid-stage {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
@@ -146,7 +146,7 @@
 }
 
 @media (max-width: 768px) {
-  .funds-usage-grid {
+  .funds-usage-grid-stage {
     grid-template-columns: 1fr;
   }
   

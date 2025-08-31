@@ -83,7 +83,7 @@ const Stage4 = () => {
                     <label className="form-label required">
                         {t('createProject.stages.financing.fields.fundsUsage')}
                     </label>
-                    <div className="funds-usage-grid">
+                    <div className="funds-usage-grid-stage">
                         <Input
                             name="funds-product-development"
                             value={(funds_usage.desarrollo_producto * 100).toString()}

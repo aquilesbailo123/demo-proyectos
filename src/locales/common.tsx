@@ -620,7 +620,7 @@ const common = {
         project_monthly_revenue: "Ingresos Mensuales",
         project_customers: "Clientes",
         project_community_size: "Tamaño de la Comunidad",
-        project_value_proposition: "Proposición de Valor",
+        project_value_proposition: "Propuesta de Valor",
         project_problem: "Problema",
         project_solution: "Solución",
         project_unique_value: "Valor Único",
@@ -638,6 +638,12 @@ const common = {
         project_doc_id: "Identificación del Representante",
         project_doc_whitepaper: "Plan de Negocio Detallado (Whitepaper)",
         project_doc_cap_table: "Tabla de Capitalización (Cap Table)",
+        project_status_approved: "Aprobado",
+        project_status_in_review: "En Revisión",
+        project_status_rejected: "Rechazado",
+        project_status_approved_tooltip: "El proyecto ha sido aprobado y está disponible para recibir inversiones",
+        project_status_in_review_tooltip: "El proyecto está siendo revisado por el equipo de Kuskapay",
+        project_status_rejected_tooltip: "El proyecto ha sido rechazado y no está disponible para inversiones",
 
         
 
