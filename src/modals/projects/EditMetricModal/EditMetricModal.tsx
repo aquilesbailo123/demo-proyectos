@@ -41,27 +41,27 @@ const EditMetricModal = ({ data, isAdding, index, onSubmit, isLoading = false }:
             <Input
                 name="metric-name"
                 value={formData.metrica}
-                label={t('createProject.stages.metrics.fields.metric')}
+                label={t('createProject.stages.impact.metricFields.name')}
                 setValue={(value) => setFormData({ ...formData, metrica: value })}
-                placeholder={t('createProject.stages.metrics.placeholders.metric')}
+                placeholder={t('createProject.stages.impact.metricPlaceholders.name')}
                 isRequired={true}
             />
 
             <Input
                 name="measurement-method"
                 value={formData.metodo_medicion}
-                label={t('createProject.stages.metrics.fields.measurementMethod')}
+                label={t('createProject.stages.impact.metricFields.method')}
                 setValue={(value) => setFormData({ ...formData, metodo_medicion: value })}
-                placeholder={t('createProject.stages.metrics.placeholders.measurementMethod')}
+                placeholder={t('createProject.stages.impact.metricPlaceholders.method')}
                 isRequired={true}
             />
 
             <Input
                 name="current-value"
                 value={formData.valor_actual}
-                label={t('createProject.stages.metrics.fields.currentValue')}
+                label={t('createProject.stages.impact.metricFields.currentValue')}
                 setValue={(value) => setFormData({ ...formData, valor_actual: value })}
-                placeholder={t('createProject.stages.metrics.placeholders.currentValue')}
+                placeholder={t('createProject.stages.impact.metricPlaceholders.currentValue')}
                 isRequired={true}
             />
 

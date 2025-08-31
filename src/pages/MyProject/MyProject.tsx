@@ -56,6 +56,8 @@ import EditFundsUsageModal from '@/modals/projects/EditFundsUsageModal/EditFunds
 import EditExecutiveSummaryModal from '@/modals/projects/EditExecutiveSummaryModal/EditExecutiveSummaryModal';
 import EditMemberModal from '@/modals/projects/EditMemberModal/EditMemberModal';
 import EditMetricModal from '@/modals/projects/EditMetricModal/EditMetricModal';
+import { useCreateMember, useUpdateMember, useDeleteMember } from '@/hooks/useProjectMembers';
+import { useCreateMetric, useUpdateMetric, useDeleteMetric } from '@/hooks/useProjectMetrics';
 
 import './MyProject.css';
 
@@ -65,6 +67,12 @@ const MyProject: React.FC = () => {
     const { data: projects, isLoading, error, refetch } = useUserProject();
     const { data: odsOptions, isLoading: odsLoading } = useODS();
     const updateProjectMutation = useUpdateProject();
+    const createMemberMutation = useCreateMember();
+    const updateMemberMutation = useUpdateMember();
+    const deleteMemberMutation = useDeleteMember();
+    const createMetricMutation = useCreateMetric();
+    const updateMetricMutation = useUpdateMetric();
+    const deleteMetricMutation = useDeleteMetric();
     const { setModalContent } = useModalStore();
     const project = projects?.[0];
 
@@ -294,7 +302,7 @@ const MyProject: React.FC = () => {
             <EditMemberModal
                 isAdding={true}
                 onSubmit={handleSaveMember}
-                isLoading={updateProjectMutation.isPending}
+                isLoading={createMemberMutation.isPending || updateMemberMutation.isPending}
             />
         );
     };
@@ -306,30 +314,36 @@ const MyProject: React.FC = () => {
                 isAdding={false}
                 index={index}
                 onSubmit={handleSaveMember}
-                isLoading={updateProjectMutation.isPending}
+                isLoading={createMemberMutation.isPending || updateMemberMutation.isPending}
             />
         );
     };
 
     const handleSaveMember = async (memberData: any, index?: number | null, photoFile?: File | null) => {
         try {
-            const updatedTeam = [...project.equipo];
-            
             if (index !== null && index !== undefined) {
-                updatedTeam[index] = memberData;
+                // Update existing member
+                const existingMember = project.equipo[index];
+                if (existingMember?.id) {
+                    await updateMemberMutation.mutateAsync({
+                        projectId: project.id,
+                        memberId: existingMember.id,
+                        memberData,
+                        photoFile: photoFile || undefined
+                    });
+                }
             } else {
-                updatedTeam.push(memberData);
+                // Create new member
+                await createMemberMutation.mutateAsync({
+                    projectId: project.id,
+                    memberData,
+                    photoFile: photoFile || undefined
+                });
             }
-
-            const memberPhotos = photoFile ? { [index || updatedTeam.length - 1]: photoFile } : undefined;
-
-            await updateProjectMutation.mutateAsync({ 
-                projectData: { equipo: updatedTeam },
-                memberPhotos: memberPhotos
-            });
             toast.success(t('project_update_success'));
             refetch();
         } catch (error) {
+            console.error('Member update error:', error);
             toast.error(t('project_update_error'));
         }
     };
@@ -339,7 +353,7 @@ const MyProject: React.FC = () => {
             <EditMetricModal
                 isAdding={true}
                 onSubmit={handleSaveMetric}
-                isLoading={updateProjectMutation.isPending}
+                isLoading={createMetricMutation.isPending || updateMetricMutation.isPending}
             />
         );
     };
@@ -351,47 +365,68 @@ const MyProject: React.FC = () => {
                 isAdding={false}
                 index={index}
                 onSubmit={handleSaveMetric}
-                isLoading={updateProjectMutation.isPending}
+                isLoading={createMetricMutation.isPending || updateMetricMutation.isPending}
             />
         );
     };
 
     const handleSaveMetric = async (metricData: any, index?: number | null) => {
         try {
-            const updatedMetrics = [...project.metricas_clave];
-            
             if (index !== null && index !== undefined) {
-                updatedMetrics[index] = metricData;
+                // Update existing metric
+                const existingMetric = project.metricas_clave[index];
+                if (existingMetric?.id) {
+                    await updateMetricMutation.mutateAsync({
+                        projectId: project.id,
+                        metricId: existingMetric.id,
+                        metricData
+                    });
+                }
             } else {
-                updatedMetrics.push(metricData);
+                // Create new metric
+                await createMetricMutation.mutateAsync({
+                    projectId: project.id,
+                    metricData
+                });
             }
-
-            await updateProjectMutation.mutateAsync({ projectData: { metricas_clave: updatedMetrics } });
             toast.success(t('project_update_success'));
             refetch();
         } catch (error) {
+            console.error('Metric update error:', error);
             toast.error(t('project_update_error'));
         }
     };
 
     const handleDeleteMember = async (index: number) => {
         try {
-            const updatedTeam = project.equipo.filter((_: any, i: number) => i !== index);
-            await updateProjectMutation.mutateAsync({ projectData: { equipo: updatedTeam } });
-            toast.success(t('project_update_success'));
-            refetch();
+            const memberToDelete = project.equipo[index];
+            if (memberToDelete?.id) {
+                await deleteMemberMutation.mutateAsync({
+                    projectId: project.id,
+                    memberId: memberToDelete.id
+                });
+                toast.success(t('project_update_success'));
+                refetch();
+            }
         } catch (error) {
+            console.error('Member delete error:', error);
             toast.error(t('project_update_error'));
         }
     };
 
     const handleDeleteMetric = async (index: number) => {
         try {
-            const updatedMetrics = project.metricas_clave.filter((_: any, i: number) => i !== index);
-            await updateProjectMutation.mutateAsync({ projectData: { metricas_clave: updatedMetrics } });
-            toast.success(t('project_update_success'));
-            refetch();
+            const metricToDelete = project.metricas_clave[index];
+            if (metricToDelete?.id) {
+                await deleteMetricMutation.mutateAsync({
+                    projectId: project.id,
+                    metricId: metricToDelete.id
+                });
+                toast.success(t('project_update_success'));
+                refetch();
+            }
         } catch (error) {
+            console.error('Metric delete error:', error);
             toast.error(t('project_update_error'));
         }
     };
