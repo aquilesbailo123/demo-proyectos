@@ -624,7 +624,6 @@
 .team-member:hover {
     background: var(--background-accent);
     border-color: var(--main-primary);
-    transform: translateY(-2px);
     box-shadow: 0 4px 15px var(--card-shadow);
 }
 
@@ -667,21 +666,9 @@
     position: relative;
 }
 
-.metric-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--main-primary), var(--main-secondary));
-    border-radius: 12px 12px 0 0;
-}
-
 .metric-item:hover {
     background: var(--background-accent);
     border-color: var(--main-primary);
-    transform: translateY(-2px);
     box-shadow: 0 4px 15px var(--card-shadow);
 }
 

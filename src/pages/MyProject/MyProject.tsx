@@ -302,7 +302,6 @@ const MyProject: React.FC = () => {
             <EditMemberModal
                 isAdding={true}
                 onSubmit={handleSaveMember}
-                isLoading={createMemberMutation.isPending || updateMemberMutation.isPending}
             />
         );
     };
@@ -314,7 +313,6 @@ const MyProject: React.FC = () => {
                 isAdding={false}
                 index={index}
                 onSubmit={handleSaveMember}
-                isLoading={createMemberMutation.isPending || updateMemberMutation.isPending}
             />
         );
     };
@@ -353,7 +351,6 @@ const MyProject: React.FC = () => {
             <EditMetricModal
                 isAdding={true}
                 onSubmit={handleSaveMetric}
-                isLoading={createMetricMutation.isPending || updateMetricMutation.isPending}
             />
         );
     };
@@ -365,7 +362,6 @@ const MyProject: React.FC = () => {
                 isAdding={false}
                 index={index}
                 onSubmit={handleSaveMetric}
-                isLoading={createMetricMutation.isPending || updateMetricMutation.isPending}
             />
         );
     };
@@ -471,12 +467,7 @@ const MyProject: React.FC = () => {
                             onClick={handleEditBasicInfo}
                             disabled={updateProjectMutation.isPending}
                         >
-                            {updateProjectMutation.isPending ? 
-                                <Spinner size="xs"/> 
-                            : <>
-                                <RiEditLine />
-                                {t('common_edit')}
-                            </>}
+                            <RiEditLine /> {t('common_edit')}
                         </Button>
                         <Button 
                             variant="secondary" 
@@ -573,12 +564,7 @@ const MyProject: React.FC = () => {
                             onClick={handleEditBusinessMetrics}
                             disabled={updateProjectMutation.isPending}
                         >
-                            {updateProjectMutation.isPending ? 
-                                <Spinner size="xs"/> 
-                            : <>
-                                <RiEditLine />
-                                {t('common_edit')}
-                            </>}
+                            <RiEditLine /> {t('common_edit')}
                         </Button>
                     </div>
                     <div className="business-metrics-grid">
@@ -645,12 +631,7 @@ const MyProject: React.FC = () => {
                             onClick={handleEditValueProposition}
                             disabled={updateProjectMutation.isPending}
                         >
-                            {updateProjectMutation.isPending ? 
-                                <Spinner size="xs"/> 
-                            : <>
-                                <RiEditLine />
-                                {t('common_edit')}
-                            </>}
+                            <RiEditLine /> {t('common_edit')}
                         </Button>
                     </div>
                     <div className="value-prop-grid">
@@ -686,12 +667,7 @@ const MyProject: React.FC = () => {
                             onClick={handleEditExecutiveSummary}
                             disabled={updateProjectMutation.isPending}
                         >
-                            {updateProjectMutation.isPending ? 
-                                <Spinner size="xs"/> 
-                            : <>
-                                <RiEditLine />
-                                {t('common_edit')}
-                            </>}
+                            <RiEditLine /> {t('common_edit')}
                         </Button>
                     </div>
                     <p className="myproject-summary">{project.resumen_ejecutivo}</p>
@@ -710,12 +686,7 @@ const MyProject: React.FC = () => {
                             onClick={handleEditFundsUsage}
                             disabled={updateProjectMutation.isPending}
                         >
-                            {updateProjectMutation.isPending ? 
-                                <Spinner size="xs"/> 
-                            : <>
-                                <RiEditLine />
-                                {t('common_edit')}
-                            </>}
+                            <RiEditLine /> {t('common_edit')}
                         </Button>
                     </div>
                     <div className="funds-usage-grid">
@@ -852,12 +823,7 @@ const MyProject: React.FC = () => {
                                 onClick={handleAddMember}
                                 disabled={updateProjectMutation.isPending}
                             >
-                                {updateProjectMutation.isPending ? 
-                                    <Spinner size="xs"/> 
-                                : <>
-                                    <RiAddLine />
-                                    {t('createProject.stages.team.addMember')}
-                                </>}
+                                <RiAddLine /> {t('createProject.stages.team.addMember')}
                             </Button>
                         </div>
                         <div className="myproject-team">
@@ -882,9 +848,7 @@ const MyProject: React.FC = () => {
                                             onClick={() => handleEditMember(member, index)}
                                             disabled={updateProjectMutation.isPending}
                                         >
-                                            {updateProjectMutation.isPending ? 
-                                                <Spinner size="xs"/> 
-                                            : <RiEditLine />}
+                                            <RiEditLine />
                                         </Button>
                                         <Button 
                                             variant="danger" 
@@ -892,9 +856,7 @@ const MyProject: React.FC = () => {
                                             onClick={() => handleDeleteMember(index)}
                                             disabled={updateProjectMutation.isPending}
                                         >
-                                            {updateProjectMutation.isPending ? 
-                                                <Spinner size="xs"/> 
-                                            : <RiDeleteBin6Line />}
+                                            <RiDeleteBin6Line />
                                         </Button>
                                     </div>
                                 </div>
@@ -917,12 +879,7 @@ const MyProject: React.FC = () => {
                                 onClick={handleAddMetric}
                                 disabled={updateProjectMutation.isPending}
                             >
-                                {updateProjectMutation.isPending ? 
-                                    <Spinner size="xs"/> 
-                                : <>
-                                    <RiAddLine />
-                                    {t('createProject.stages.impact.addMetric')}
-                                </>}
+                                <RiAddLine /> {t('createProject.stages.impact.addMetric')}
                             </Button>
                         </div>
                         <div className="myproject-metrics">
@@ -940,9 +897,7 @@ const MyProject: React.FC = () => {
                                             onClick={() => handleEditMetric(metric, index)}
                                             disabled={updateProjectMutation.isPending}
                                         >
-                                            {updateProjectMutation.isPending ? 
-                                                <Spinner size="xs"/> 
-                                            : <RiEditLine />}
+                                            <RiEditLine />
                                         </Button>
                                         <Button 
                                             variant="danger" 
@@ -950,9 +905,7 @@ const MyProject: React.FC = () => {
                                             onClick={() => handleDeleteMetric(index)}
                                             disabled={updateProjectMutation.isPending}
                                         >
-                                            {updateProjectMutation.isPending ? 
-                                                <Spinner size="xs" /> 
-                                            : <RiDeleteBin6Line />}
+                                            <RiDeleteBin6Line />
                                         </Button>
                                     </div>
                                 </div>

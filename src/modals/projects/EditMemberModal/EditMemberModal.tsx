@@ -14,14 +14,14 @@ interface EditMemberModalProps {
     data?: ProjectMember;
     isAdding: boolean;
     index?: number;
-    onSubmit: (memberData: any, index?: number | null, photoFile?: File | null) => void;
-    isLoading?: boolean;
+    onSubmit: (memberData: any, index?: number | null, photoFile?: File | null) => Promise<void>;
 }
 
-const EditMemberModal = ({ data, isAdding, index, onSubmit, isLoading = false }: EditMemberModalProps) => {
+const EditMemberModal = ({ data, isAdding, index, onSubmit }: EditMemberModalProps) => {
     const { t } = useTranslation('common');
     const { closeModal } = useModalStore();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: data?.name || '',
         academic_title: data?.academic_title || '',
@@ -32,16 +32,21 @@ const EditMemberModal = ({ data, isAdding, index, onSubmit, isLoading = false }:
 
     const [photoFile, setPhotoFile] = useState<File | null>(null);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (formData.name.trim()) {
-            onSubmit(formData, isAdding ? null : index, photoFile);
-            closeModal();
+            setIsLoading(true);
+            try {
+                await onSubmit(formData, isAdding ? null : index, photoFile);
+                closeModal();
+            } catch (error) {
+                setIsLoading(false);
+            }
         }
     };
 
     return (
         <div className="project-modal-content">
-            <h3>{isAdding ? t('myProject.team.addMember') : t('myProject.team.editMember')}</h3>
+            <h3>{isAdding ? t('createProject.stages.team.addMember') : t('createProject.stages.team.editMember')}</h3>
             
             <Input
                 name="member-name"
@@ -100,16 +105,24 @@ const EditMemberModal = ({ data, isAdding, index, onSubmit, isLoading = false }:
             />
 
             <div className="form-modal-actions">
-                <Button variant="secondary" onClick={closeModal}>
-                    {t('common_cancel')}
-                </Button>
-                <Button 
-                    variant="primary" 
-                    onClick={handleSubmit}
-                    disabled={!formData.name.trim() || isLoading}
-                >
-                    {isLoading ? <Spinner /> : t('common_save')}
-                </Button>
+                {isLoading ? (
+                    <div className="form-modal-loading">
+                        <Spinner size="sm"/>
+                    </div>
+                ) : (
+                <>
+                    <Button variant="secondary" onClick={closeModal}>
+                        {t('common_cancel')}
+                    </Button>
+                    <Button 
+                        variant="primary" 
+                        onClick={handleSubmit}
+                        disabled={isLoading}
+                    >
+                        {t('common_save')}
+                    </Button>
+                </>
+                )}
             </div>
         </div>
     );

@@ -13,30 +13,35 @@ interface EditMetricModalProps {
     data?: KeyMetric;
     isAdding: boolean;
     index?: number;
-    onSubmit: (metricData: any, index?: number | null) => void;
-    isLoading?: boolean;
+    onSubmit: (metricData: any, index?: number | null) => Promise<void>;
 }
 
-const EditMetricModal = ({ data, isAdding, index, onSubmit, isLoading = false }: EditMetricModalProps) => {
+const EditMetricModal = ({ data, isAdding, index, onSubmit }: EditMetricModalProps) => {
     const { t } = useTranslation('common');
     const { closeModal } = useModalStore();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         metrica: data?.metrica || '',
         metodo_medicion: data?.metodo_medicion || '',
         valor_actual: data?.valor_actual || ''
     });
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (formData.metrica.trim() && formData.metodo_medicion.trim() && formData.valor_actual.trim()) {
-            onSubmit(formData, isAdding ? null : index);
-            closeModal();
+            setIsLoading(true);
+            try {
+                await onSubmit(formData, isAdding ? null : index);
+                closeModal();
+            } catch (error) {
+                setIsLoading(false);
+            }
         }
     };
 
     return (
         <div className="project-modal-content">
-            <h3>{isAdding ? t('myProject.metrics.addMetric') : t('myProject.metrics.editMetric')}</h3>
+            <h3>{isAdding ? t('createProject.stages.impact.addMetric') : t('createProject.stages.impact.editMetric')}</h3>
             
             <Input
                 name="metric-name"
@@ -66,16 +71,24 @@ const EditMetricModal = ({ data, isAdding, index, onSubmit, isLoading = false }:
             />
 
             <div className="form-modal-actions">
-                <Button variant="secondary" onClick={closeModal}>
-                    {t('common_cancel')}
-                </Button>
-                <Button 
-                    variant="primary" 
-                    onClick={handleSubmit}
-                    disabled={!formData.metrica.trim() || !formData.metodo_medicion.trim() || !formData.valor_actual.trim() || isLoading}
-                >
-                    {isLoading ? <Spinner /> : t('common_save')}
-                </Button>
+                {isLoading ? (
+                    <div className="form-modal-loading">
+                        <Spinner size="sm"/>
+                    </div>
+                ) : (
+                <>
+                    <Button variant="secondary" onClick={closeModal}>
+                        {t('common_cancel')}
+                    </Button>
+                    <Button 
+                        variant="primary" 
+                        onClick={handleSubmit}
+                        disabled={!formData.metrica.trim() || !formData.metodo_medicion.trim() || !formData.valor_actual.trim() || isLoading}
+                    >
+                        {t('common_save')}
+                    </Button>
+                </>
+                )}
             </div>
         </div>
     );
