@@ -16,7 +16,10 @@ import {
     RiUserLine,
     RiPieChartLine,
     RiFileTextLine,
-    RiLeafLine
+    RiLeafLine,
+    RiEditLine,
+    RiAddLine,
+    RiDeleteBin6Line
 } from 'react-icons/ri';
 import { 
     FaHandshake, 
@@ -36,20 +39,33 @@ import {
     FaDove 
 } from 'react-icons/fa';
 
-import { useUserProject } from '@/hooks/useProject';
+import { useUserProject, useUpdateProject, KeyMetric, ProjectMember } from '@/hooks/useProject';
 import { useODS } from '@/hooks/useOptions';
 import Card from '@/components/common/Card/Card';
 import Button from '@/components/common/Button/Button';
 import Spinner from '@/components/common/Spinner/Spinner';
 import routes from '@/routes/routes';
+import useModalStore from '@/stores/ModalStore';
+import toast from 'react-hot-toast';
+
+// Import modals
+import EditBasicInfoModal from '@/modals/projects/EditBasicInfoModal/EditBasicInfoModal';
+import EditValuePropositionModal from '@/modals/projects/EditValuePropositionModal/EditValuePropositionModal';
+import EditBusinessMetricsModal from '@/modals/projects/EditBusinessMetricsModal/EditBusinessMetricsModal';
+import EditFundsUsageModal from '@/modals/projects/EditFundsUsageModal/EditFundsUsageModal';
+import EditExecutiveSummaryModal from '@/modals/projects/EditExecutiveSummaryModal/EditExecutiveSummaryModal';
+import EditMemberModal from '@/modals/projects/EditMemberModal/EditMemberModal';
+import EditMetricModal from '@/modals/projects/EditMetricModal/EditMetricModal';
 
 import './MyProject.css';
 
 const MyProject: React.FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { data: projects, isLoading, error } = useUserProject();
+    const { data: projects, isLoading, error, refetch } = useUserProject();
     const { data: odsOptions, isLoading: odsLoading } = useODS();
+    const updateProjectMutation = useUpdateProject();
+    const { setModalContent } = useModalStore();
     const project = projects?.[0];
 
     // ODS icons mapping
@@ -152,6 +168,234 @@ const MyProject: React.FC = () => {
         }
     };
 
+    // Edit handlers
+    const handleEditBasicInfo = () => {
+        setModalContent(
+            <EditBasicInfoModal
+                data={{
+                    name: project.name,
+                    slogan: project.slogan,
+                    logo: project.logo,
+                    website: project.website,
+                    twitter: project.twitter,
+                    linkedin: project.linkedin
+                }}
+                onSubmit={handleSaveBasicInfo}
+            />
+        );
+    };
+
+    const handleSaveBasicInfo = async (data: any) => {
+        try {
+            const updateData: any = {
+                name: data.name,
+                slogan: data.slogan,
+                website: data.website,
+                twitter: data.twitter,
+                linkedin: data.linkedin
+            };
+
+            const files = data.logoFile ? { logo: data.logoFile } : undefined;
+
+            await updateProjectMutation.mutateAsync({
+                projectData: updateData,
+                files: files
+            });
+            toast.success(t('project_update_success'));
+            refetch();
+        } catch (error) {
+            toast.error(t('project_update_error'));
+        }
+    };
+
+    const handleEditValueProposition = () => {
+        setModalContent(
+            <EditValuePropositionModal
+                data={project.value_proposition}
+                onSubmit={handleSaveValueProposition}
+            />
+        );
+    };
+
+    const handleSaveValueProposition = async (data: any) => {
+        try {
+            await updateProjectMutation.mutateAsync({ projectData: { value_proposition: data } });
+            toast.success(t('project_update_success'));
+            refetch();
+        } catch (error) {
+            toast.error(t('project_update_error'));
+        }
+    };
+
+    const handleEditExecutiveSummary = () => {
+        setModalContent(
+            <EditExecutiveSummaryModal
+                data={project.resumen_ejecutivo}
+                onSubmit={handleSaveExecutiveSummary}
+            />
+        );
+    };
+
+    const handleSaveExecutiveSummary = async (data: string) => {
+        try {
+            await updateProjectMutation.mutateAsync({ projectData: { resumen_ejecutivo: data } });
+            toast.success(t('project_update_success'));
+            refetch();
+        } catch (error) {
+            toast.error(t('project_update_error'));
+        }
+    };
+
+    const handleEditBusinessMetrics = () => {
+        setModalContent(
+            <EditBusinessMetricsModal
+                data={{
+                    usuarios_activos: project.usuarios_activos,
+                    ingresos_mensuales: project.ingresos_mensuales,
+                    numero_clientes: project.numero_clientes,
+                    tamano_comunidad: project.tamano_comunidad
+                }}
+                onSubmit={handleSaveBusinessMetrics}
+            />
+        );
+    };
+
+    const handleSaveBusinessMetrics = async (data: any) => {
+        try {
+            await updateProjectMutation.mutateAsync({ projectData: data });
+            toast.success(t('project_update_success'));
+            refetch();
+        } catch (error) {
+            toast.error(t('project_update_error'));
+        }
+    };
+
+    const handleEditFundsUsage = () => {
+        setModalContent(
+            <EditFundsUsageModal
+                data={project.funds_usage}
+                onSubmit={handleSaveFundsUsage}
+            />
+        );
+    };
+
+    const handleSaveFundsUsage = async (data: any) => {
+        try {
+            await updateProjectMutation.mutateAsync({ projectData: { funds_usage: data } });
+            toast.success(t('project_update_success'));
+            refetch();
+        } catch (error) {
+            toast.error(t('project_update_error'));
+        }
+    };
+
+    const handleAddMember = () => {
+        setModalContent(
+            <EditMemberModal
+                isAdding={true}
+                onSubmit={handleSaveMember}
+                isLoading={updateProjectMutation.isPending}
+            />
+        );
+    };
+
+    const handleEditMember = (member: ProjectMember, index: number) => {
+        setModalContent(
+            <EditMemberModal
+                data={member}
+                isAdding={false}
+                index={index}
+                onSubmit={handleSaveMember}
+                isLoading={updateProjectMutation.isPending}
+            />
+        );
+    };
+
+    const handleSaveMember = async (memberData: any, index?: number | null, photoFile?: File | null) => {
+        try {
+            const updatedTeam = [...project.equipo];
+            
+            if (index !== null && index !== undefined) {
+                updatedTeam[index] = memberData;
+            } else {
+                updatedTeam.push(memberData);
+            }
+
+            const memberPhotos = photoFile ? { [index || updatedTeam.length - 1]: photoFile } : undefined;
+
+            await updateProjectMutation.mutateAsync({ 
+                projectData: { equipo: updatedTeam },
+                memberPhotos: memberPhotos
+            });
+            toast.success(t('project_update_success'));
+            refetch();
+        } catch (error) {
+            toast.error(t('project_update_error'));
+        }
+    };
+
+    const handleAddMetric = () => {
+        setModalContent(
+            <EditMetricModal
+                isAdding={true}
+                onSubmit={handleSaveMetric}
+                isLoading={updateProjectMutation.isPending}
+            />
+        );
+    };
+
+    const handleEditMetric = (metric: KeyMetric, index: number) => {
+        setModalContent(
+            <EditMetricModal
+                data={metric}
+                isAdding={false}
+                index={index}
+                onSubmit={handleSaveMetric}
+                isLoading={updateProjectMutation.isPending}
+            />
+        );
+    };
+
+    const handleSaveMetric = async (metricData: any, index?: number | null) => {
+        try {
+            const updatedMetrics = [...project.metricas_clave];
+            
+            if (index !== null && index !== undefined) {
+                updatedMetrics[index] = metricData;
+            } else {
+                updatedMetrics.push(metricData);
+            }
+
+            await updateProjectMutation.mutateAsync({ projectData: { metricas_clave: updatedMetrics } });
+            toast.success(t('project_update_success'));
+            refetch();
+        } catch (error) {
+            toast.error(t('project_update_error'));
+        }
+    };
+
+    const handleDeleteMember = async (index: number) => {
+        try {
+            const updatedTeam = project.equipo.filter((_: any, i: number) => i !== index);
+            await updateProjectMutation.mutateAsync({ projectData: { equipo: updatedTeam } });
+            toast.success(t('project_update_success'));
+            refetch();
+        } catch (error) {
+            toast.error(t('project_update_error'));
+        }
+    };
+
+    const handleDeleteMetric = async (index: number) => {
+        try {
+            const updatedMetrics = project.metricas_clave.filter((_: any, i: number) => i !== index);
+            await updateProjectMutation.mutateAsync({ projectData: { metricas_clave: updatedMetrics } });
+            toast.success(t('project_update_success'));
+            refetch();
+        } catch (error) {
+            toast.error(t('project_update_error'));
+        }
+    };
+
     return (
         <div className="myproject-container">
             {/* Project Header */}
@@ -186,6 +430,19 @@ const MyProject: React.FC = () => {
                     </div>
                     
                     <div className="myproject-actions">
+                        <Button 
+                            variant="secondary" 
+                            size="sm"
+                            onClick={handleEditBasicInfo}
+                            disabled={updateProjectMutation.isPending}
+                        >
+                            {updateProjectMutation.isPending ? 
+                                <Spinner size="xs"/> 
+                            : <>
+                                <RiEditLine />
+                                {t('common_edit')}
+                            </>}
+                        </Button>
                         <Button 
                             variant="secondary" 
                             size="sm"
@@ -273,7 +530,22 @@ const MyProject: React.FC = () => {
             {/* Business Metrics */}
             {(project.usuarios_activos || project.ingresos_mensuales || project.numero_clientes || project.tamano_comunidad) && (
                 <div className="myproject-business-metrics">
-                    <h2 className="section-title project-section">{t('project_business_metrics')}</h2>
+                    <div className="section-header">
+                        <h2 className="section-title project-section">{t('project_business_metrics')}</h2>
+                        <Button 
+                            variant="secondary" 
+                            size="sm"
+                            onClick={handleEditBusinessMetrics}
+                            disabled={updateProjectMutation.isPending}
+                        >
+                            {updateProjectMutation.isPending ? 
+                                <Spinner size="xs"/> 
+                            : <>
+                                <RiEditLine />
+                                {t('common_edit')}
+                            </>}
+                        </Button>
+                    </div>
                     <div className="business-metrics-grid">
                         {project.usuarios_activos && (
                             <Card className="business-metric-card">
@@ -327,10 +599,25 @@ const MyProject: React.FC = () => {
             <div className="myproject-details-grid">
                 {/* Value Proposition */}
                 <Card className="value-proposition-card">
-                    <h3>
-                        <RiLightbulbLine className="section-icon" />
-                        {t('project_value_proposition')}
-                    </h3>
+                    <div className="card-header">
+                        <h3>
+                            <RiLightbulbLine className="section-icon" />
+                            {t('project_value_proposition')}
+                        </h3>
+                        <Button 
+                            variant="secondary" 
+                            size="sm"
+                            onClick={handleEditValueProposition}
+                            disabled={updateProjectMutation.isPending}
+                        >
+                            {updateProjectMutation.isPending ? 
+                                <Spinner size="xs"/> 
+                            : <>
+                                <RiEditLine />
+                                {t('common_edit')}
+                            </>}
+                        </Button>
+                    </div>
                     <div className="value-prop-grid">
                         <div className="value-prop-item">
                             <h4>{t('project_problem')}</h4>
@@ -353,19 +640,49 @@ const MyProject: React.FC = () => {
 
                 {/* Executive Summary */}
                 <Card className="myproject-detail-card">
-                    <h3>
-                        <RiFileTextLine className="section-icon" />
-                        {t('project_summary')}
-                    </h3>
+                    <div className="card-header">
+                        <h3>
+                            <RiFileTextLine className="section-icon" />
+                            {t('project_summary')}
+                        </h3>
+                        <Button 
+                            variant="secondary" 
+                            size="sm"
+                            onClick={handleEditExecutiveSummary}
+                            disabled={updateProjectMutation.isPending}
+                        >
+                            {updateProjectMutation.isPending ? 
+                                <Spinner size="xs"/> 
+                            : <>
+                                <RiEditLine />
+                                {t('common_edit')}
+                            </>}
+                        </Button>
+                    </div>
                     <p className="myproject-summary">{project.resumen_ejecutivo}</p>
                 </Card>
 
                 {/* Funds Usage */}
                 <Card className="myproject-detail-card">
-                    <h3>
-                        <RiPieChartLine className="section-icon" />
-                        {t('project_funds_usage')}
-                    </h3>
+                    <div className="card-header">
+                        <h3>
+                            <RiPieChartLine className="section-icon" />
+                            {t('project_funds_usage')}
+                        </h3>
+                        <Button 
+                            variant="secondary" 
+                            size="sm"
+                            onClick={handleEditFundsUsage}
+                            disabled={updateProjectMutation.isPending}
+                        >
+                            {updateProjectMutation.isPending ? 
+                                <Spinner size="xs"/> 
+                            : <>
+                                <RiEditLine />
+                                {t('common_edit')}
+                            </>}
+                        </Button>
+                    </div>
                     <div className="funds-usage-grid">
                         <div className="fund-item">
                             <div className="fund-bar">
@@ -489,10 +806,25 @@ const MyProject: React.FC = () => {
                 {/* Team */}
                 {project.equipo && project.equipo.length > 0 && (
                     <Card className="myproject-detail-card">
-                        <h3>
-                            <RiTeamLine className="section-icon" />
-                            {t('project_team')}
-                        </h3>
+                        <div className="card-header">
+                            <h3>
+                                <RiTeamLine className="section-icon" />
+                                {t('project_team')}
+                            </h3>
+                            <Button 
+                                variant="secondary" 
+                                size="sm"
+                                onClick={handleAddMember}
+                                disabled={updateProjectMutation.isPending}
+                            >
+                                {updateProjectMutation.isPending ? 
+                                    <Spinner size="xs"/> 
+                                : <>
+                                    <RiAddLine />
+                                    {t('createProject.stages.team.addMember')}
+                                </>}
+                            </Button>
+                        </div>
                         <div className="myproject-team">
                             {project.equipo.map((member: any, index: number) => (
                                 <div key={index} className="team-member">
@@ -508,6 +840,28 @@ const MyProject: React.FC = () => {
                                         <p className="team-member-title">{member.academic_title}</p>
                                         <p className="team-member-country">{member.country}</p>
                                     </div>
+                                    <div className="team-member-actions">
+                                        <Button 
+                                            variant="secondary" 
+                                            size="sm"
+                                            onClick={() => handleEditMember(member, index)}
+                                            disabled={updateProjectMutation.isPending}
+                                        >
+                                            {updateProjectMutation.isPending ? 
+                                                <Spinner size="xs"/> 
+                                            : <RiEditLine />}
+                                        </Button>
+                                        <Button 
+                                            variant="danger" 
+                                            size="sm"
+                                            onClick={() => handleDeleteMember(index)}
+                                            disabled={updateProjectMutation.isPending}
+                                        >
+                                            {updateProjectMutation.isPending ? 
+                                                <Spinner size="xs"/> 
+                                            : <RiDeleteBin6Line />}
+                                        </Button>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -517,16 +871,55 @@ const MyProject: React.FC = () => {
                 {/* Key Metrics */}
                 {project.metricas_clave && project.metricas_clave.length > 0 && (
                     <Card className="myproject-detail-card">
-                        <h3>
-                            <RiBarChartLine className="section-icon" />
-                            {t('project_metrics')}
-                        </h3>
+                        <div className="card-header">
+                            <h3>
+                                <RiBarChartLine className="section-icon" />
+                                {t('project_metrics')}
+                            </h3>
+                            <Button 
+                                variant="secondary" 
+                                size="sm"
+                                onClick={handleAddMetric}
+                                disabled={updateProjectMutation.isPending}
+                            >
+                                {updateProjectMutation.isPending ? 
+                                    <Spinner size="xs"/> 
+                                : <>
+                                    <RiAddLine />
+                                    {t('createProject.stages.impact.addMetric')}
+                                </>}
+                            </Button>
+                        </div>
                         <div className="myproject-metrics">
                             {project.metricas_clave.map((metric: any, index: number) => (    
                                 <div key={index} className="metric-item">
-                                    <h4>{metric.metrica}</h4>
-                                    <p className="metric-value">{metric.valor_actual}</p>
-                                    <p className="metric-method">{metric.metodo_medicion}</p>
+                                    <div className="metric-content">
+                                        <h4>{metric.metrica}</h4>
+                                        <p className="metric-value">{metric.valor_actual}</p>
+                                        <p className="metric-method">{metric.metodo_medicion}</p>
+                                    </div>
+                                    <div className="metric-actions">
+                                        <Button 
+                                            variant="secondary" 
+                                            size="sm"
+                                            onClick={() => handleEditMetric(metric, index)}
+                                            disabled={updateProjectMutation.isPending}
+                                        >
+                                            {updateProjectMutation.isPending ? 
+                                                <Spinner size="xs"/> 
+                                            : <RiEditLine />}
+                                        </Button>
+                                        <Button 
+                                            variant="danger" 
+                                            size="sm"
+                                            onClick={() => handleDeleteMetric(index)}
+                                            disabled={updateProjectMutation.isPending}
+                                        >
+                                            {updateProjectMutation.isPending ? 
+                                                <Spinner size="xs" /> 
+                                            : <RiDeleteBin6Line />}
+                                        </Button>
+                                    </div>
                                 </div>
                             ))}
                         </div>

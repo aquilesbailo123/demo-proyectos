@@ -104,8 +104,10 @@ export interface CreateProjectData {
     equipo?: Omit<ProjectMember, 'id' | 'created' | 'updated'>[];
 }
 
-export interface UpdateProjectData extends Partial<CreateProjectData> {
+export interface UpdateProjectData extends Partial<Omit<CreateProjectData, 'industry_id' | 'financing_type_id'>> {
     is_active?: boolean;
+    // Allow direct field updates for individual properties
+    [key: string]: any;
 }
 
 export interface FeaturedProjectsParams {
@@ -166,9 +168,42 @@ const createProject = async (projectData: CreateProjectData, files: { logo: File
     return data;
 };
 
-const updateProject = async (projectData: UpdateProjectData): Promise<Project> => {
-    const { data } = await axiosInstance.patch("/projects/update/", projectData);
-    return data;
+const updateProject = async (projectData: UpdateProjectData, files?: { logo?: File | null; documento_traccion?: File | null; acta_constitutiva?: File | null; identificacion_representante?: File | null; whitepaper?: File | null; cap_table?: File | null; }, memberPhotos?: { [key: number]: File }): Promise<Project> => {
+    // If files are provided, use FormData
+    if (files && Object.values(files).some(file => file !== null && file !== undefined) || memberPhotos && Object.keys(memberPhotos).length > 0) {
+        const formData = new FormData();
+        
+        // Add project data as JSON
+        formData.append('project_data', JSON.stringify(projectData));
+        
+        // Add files if they exist
+        if (files) {
+            if (files.logo) formData.append('logo', files.logo);
+            if (files.documento_traccion) formData.append('documento_traccion', files.documento_traccion);
+            if (files.acta_constitutiva) formData.append('acta_constitutiva', files.acta_constitutiva);
+            if (files.identificacion_representante) formData.append('identificacion_representante', files.identificacion_representante);
+            if (files.whitepaper) formData.append('whitepaper', files.whitepaper);
+            if (files.cap_table) formData.append('cap_table', files.cap_table);
+        }
+        
+        // Add member photos
+        if (memberPhotos) {
+            Object.entries(memberPhotos).forEach(([index, photo]) => {
+                formData.append(`member_photo_${index}`, photo);
+            });
+        }
+        
+        const { data } = await axiosInstance.patch("/projects/update/", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return data;
+    } else {
+        // Use regular JSON for updates without files
+        const { data } = await axiosInstance.patch("/projects/update/", projectData);
+        return data;
+    }
 };
 
 // Hooks
@@ -210,7 +245,8 @@ export const useUpdateProject = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: updateProject,
+        mutationFn: ({ projectData, files, memberPhotos }: { projectData: UpdateProjectData; files?: { logo?: File | null; documento_traccion?: File | null; acta_constitutiva?: File | null; identificacion_representante?: File | null; whitepaper?: File | null; cap_table?: File | null; }; memberPhotos?: { [key: number]: File } }) => 
+            updateProject(projectData, files, memberPhotos),
         onSuccess: () => {
             // Invalidate user project query to refetch updated data
             queryClient.invalidateQueries({ queryKey: ["userProject"] });

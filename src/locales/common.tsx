@@ -223,6 +223,7 @@ const common = {
                         monthlyRevenue: "5000",
                         numberOfClients: "50",
                         communitySize: "2000",
+                        customers: "1000",
                         tractionDocument: "https://ejemplo.com/traccion.pdf"
                     },
                     metricsTitle: "Métricas de Tracción",
@@ -605,6 +606,7 @@ const common = {
         },
 
         // Projects
+        project_basic_info: "Información básica",
         project_create_success: "Proyecto creado exitosamente!",
         project_create_error: "Error al crear el proyecto. Por favor revise todos los campos.",
         project_goal: "Meta Total",
@@ -644,6 +646,8 @@ const common = {
         project_status_approved_tooltip: "El proyecto ha sido aprobado y está disponible para recibir inversiones",
         project_status_in_review_tooltip: "El proyecto está siendo revisado por el equipo de Kuskapay",
         project_status_rejected_tooltip: "El proyecto ha sido rechazado y no está disponible para inversiones",
+        project_update_success: "Proyecto actualizado exitosamente",
+        project_update_error: "Error al actualizar el proyecto",
 
         
 
@@ -880,6 +884,7 @@ const common = {
                         monthlyRevenue: "5000",
                         numberOfClients: "50",
                         communitySize: "2000",
+                        customers: "1000",
                         tractionDocument: "https://example.com/traction.pdf"
                     },
                     metricsTitle: "Traction Metrics",
