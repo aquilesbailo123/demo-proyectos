@@ -326,7 +326,7 @@ const MyProject: React.FC = () => {
             {/* Project Details */}
             <div className="myproject-details-grid">
                 {/* Value Proposition */}
-                <Card className="myproject-detail-card value-proposition-card">
+                <Card className="value-proposition-card">
                     <h3>
                         <RiLightbulbLine className="section-icon" />
                         {t('project_value_proposition')}
