@@ -11,6 +11,7 @@ import { ProjectData } from '../../components/common/ProductCard/ProductCard'
 
 import './Home.css'
 import '@/styles/General.css'
+import routes from '@/routes/routes'
 
 const Home = () => {
     
@@ -113,18 +114,11 @@ const Home = () => {
                             </div>
                             <div className="hero-buttons">
                                 <Button 
-                                    variant="primary" 
-                                    size="xl"
-                                    onClick={() => navigate('/projects')}
-                                >
-                                    Comienza tu Viaje
-                                </Button>
-                                <Button 
                                     variant="secondary" 
                                     size="xl"
-                                    onClick={() => navigate('/mentoring')}
+                                    onClick={() => navigate(routes.createProject)}
                                 >
-                                    Encuentra un Mentor
+                                    Comienza tu viaje
                                 </Button>
                             </div>
                         </div>
