@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import { 
-  RiArrowRightSLine,
-  RiStarLine,
-  RiRocketLine,
-  RiTimeLine 
+  RiEyeLine,
+  RiLineChartLine,
+  RiGroupLine,
+  RiCalendarLine,
+  RiMoneyDollarCircleLine
 } from 'react-icons/ri'
 
 import './ProductCard.css'
@@ -41,11 +41,10 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ project, visible }: ProductCardProps) => {
-  const { t } = useTranslation('common')
   const navigate = useNavigate()
   const [isHovered, setIsHovered] = useState(false)
 
-  // Handle unified calculation of progress percentage
+  // Calculate progress percentage
   const getProgressPercent = () => {
     if (project.raisedAmount && project.targetAmount) {
       return Math.round((project.raisedAmount / project.targetAmount) * 100)
@@ -55,27 +54,27 @@ const ProductCard = ({ project, visible }: ProductCardProps) => {
     return 0
   }
 
-  // Handle getting the correct raised amount value
+  // Get raised amount
   const getRaisedAmount = () => {
     return project.raisedAmount || project.fundedAmount || 0
   }
 
-  // Handle getting the correct target amount value
+  // Get target amount
   const getTargetAmount = () => {
     return project.targetAmount || project.fundingGoal || 0
   }
 
-  // Format currency values
+  // Format currency
   const formatCurrency = (amount: number) => {
-    return `${amount.toLocaleString()} ETH`
+    return `$${amount.toLocaleString()}`
   }
 
-  // Get correct backers count
+  // Get backers count
   const getBackers = () => {
     return project.backers
   }
 
-  // Get days left (either from direct property or calculated from endDate)
+  // Get days left
   const getDaysLeft = () => {
     if (project.daysLeft !== undefined) {
       return project.daysLeft
@@ -94,84 +93,90 @@ const ProductCard = ({ project, visible }: ProductCardProps) => {
     navigate(`/project/${project.id}`)
   }
 
-  // Helper to check if a tag is one of the special tags that needs an icon
-  const isSpecialTag = (tagName: string): boolean => {
-    return ['Featured', 'New', 'Ending Soon'].includes(tagName)
-  }
-
-  // Helper to render the appropriate icon for a tag
-  const getTagIcon = (tagName: string) => {
-    switch(tagName) {
-      case 'Featured': return <RiStarLine className="product-card-tag-icon" />
-      case 'New': return <RiRocketLine className="product-card-tag-icon" />
-      case 'Ending Soon': return <RiTimeLine className="product-card-tag-icon" />
-      default: return null
-    }
-  }
-
-  // Helper function to get tag name regardless of tag format
+  // Get tag name
   const getTagName = (tag: Tag | string): string => {
     return typeof tag === 'string' ? tag : tag.name
   }
 
+  const progressPercent = getProgressPercent()
+  const raisedAmount = getRaisedAmount()
+  const targetAmount = getTargetAmount()
+
   return (
     <div 
-      className={`product-card product-card-hover-effect ${visible ? 'visible' : ''}`}
-      data-id={project.id}
+      className={`startup-card ${visible ? 'startup-card-visible' : ''}`}
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div 
-        className="product-card-cover" 
-        style={{ backgroundImage: `url(${project.coverImage})` }}
-      >
-        <div className="product-card-category">{project.category}</div>
-        <div className={`product-card-overlay ${isHovered ? 'hovered' : ''}`}>
-          <div className="product-card-view">
-            <RiArrowRightSLine size={20} />
-            <span>{t('home_view_project')}</span>
+      {/* Header with image and category */}
+      <div className="startup-card-header">
+        <div 
+          className="startup-card-image" 
+          style={{ backgroundImage: `url(${project.coverImage})` }}
+        >
+          <div className="startup-card-category-badge">
+            {project.category}
+          </div>
+          <div className={`startup-card-hover-overlay ${isHovered ? 'visible' : ''}`}>
+            <RiEyeLine className="startup-card-view-icon" />
           </div>
         </div>
       </div>
-      <div className="product-card-info">
-        <h3 className="product-card-title">{project.title}</h3>
-        <p className="product-card-description">{project.description}</p>
-        
-        <div className="product-card-tags">
-          {Array.isArray(project.tags) && project.tags.map((tag, index) => {
-            const tagName = getTagName(tag)
-            return (
-              <span 
-                className="product-card-tag" 
-                key={typeof tag === 'string' ? `tag-${index}` : tag.id}
-              >
-                {isSpecialTag(tagName) && getTagIcon(tagName)}
-                {tagName}
-              </span>
-            )
-          })}
+
+      {/* Content */}
+      <div className="startup-card-content">
+        <div className="startup-card-title-section">
+          <h3 className="startup-card-title">{project.title}</h3>
+          <p className="startup-card-description">{project.description}</p>
         </div>
-        
-        <div className="product-card-progress">
-          <div className="product-card-progress-bar-container">
+
+        {/* Tags */}
+        <div className="startup-card-tags">
+          {Array.isArray(project.tags) && project.tags.slice(0, 2).map((tag, index) => (
+            <span 
+              className="startup-card-tag" 
+              key={typeof tag === 'string' ? `tag-${index}` : tag.id}
+            >
+              {getTagName(tag)}
+            </span>
+          ))}
+        </div>
+
+        {/* Funding Progress */}
+        <div className="startup-card-funding">
+          <div className="startup-card-funding-header">
+            <div className="startup-card-funding-info">
+              <RiMoneyDollarCircleLine className="startup-card-funding-icon" />
+              <span className="startup-card-funding-raised">{formatCurrency(raisedAmount)}</span>
+              <span className="startup-card-funding-target">de {formatCurrency(targetAmount)}</span>
+            </div>
+            <div className="startup-card-funding-percent">
+              <RiLineChartLine className="startup-card-percent-icon" />
+              <span>{progressPercent}%</span>
+            </div>
+          </div>
+          
+          <div className="startup-card-progress-bar">
             <div 
-              className="product-card-progress-bar" 
-              style={{ width: `${getProgressPercent()}%` }}
+              className="startup-card-progress-fill" 
+              style={{ width: `${progressPercent}%` }}
             ></div>
           </div>
-          <div className="product-card-progress-stats">
-            <div>
-              <span className="product-card-funded-amount">{formatCurrency(getRaisedAmount())}</span>
-              <span className="product-card-goal-amount"> of {formatCurrency(getTargetAmount())}</span>
-            </div>
-            <span className="product-card-funded-percent">{getProgressPercent()}%</span>
-          </div>
         </div>
-        
-        <div className="product-card-meta">
-          <span><strong>{getBackers()}</strong> {t('projects.backers')}</span>
-          <span><strong>{getDaysLeft()}</strong> {t('projects.daysLeft')}</span>
+
+        {/* Stats */}
+        <div className="startup-card-stats">
+          <div className="startup-card-stat">
+            <RiGroupLine className="startup-card-stat-icon" />
+            <span className="startup-card-stat-value">{getBackers()}</span>
+            <span className="startup-card-stat-label">Inversores</span>
+          </div>
+          <div className="startup-card-stat">
+            <RiCalendarLine className="startup-card-stat-icon" />
+            <span className="startup-card-stat-value">{getDaysLeft()}</span>
+            <span className="startup-card-stat-label">Días</span>
+          </div>
         </div>
       </div>
     </div>

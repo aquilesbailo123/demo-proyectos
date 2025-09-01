@@ -1,233 +1,399 @@
-/* ProductCard Component Styles */
-.product-card {
-    display: flex;
-    flex-direction: column;
+/* Startup Card Component - Modern Futuristic Design */
+.startup-card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 15px var(--black-10);
-    transition: all 0.3s ease;
-    text-decoration: none;
-    color: var(--text-primary);
-    background-color: var(--background-primary);
-    height: 100%;
-    position: relative;
-    border: 1px solid var(--border-color);
-    transform: translateZ(0);
-    backface-visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-}
-
-.product-card.product-card-hover-effect:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 30px var(--black-15);
-    border-color: var(--main-primary-25);
-}
-
-/* Cover image and overlay */
-.product-card-cover {
-    height: 180px;
-    background-size: cover;
-    background-position: center;
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
     position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.product-card-category {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: var(--text-md);
-    font-weight: 500;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 2;
+.startup-card.startup-card-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: cardSlideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.product-card-overlay {
+.startup-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(59, 130, 246, 0.15);
+    border-color: var(--main-primary);
+}
+
+.startup-card:hover::before {
+    opacity: 1;
+}
+
+.startup-card::before {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 253, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Header Section */
+.startup-card-header {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.startup-card-image {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    transition: transform 0.4s ease;
+}
+
+.startup-card:hover .startup-card-image {
+    transform: scale(1.05);
+}
+
+.startup-card-category-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: linear-gradient(135deg, var(--main-primary), var(--main-secondary));
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    z-index: 3;
+}
+
+.startup-card-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(59, 130, 246, 0.4));
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
-    backdrop-filter: blur(2px);
+    z-index: 2;
 }
 
-.product-card-overlay.hovered {
+.startup-card-hover-overlay.visible {
     opacity: 1;
 }
 
-.product-card-view {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
+.startup-card-view-icon {
+    font-size: 2rem;
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    animation: pulse 2s infinite;
 }
 
-.product-card-view:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+/* Content Section */
+.startup-card-content {
+    padding: 24px;
+    position: relative;
+    z-index: 2;
 }
 
-.product-card-view span {
-    margin-left: 5px;
+.startup-card-title-section {
+    margin-bottom: 20px;
 }
 
-/* Card content */
-.product-card-info {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+.startup-card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
 }
 
-.product-card-title {
-    margin: 0 0 0.75rem;
-    font-size: var(--text-lg);
-    font-weight: 600;
-}
-
-.product-card-description {
-    font-size: var(--text-md);
+.startup-card-description {
     color: var(--text-secondary);
-    margin-bottom: 1rem;
-    line-height: 1.5;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* Tags */
-.product-card-tags {
+.startup-card-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.25rem;
+    gap: 8px;
+    margin-bottom: 20px;
 }
 
-.product-card-tag {
-    background-color: var(--project-tag-bg);
-    color: var(--project-tag-text);
-    padding: 0.2rem 0.7rem;
-    border-radius: 15px;
-    font-size: var(--text-md);
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    box-shadow: 0 2px 5px var(--black-5);
-    border: 1px solid var(--black-5);
+.startup-card-tag {
+    background: linear-gradient(135deg, var(--background-secondary), var(--border-color));
+    color: var(--main-primary);
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
     transition: all 0.3s ease;
 }
 
-.product-card:hover .product-card-tag {
-    background-color: var(--project-tag-bg-hover);
+.startup-card-tag:hover {
+    background: linear-gradient(135deg, var(--main-primary), var(--main-secondary));
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Funding Section */
+.startup-card-funding {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--background-secondary), rgba(59, 130, 246, 0.05));
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.startup-card-funding-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.startup-card-funding-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.startup-card-funding-icon {
     color: var(--main-primary);
+    font-size: 1.1rem;
 }
 
-.product-card-tag-icon {
-    font-size: var(--text-lg);
+.startup-card-funding-raised {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 1rem;
 }
 
-/* Progress bar */
-.product-card-progress {
-    margin-bottom: 1.5rem;
+.startup-card-funding-target {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
 }
 
-.product-card-progress-bar-container {
-    height: 8px;
-    background-color: var(--project-progress-bg);
+.startup-card-funding-percent {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: linear-gradient(135deg, var(--main-primary), var(--main-secondary));
+    color: white;
+    padding: 6px 12px;
     border-radius: 20px;
-    margin-bottom: 0.75rem;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.startup-card-percent-icon {
+    font-size: 0.9rem;
+}
+
+.startup-card-progress-bar {
+    background: var(--background-tertiary);
+    border-radius: 8px;
+    height: 6px;
     overflow: hidden;
-    box-shadow: inset 0 1px 3px var(--black-10);
     position: relative;
 }
 
-.product-card-progress-bar {
-    height: 100%;
+.startup-card-progress-fill {
     background: linear-gradient(90deg, var(--main-primary), var(--main-secondary));
-    border-radius: 20px;
-    transition: width 0.3s ease;
-    box-shadow: 0 0 8px var(--main-primary-50);
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    overflow: hidden;
 }
 
-.product-card-progress-bar::after {
+.startup-card-progress-fill::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, var(--white-20), transparent);
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
 }
 
-.product-card-progress-stats {
+/* Stats Section */
+.startup-card-stats {
     display: flex;
     justify-content: space-between;
-    font-size: var(--text-lg);
-    color: var(--text-secondary);
-    align-items: center;
+    gap: 16px;
 }
 
-.product-card-funded-amount {
-    font-weight: 700;
-    color: var(--text-primary);
-    font-size: var(--text-lg);
+.startup-card-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    padding: 12px;
+    background: var(--background-secondary);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.startup-card-stat:hover {
+    background: linear-gradient(135deg, var(--main-primary), var(--main-secondary));
+    color: white;
+    transform: translateY(-2px);
+}
+
+.startup-card-stat-icon {
+    font-size: 1.2rem;
+    color: var(--main-primary);
     transition: color 0.3s ease;
 }
 
-.product-card:hover .product-card-funded-amount {
-    color: var(--main-primary);
+.startup-card-stat:hover .startup-card-stat-icon {
+    color: white;
 }
 
-.product-card-funded-percent {
+.startup-card-stat-value {
     font-weight: 700;
-    color: var(--main-secondary);
-    background: linear-gradient(90deg, var(--main-primary), var(--main-secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-/* Meta info (backers and days left) */
-.product-card-meta {
-    display: flex;
-    justify-content: space-between;
-    margin-top: auto;
-    font-size: var(--text-lg);
-    color: var(--text-secondary);
-}
-
-.product-card-meta strong {
-    font-weight: 700;
+    font-size: 1.1rem;
     color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
-/* Visibility transitions */
-.product-card {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+.startup-card-stat:hover .startup-card-stat-value {
+    color: white;
 }
 
-.product-card.visible {
-    opacity: 1;
-    transform: translateY(0);
+.startup-card-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.startup-card-stat:hover .startup-card-stat-label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Animations */
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .startup-card-header {
+        height: 180px;
+    }
+    
+    .startup-card-content {
+        padding: 20px;
+    }
+    
+    .startup-card-title {
+        font-size: 1.2rem;
+    }
+    
+    .startup-card-description {
+        font-size: 0.85rem;
+    }
+    
+    .startup-card-stats {
+        gap: 12px;
+    }
+    
+    .startup-card-stat {
+        padding: 10px;
+    }
+    
+    .startup-card-stat-value {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .startup-card-header {
+        height: 160px;
+    }
+    
+    .startup-card-content {
+        padding: 16px;
+    }
+    
+    .startup-card-title {
+        font-size: 1.1rem;
+    }
+    
+    .startup-card-funding {
+        padding: 12px;
+    }
+    
+    .startup-card-stats {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .startup-card-stat {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+    }
+    
+    .startup-card-stat-icon {
+        order: -1;
+    }
 }

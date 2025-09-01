@@ -40,24 +40,36 @@ const Stage1 = () => {
 
             <div className="stage-content">
                 <div className="form-row">
-                    <Input
-                        name="project-name"
-                        value={name}
-                        label={t('createProject.stages.identity.fields.name')}
-                        setValue={(value) => handleInputChange('name', value)}
-                        placeholder={t('createProject.stages.identity.placeholders.name')}
-                        isRequired={true}
-                        maxLength={100}
-                    />
-                    <Input
-                        name="project-slogan"
-                        value={slogan}
-                        label={t('createProject.stages.identity.fields.slogan')}
-                        setValue={(value) => handleInputChange('slogan', value)}
-                        placeholder={t('createProject.stages.identity.placeholders.slogan')}
-                        isRequired={true}
-                        maxLength={150}
-                    />
+                    <div className="form-group">
+                        <Input
+                            name="project-name"
+                            value={name}
+                            label={t('createProject.stages.identity.fields.name')}
+                            setValue={(value) => handleInputChange('name', value)}
+                            placeholder={t('createProject.stages.identity.placeholders.name')}
+                            variant="bordered"
+                            color="primary"
+                            size="lg"
+                            radius="lg"
+                            isRequired={true}
+                            maxLength={100}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <Input
+                            name="project-slogan"
+                            value={slogan}
+                            label={t('createProject.stages.identity.fields.slogan')}
+                            setValue={(value) => handleInputChange('slogan', value)}
+                            placeholder={t('createProject.stages.identity.placeholders.slogan')}
+                            variant="bordered"
+                            color="secondary"
+                            size="lg"
+                            radius="lg"
+                            isRequired={true}
+                            maxLength={150}
+                        />
+                    </div>
                 </div>
 
                 <div className="form-group">
@@ -67,6 +79,10 @@ const Stage1 = () => {
                         setValue={(value) => handleInputChange('resumen_ejecutivo', value)}
                         label={t('createProject.stages.identity.fields.executiveSummary')}
                         placeholder={t('createProject.stages.identity.placeholders.executiveSummary')}
+                        variant="faded"
+                        color="primary"
+                        size="lg"
+                        radius="lg"
                         multiline={true}
                         rows={6}
                         maxLength={1000}
@@ -93,40 +109,59 @@ const Stage1 = () => {
                         required={true}
                     />
                 </div>
-                <FileUpload
-                    name="project-logo"
-                    file={logo}
-                    setFile={(file) => handleFileChange('logo', file)}
-                    label={t('createProject.stages.identity.fields.logo')}
-                    accept="image/*"
-                    maxSizeMB={5}
-                    description={t('createProject.stages.identity.descriptions.logo')}
-                />
+                
+                <div className="form-group">
+                    <FileUpload
+                        name="project-logo"
+                        file={logo}
+                        setFile={(file) => handleFileChange('logo', file)}
+                        label={t('createProject.stages.identity.fields.logo')}
+                        accept="image/*"
+                        maxSizeMB={5}
+                        description={t('createProject.stages.identity.descriptions.logo')}
+                    />
+                </div>
+                
                 <div className="form-row-three">
-                    <Input
-                        name="project-website"
-                        value={website}
-                        label={t('createProject.stages.identity.fields.website')}
-                        setValue={(value) => handleInputChange('website', value)}
-                        placeholder={t('createProject.stages.identity.placeholders.website')}
-                        type="url"
-                    />
-                    <Input
-                        name="project-twitter"
-                        value={twitter}
-                        label={t('createProject.stages.identity.fields.twitter')}
-                        setValue={(value) => handleInputChange('twitter', value)}
-                        placeholder={t('createProject.stages.identity.placeholders.twitter')}
-                        type="url"
-                    />
-                    <Input
-                        name="project-linkedin"
-                        value={linkedin}
-                        label={t('createProject.stages.identity.fields.linkedin')}
-                        setValue={(value) => handleInputChange('linkedin', value)}
-                        placeholder={t('createProject.stages.identity.placeholders.linkedin')}
-                        type="url"
-                    />
+                    <div className="form-group">
+                        <Input
+                            name="project-website"
+                            value={website}
+                            label={t('createProject.stages.identity.fields.website')}
+                            setValue={(value) => handleInputChange('website', value)}
+                            placeholder={t('createProject.stages.identity.placeholders.website')}
+                            variant="underlined"
+                            color="primary"
+                            size="lg"
+                            type="url"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <Input
+                            name="project-twitter"
+                            value={twitter}
+                            label={t('createProject.stages.identity.fields.twitter')}
+                            setValue={(value) => handleInputChange('twitter', value)}
+                            placeholder={t('createProject.stages.identity.placeholders.twitter')}
+                            variant="underlined"
+                            color="primary"
+                            size="lg"
+                            type="url"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <Input
+                            name="project-linkedin"
+                            value={linkedin}
+                            label={t('createProject.stages.identity.fields.linkedin')}
+                            setValue={(value) => handleInputChange('linkedin', value)}
+                            placeholder={t('createProject.stages.identity.placeholders.linkedin')}
+                            variant="underlined"
+                            color="primary"
+                            size="lg"
+                            type="url"
+                        />
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,29 +1,28 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { 
-    RiHome3Line,
-    RiWalletLine,
-    RiHandCoinLine,
-    RiAddCircleLine,
+    RiPlanetLine,
+    RiRocketLine,
+    RiLightbulbLine,
     RiMenuLine,
     RiCloseLine,
-    RiUserLine,
-    RiShieldLine
+    // RiUserLine,
+    RiShieldLine,
+    // RiFundsLine,
+    // RiGraduationCapLine
 } from 'react-icons/ri'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 
 import routes from '@/routes/routes'
-import { mainLogo } from "@/utils/constants/common"
-import useAuthStore, { UserDetails } from '@/stores/AuthStore'
+import useAuthStore from '@/stores/AuthStore'
 import { useUserProject } from '@/hooks/useProject'
-import Button from '@/components/common/Button/Button'
-import Spinner from '@/components/common/Spinner/Spinner'
-// import LanguageToggle from '@/components/general/LanguageToggle/LanguageToggle'
+// import Button from '@/components/common/Button/Button'
+// import Spinner from '@/components/common/Spinner/Spinner'
 
 import './Navbar.css'
 
 const Navbar = () => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const { t } = useTranslation('common')
     const location = useLocation()
 
@@ -31,8 +30,8 @@ const Navbar = () => {
     const { data: userProjects, isLoading: isLoadingUserProject } = useUserProject()
     
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const [userDetails, setUserDetails] = useState<UserDetails | undefined>(undefined)
-    const [profileLoading, setProfileLoading] = useState(false)
+    // const [_, setUserDetails] = useState<UserDetails | undefined>(undefined)
+    // const [_, setProfileLoading] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     
     const hasProject = isLogged && !isLoadingUserProject && userProjects && userProjects.length > 0
@@ -40,11 +39,11 @@ const Navbar = () => {
     useEffect(() => {
         if (isLogged) {
             // Simulate loading state for better UX
-            setProfileLoading(true)
+            // setProfileLoading(true)
             setTimeout(() => {
-                const userData = getUserDetails()
-                setUserDetails(userData)
-                setProfileLoading(false)
+                // const userData = getUserDetails()
+                // setUserDetails(userData)
+                // setProfileLoading(false)
             }, 500)
         }
     }, [isLogged, getUserDetails])
@@ -66,9 +65,10 @@ const Navbar = () => {
     const isActive = (path: string) => location.pathname.startsWith(path)
 
     const navItems = [
-        { path: routes.home, icon: RiHome3Line, label: t('nav_home') },
-        { path: '/projects', icon: RiHandCoinLine, label: t('nav_projects') },
-        { path: '/donations', icon: RiWalletLine, label: t('nav_donations') },
+        { path: routes.home, icon: RiPlanetLine, label: t('nav_home') },
+        // { path: '/projects', icon: RiRocketLine, label: 'Startups' },
+        // { path: '/mentoring', icon: RiGraduationCapLine, label: 'Mentoring' },
+        // { path: '/funding', icon: RiFundsLine, label: 'Funding' },
     ]
 
     const toggleMobileMenu = () => {
@@ -80,8 +80,10 @@ const Navbar = () => {
             
             {/* Main logo */}
             <Link to={routes.home} className="navbar-logo">
-                <img src={mainLogo.src} alt={mainLogo.alt} className="navbar-logo-img float" />
-                <span className="navbar-logo-text animated-gradient-text--shimmer">KuskaPay</span>
+                <div className="navbar-logo-icon">
+                    <RiRocketLine className="navbar-brand-icon" />
+                </div>
+                <span className="navbar-logo-text ">LaunchPad</span>
             </Link>
 
             {/* MOBILE: menu toggle */}
@@ -123,12 +125,12 @@ const Navbar = () => {
                         className={`navbar-nav-link ${isActive(routes.createProject) ? 'active' : ''}`}
                         onClick={() => setMobileMenuOpen(false)}
                     >
-                        <RiAddCircleLine className="navbar-icon pulse" />
+                        <RiLightbulbLine className="navbar-icon pulse" />
                         <span>{t('nav_create_project')}</span>
                     </Link>
                 )}
 
-                {isLogged && mobileMenuOpen ? (
+                {/* {isLogged && mobileMenuOpen ? (
                     <Link 
                         to="/profile"
                         className={`navbar-nav-link ${isActive('/profile') ? 'active' : ''} show-when-small`}
@@ -146,13 +148,14 @@ const Navbar = () => {
                     >
                         {t('nav_login')}
                     </Button>
-                )}
+                )} */}
                 
             </div>
             
             {/* User actions */}
             <div className="navbar-actions">
-                {profileLoading ? (
+                <div className="navbar-user-info fade-in"></div>
+                {/* {profileLoading ? (
                     <div className="navbar-user-info fade-in">
                         <Spinner className="navbar-user" />
                     </div>
@@ -175,7 +178,7 @@ const Navbar = () => {
                             {t('nav_login')}
                         </Button>
                     </div>
-                )}
+                )} */}
             </div>
         </nav>
     )

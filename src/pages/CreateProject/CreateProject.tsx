@@ -1,16 +1,9 @@
-import { useEffect } from 'react'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
 import { RiArrowLeftLine, RiArrowRightLine, RiCheckLine } from 'react-icons/ri'
 import { useTranslation } from 'react-i18next'
 
 import Button from '@/components/common/Button/Button'
-import useAuthStore from '@/stores/AuthStore'
-import AuthRequired from '@/components/common/AuthRequired'
 import { useProjectStore } from '@/stores/ProjectStore'
-import { useCreateProject, useUserProject } from '@/hooks/useProject'
-import Spinner from '@/components/common/Spinner/Spinner'
-import routes from '@/routes/routes'
 
 // Import stage components
 import Stage1 from '@/components/project/Stage1/Stage1'
@@ -24,30 +17,14 @@ import Stage7 from '@/components/project/Stage7/Stage7'
 import './CreateProject.css'
 
 const CreateProject = () => {
-    const navigate = useNavigate()
-    const { isLogged } = useAuthStore()
     const { t } = useTranslation('common')
     
     const { 
         currentStage, 
         setCurrentStage, 
         validateStage, 
-        getProjectData, 
-        getProjectFiles,
-        getMemberPhotos,
-        resetProject 
     } = useProjectStore()
     
-    const createProjectMutation = useCreateProject()
-    const { data: userProjects, isLoading: isLoadingUserProject } = useUserProject()
-
-    // Check if user already has a project and redirect
-    useEffect(() => {
-        if (isLogged && !isLoadingUserProject && userProjects && userProjects.length > 0) {
-            navigate(routes.myProject)
-        }
-    }, [isLogged, isLoadingUserProject, userProjects])
-
     const stages = [
         { id: 1, title: t('createProject.stages.identity.title'), component: Stage1 },
         { id: 2, title: t('createProject.stages.valueProposition.title'), component: Stage2 },
@@ -87,121 +64,104 @@ const CreateProject = () => {
     }
 
     const handleStageClick = (stageId: number) => {
-        // Allow navigation to previous stages or current stage
-        if (validateStage(stageId) || validateStage(stageId - 1)) {
-            setCurrentStage(stageId)
-        }
+        setCurrentStage(stageId)
     }
 
     const handleSubmit = async () => {
-        if (!canProceed) return
-
-        try {
-            const projectData = getProjectData()
-            const projectFiles = getProjectFiles()
-            const memberPhotos = getMemberPhotos()
-            await createProjectMutation.mutateAsync({ projectData, files: projectFiles, memberPhotos })
-            
-            resetProject()
-            toast.success(t('project_create_success'))
-            navigate(routes.myProject)
-        } catch (error) {
-            console.error('Error creating project:', error)
-            toast.error(t('project_create_error'))
-        }
+        toast.success(t('project_create_success'))
     }
 
-    // If not authenticated, show prompt to login
-    if (!isLogged) {
-        return <AuthRequired/>
-    } else if (isLoadingUserProject || (userProjects && userProjects.length > 0)) {
-        return <Spinner/>
-    } else return (
-
+    return (
         <div className="create-project-container">
-            <div className="create-project-header">
+            {/* Hero Section */}
+            <div className="create-project-hero">
                 <h1>{t('createProject.title')}</h1>
-                {/* <p>{t('createProject.subtitle')}</p> */}
+                <p>{t('createProject.subtitle') || 'Transform your innovative ideas into reality with our comprehensive project creation wizard'}</p>
             </div>
 
-            {/* Progress Bar */}
-            <div className="progress-container">
-                <div className="progress-bar">
-                    <div 
-                        className="progress-fill" 
-                        style={{ width: `${actualProgress}%` }}
-                    />
-                </div>
-                <div className="progress-steps">
-                    {stages.map((stage) => (
-                        <div
-                            key={stage.id}
-                            className={`progress-step ${
-                                stage.id === currentStage ? 'active' : 
-                                validateStage(stage.id) ? 'completed' : 'pending'
-                            }`}
-                            onClick={() => handleStageClick(stage.id)}
-                        >
-                            <div className="step-number">
-                                {validateStage(stage.id) ? <RiCheckLine /> : stage.id}
+            <div className="create-project-content">
+                {/* Modern Progress Tracker */}
+                <div className="progress-tracker">
+                    <div className="progress-header">
+                        <h3 className="progress-title">Proceso de postulación</h3>
+                        <div className="progress-percentage">{Math.round(actualProgress)}%</div>
+                    </div>
+                    
+                    <div className="progress-bar-modern">
+                        <div 
+                            className="progress-fill-modern" 
+                            style={{ width: `${actualProgress}%` }}
+                        />
+                    </div>
+                    
+                    <div className="progress-steps-modern">
+                        {stages.map((stage) => (
+                            <div
+                                key={stage.id}
+                                className={`progress-step-modern ${
+                                    stage.id === currentStage ? 'active' : 
+                                    validateStage(stage.id) ? 'completed' : 'pending'
+                                }`}
+                                onClick={() => handleStageClick(stage.id)}
+                            >
+                                <div className="step-number-modern">
+                                    {validateStage(stage.id) ? <RiCheckLine /> : stage.id}
+                                </div>
+                                <span className="step-title-modern">{stage.title}</span>
                             </div>
-                            <span className="step-title">{stage.title}</span>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            {/* Current Stage Content */}
-            <div className="stage-wrapper">
-                {CurrentStageComponent && <CurrentStageComponent />}
-            </div>
+                {/* Modern Stage Card */}
+                <div className="stage-card">
+                    {CurrentStageComponent && <CurrentStageComponent />}
+                </div>
 
-            {/* Navigation */}
-            <div className="wizard-navigation">
-                <Button
-                    variant="secondary"
-                    size="lg"
-                    onClick={handlePrevious}
-                    disabled={currentStage === 1}
-                >
-                    <RiArrowLeftLine />
-                    {t('createProject.navigation.previous')}
-                </Button>
+                {/* Modern Navigation */}
+                <div className="wizard-navigation-modern">
+                    <Button
+                        variant="secondary"
+                        size="lg"
+                        onClick={handlePrevious}
+                        disabled={currentStage === 1}
+                    >
+                        <RiArrowLeftLine />
+                        {t('createProject.navigation.previous')}
+                    </Button>
 
-                <div className="nav-center">
-                    <span className="stage-indicator">
-                        {t('createProject.navigation.stage')} {currentStage} {t('createProject.navigation.of')} {stages.length}
-                    </span>
-                    {!canProceed && (
-                        <div className="validation-warning">
-                            {t('createProject.navigation.completeRequired')}
-                        </div>
+                    <div className="nav-info">
+                        <span className="stage-indicator-modern">
+                            {t('createProject.navigation.stage')} {currentStage} {t('createProject.navigation.of')} {stages.length}
+                        </span>
+                        {!canProceed && (
+                            <div className="validation-warning-modern">
+                                {t('createProject.navigation.completeRequired')}
+                            </div>
+                        )}
+                    </div>
+
+                    {isLastStage ? (
+                        <Button
+                            variant="success"
+                            size="lg"
+                            onClick={handleSubmit}
+                            disabled={!canProceed}
+                        >
+                            {t('createProject.navigation.createProject')}
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="primary"
+                            size="lg"
+                            onClick={handleNext}
+                            disabled={!canProceed}
+                        >
+                            {t('createProject.navigation.next')}
+                            <RiArrowRightLine />
+                        </Button>
                     )}
                 </div>
-
-                {isLastStage ? (
-                    <Button
-                        variant="primary"
-                        size="lg"
-                        onClick={handleSubmit}
-                        disabled={!canProceed || createProjectMutation.isPending}
-                    >
-                        {createProjectMutation.isPending 
-                            ? t('createProject.navigation.creating')
-                            : t('createProject.navigation.createProject')
-                        }
-                    </Button>
-                ) : (
-                    <Button
-                        variant="primary"
-                        size="lg"
-                        onClick={handleNext}
-                        disabled={!canProceed}
-                    >
-                        {t('createProject.navigation.next')}
-                        <RiArrowRightLine />
-                    </Button>
-                )}
             </div>
         </div>
     )

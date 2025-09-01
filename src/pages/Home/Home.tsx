@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import ProductCard from '../../components/common/ProductCard/ProductCard'
@@ -14,8 +13,6 @@ import './Home.css'
 import '@/styles/General.css'
 
 const Home = () => {
-
-    const { t } = useTranslation('common')
     
     const navigate = useNavigate()
     const [searchQuery, setSearchQuery] = useState('')
@@ -39,12 +36,12 @@ const Home = () => {
     } = useOldProjectStore()
 
     const categoryOptions = [
-        { value: 'all', label: t('home_all_categories') },
-        { value: 'Education', label: t('Education') || 'Education' },
-        { value: 'Environment', label: t('Environment') || 'Environment' },
-        { value: 'Art', label: t('Art') || 'Art' },
-        { value: 'Technology', label: t('Technology') || 'Technology' },
-        { value: 'Community', label: t('Community') || 'Community' },
+        { value: 'all', label: 'Todas las categorías' },
+        { value: 'Education', label: 'Educación' },
+        { value: 'Environment', label: 'Medio Ambiente' },
+        { value: 'Art', label: 'Arte' },
+        { value: 'Technology', label: 'Tecnología' },
+        { value: 'Community', label: 'Comunidad' },
     ]
 
     useEffect(() => {
@@ -83,33 +80,71 @@ const Home = () => {
     return (
         <div className="home-container">
 
-            {/* First section */}
+            {/* Hero Section */}
             <section className="hero-section-wrapper">
-                {/* Main banner */}
                 <div 
                     ref={heroRef}
-                    className="hero-section animated-gradient-background"
+                    className="hero-section startup-gradient-background"
                 >
                     <div className="hero-content">
-                        {/* Left content */}
                         <div className="hero-text-content">
-                            <h1 className="hero-title">{t('home_hero_title')}</h1>
-                            <p className="hero-subtitle">{t('home_hero_subtitle')}</p>
+                            <div className="hero-badge">
+                                <span className="badge-text">🚀 Lanza tu Startup</span>
+                            </div>
+                            <h1 className="hero-title">
+                                Convierte tus <span className="gradient-text">Ideas de Startup</span> en Realidad
+                            </h1>
+                            <p className="hero-subtitle">
+                                Conecta con mentores expertos, asegura financiamiento y obtén la guía que necesitas para construir la próxima gran empresa. Únete a una comunidad de innovadores y emprendedores.
+                            </p>
+                            <div className="hero-stats">
+                                <div className="stat-item">
+                                    <span className="stat-number">500+</span>
+                                    <span className="stat-label">Startups Lanzadas</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-number">$2.5M+</span>
+                                    <span className="stat-label">Financiamiento Recaudado</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-number">150+</span>
+                                    <span className="stat-label">Mentores Expertos</span>
+                                </div>
+                            </div>
                             <div className="hero-buttons">
                                 <Button 
                                     variant="primary" 
-                                    size="lg"
+                                    size="xl"
                                     onClick={() => navigate('/projects')}
                                 >
-                                    {t('home_get_started')}
+                                    Comienza tu Viaje
                                 </Button>
                                 <Button 
                                     variant="secondary" 
-                                    size="lg"
-                                    onClick={() => heroRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                                    size="xl"
+                                    onClick={() => navigate('/mentoring')}
                                 >
-                                    {t('home_learn_more')}
+                                    Encuentra un Mentor
                                 </Button>
+                            </div>
+                        </div>
+                        <div className="hero-visual">
+                            <div className="floating-cards">
+                                <div className="feature-card card-1">
+                                    <div className="card-icon">💡</div>
+                                    <h4>Ideación</h4>
+                                    <p>Transforma ideas en conceptos de negocio viables</p>
+                                </div>
+                                <div className="feature-card card-2">
+                                    <div className="card-icon">🎯</div>
+                                    <h4>Mentoría</h4>
+                                    <p>Obtén orientación de expertos de la industria</p>
+                                </div>
+                                <div className="feature-card card-3">
+                                    <div className="card-icon">💰</div>
+                                    <h4>Financiamiento</h4>
+                                    <p>Accede a inversores y oportunidades de financiación</p>
+                                </div>
                             </div>
                         </div>
                         {/* Page Stats */}
@@ -133,29 +168,38 @@ const Home = () => {
                     </div>
                 </div>
                 
-                {/* Features */}
-                <div className="platform-features">
-                    <div className="feature-card">
-                        <div className="feature-icon secure"></div>
-                        <h3>{t('home_feature_transparency')}</h3>
-                        <p>{t('home_feature_transparency_desc')}</p>
+                {/* How It Works */}
+                <div className="how-it-works">
+                    <div className="section-header">
+                        <h2>Cómo Funciona LaunchPad</h2>
+                        <p>Tu viaje completo de startup en tres simples pasos</p>
                     </div>
-                    <div className="feature-card">
-                        <div className="feature-icon rewards"></div>
-                        <h3>{t('home_feature_rewards')}</h3>
-                        <p>{t('home_feature_rewards_desc')}</p>
-                    </div>
-                    <div className="feature-card">
-                        <div className="feature-icon global"></div>
-                        <h3>{t('home_feature_impact')}</h3>
-                        <p>{t('home_feature_impact_desc')}</p>
+                    <div className="steps-container">
+                        <div className="step-card">
+                            <div className="step-number">01</div>
+                            <div className="step-icon">🚀</div>
+                            <h3>Envía tu Idea</h3>
+                            <p>Comparte tu concepto de startup y conecta con los mentores y recursos adecuados para tu industria.</p>
+                        </div>
+                        <div className="step-card">
+                            <div className="step-number">02</div>
+                            <div className="step-icon">🎓</div>
+                            <h3>Obtén Mentoría Experta</h3>
+                            <p>Trabaja con emprendedores experimentados y expertos de la industria que brindan orientación personalizada y apoyo.</p>
+                        </div>
+                        <div className="step-card">
+                            <div className="step-number">03</div>
+                            <div className="step-icon">💼</div>
+                            <h3>Asegura Financiamiento</h3>
+                            <p>Presenta tu plan de negocio refinado a nuestra red de inversores y asegura el financiamiento que necesitas para escalar.</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* Featured Projects */}
             <div className="home-projects-section">
-                <h2 className="section-title">{t('home_featured_projects')}</h2>
+                <h2 className="section-title">Proyectos Destacados</h2>
                 
                 {/* Project filters styled like Projects.tsx */}
                 {/* <div className="home-filter-bar">
@@ -219,7 +263,7 @@ const Home = () => {
 
             {/* Project Search and Filter - styled like Projects.tsx */}
             <div className="home-projects-section">
-                <h2 className="section-title">{t('nav_projects')}</h2>
+                <h2 className="section-title">Explora Proyectos</h2>
                 
                 <div className="home-filter-bar">
                     <div className="home-search-filters">
@@ -227,7 +271,7 @@ const Home = () => {
                             <Input
                                 name="search"
                                 size="md"
-                                placeholder={t('home_search_projects')}
+                                placeholder="Buscar proyectos..."
                                 value={searchQuery}
                                 setValue={setSearchQuery}
                             />
@@ -242,13 +286,13 @@ const Home = () => {
                     </div>
                     
                     <div className="projects-sort">
-                        <div className="sort-label">{t('projects.sort.label')}:</div>
+                        <div className="sort-label">Ordenar por:</div>
                         <div className="sort-options">
                             <select>
-                                <option value="newest">{t('projects.sort.newest')}</option>
-                                <option value="trending">{t('projects.sort.trending')}</option>
-                                <option value="ending-soon">{t('projects.sort.endingSoon')}</option>
-                                <option value="most-funded">{t('projects.sort.mostFunded')}</option>
+                                <option value="newest">Más Recientes</option>
+                                <option value="trending">Tendencia</option>
+                                <option value="ending-soon">Terminan Pronto</option>
+                                <option value="most-funded">Más Financiados</option>
                             </select>
                         </div>
                     </div>
@@ -284,23 +328,22 @@ const Home = () => {
                                     visible={projectsVisible}
                                 />
                             )) : 
-                            <p className="no-results">{t('common_noResults')}</p>
+                            <p className="no-results">No se encontraron resultados</p>
                     )}
                 </div>
             </div>
 
             {/* Call to Action */}
-            <div className="cta-section animated-gradient-purple">
+            <div className="cta-section startup-gradient-background">
                 <div className="cta-content">
-
-                    <h1 className="hero-title">{t('home_cta_title')}</h1>
-                    <p className="hero-subtitle">{t('home_cta_text')}</p>
+                    <h1 className="hero-title">¿Listo para Lanzar tu Startup?</h1>
+                    <p className="hero-subtitle">Únete a cientos de emprendedores que han convertido sus ideas en negocios exitosos con nuestra plataforma.</p>
                     <Button 
                         variant="secondary" 
                         size="lg"
                         onClick={() => navigate('/projects')}
                     >
-                        {t('nav_create_project')}
+                        Crear Proyecto
                     </Button>
                 </div>
             </div>

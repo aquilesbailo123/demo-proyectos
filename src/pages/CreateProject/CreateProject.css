@@ -1,161 +1,269 @@
-/* CreateProject page styles */
+/* Modern CreateProject page styles with ocean theme */
 
 .create-project-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 0;
     min-height: 100vh;
+    background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-tertiary) 100%);
 }
 
-.create-project-header {
+.create-project-hero {
+    background: linear-gradient(135deg, var(--main-primary) 0%, var(--main-secondary) 100%);
+    padding: 3rem 2rem;
     text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.create-project-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="waves" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M0 50c25-25 75 25 100 0v50H0z" fill="%23ffffff" fill-opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23waves)"/></svg>') repeat;
+    animation: wave-animation 20s ease-in-out infinite;
+}
+
+@keyframes wave-animation {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-50px); }
+}
+
+.create-project-hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.create-project-hero p {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.create-project-content {
+    padding: 2rem;
+}
+
+/* Modern Progress Tracker */
+.progress-tracker {
+    background: var(--background-primary);
+    border-radius: 24px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px var(--black-10);
+    border: 1px solid var(--border-tertiary);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 2rem;
 }
 
-.create-project-header h1 {
-    font-size: 2rem;
+.progress-title {
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 1rem;
 }
 
-.create-project-header p {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto;
+.progress-percentage {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--main-primary);
 }
 
-/* Progress Bar Styles */
-.progress-container {
-    margin-bottom: 2rem;
-}
-
-.progress-bar {
+.progress-bar-modern {
     width: 100%;
-    height: 8px;
-    background: var(--border-primary);
-    border-radius: 4px;
+    height: 12px;
+    background: var(--background-tertiary);
+    border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
 }
 
-.progress-fill {
+.progress-fill-modern {
     height: 100%;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    transition: width 0.3s ease;
-    border-radius: 4px;
+    background: linear-gradient(90deg, var(--main-primary) 0%, var(--main-secondary) 100%);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px;
+    position: relative;
 }
 
-.progress-steps {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    align-items: flex-start;
+.progress-fill-modern::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-steps-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 1rem;
 }
 
-.progress-step {
+.progress-step-modern {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    flex: 1;
-    min-width: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--background-secondary);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
 }
 
-.progress-step.active .step-number {
-    background: var(--primary-color);
+.progress-step-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--main-primary), var(--main-secondary));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.progress-step-modern.active {
+    background: linear-gradient(135deg, var(--main-primary), var(--main-secondary));
     color: white;
-    border-color: var(--primary-color);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px var(--black-15);
 }
 
-.progress-step.completed .step-number {
-    background: var(--state-success);
+.progress-step-modern.completed {
+    background: linear-gradient(135deg, var(--state-success), #27AE60);
     color: white;
     border-color: var(--state-success);
 }
 
-.progress-step.pending .step-number {
-    background: var(--background-primary);
-    color: var(--text-secondary);
-    border-color: var(--border-color);
+.progress-step-modern:hover:not(.active) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px var(--black-10);
+    border-color: var(--main-primary);
 }
 
-.step-number {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid;
+.step-number-modern {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    transition: all 0.2s ease;
-}
-
-.step-title {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    text-align: center;
-    line-height: 1.2;
-    word-break: break-word;
-}
-
-.progress-step.active .step-title {
-    color: var(--primary-color);
-    font-weight: 600;
-}
-
-.progress-step.completed .step-title {
-    color: var(--success-color);
-    font-weight: 500;
-}
-
-/* Stage Wrapper */
-.stage-wrapper {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
     background: var(--background-primary);
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-    min-height: 600px;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
 }
 
-/* Wizard Navigation */
-.wizard-navigation {
+.progress-step-modern.active .step-number-modern,
+.progress-step-modern.completed .step-number-modern {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.step-title-modern {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.3;
+    color: var(--text-primary);
+    position: relative;
+    z-index: 1;
+}
+
+.progress-step-modern.active .step-title-modern,
+.progress-step-modern.completed .step-title-modern {
+    color: white;
+}
+
+/* Modern Stage Card */
+.stage-card {
+    background: var(--background-primary);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px var(--black-10);
+    border: 1px solid var(--border-tertiary);
+    overflow: hidden;
+    margin-bottom: 2rem;
+    min-height: 700px;
+    position: relative;
+}
+
+.stage-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--main-primary), var(--main-secondary));
+}
+
+/* Modern Navigation */
+.wizard-navigation-modern {
+    background: var(--background-primary);
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px var(--black-10);
+    border: 1px solid var(--border-tertiary);
+    margin-top: 2rem;
 }
 
-.nav-center {
+.nav-info {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
 }
 
-.stage-indicator {
-    font-size: 0.9rem;
+.stage-indicator-modern {
+    font-size: 1rem;
     color: var(--text-secondary);
-    font-weight: 500;
+    font-weight: 600;
 }
 
-.validation-warning {
-    font-size: 0.85rem;
+.validation-warning-modern {
+    font-size: 0.9rem;
     color: var(--state-danger);
+    background: rgba(231, 76, 60, 0.1);
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(231, 76, 60, 0.2);
     text-align: center;
-    padding: 0.5rem 1rem;
-    background: var(--error-bg);
-    border-radius: 6px;
-    border: 1px solid var(--state-danger);
+    font-weight: 500;
 }
 
 /* Success Screen */
@@ -163,176 +271,217 @@
     text-align: center;
     padding: 4rem 2rem;
     background: var(--background-primary);
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px var(--black-10);
+    border: 1px solid var(--border-tertiary);
 }
 
 .success-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--success-color);
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--state-success), #27AE60);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 2rem auto;
     color: white;
-    font-size: 2.5rem;
+    font-size: 3rem;
+    box-shadow: 0 8px 24px rgba(39, 174, 96, 0.3);
 }
 
 .success-screen h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: var(--text-primary);
     margin-bottom: 1rem;
+    font-weight: 800;
 }
 
 .success-screen p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--text-secondary);
     margin-bottom: 2rem;
-    max-width: 500px;
+    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    line-height: 1.6;
 }
 
 .success-actions {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* Authentication required message */
+.auth-required-message {
+    background: var(--background-primary);
+    border-radius: 24px;
+    padding: 4rem 3rem;
+    text-align: center;
+    box-shadow: 0 8px 32px var(--black-10);
+    border: 1px solid var(--border-tertiary);
+    max-width: 700px;
+    margin: 3rem auto;
+}
+
+.auth-required-message h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.auth-required-message p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.auth-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
-
-    .stage-wrapper {
-        border-radius: 0;
-
+@media (max-width: 1024px) {
+    .create-project-hero h1 {
+        font-size: 2.5rem;
     }
+    
+    .create-project-hero p {
+        font-size: 1.1rem;
+    }
+    
+    .progress-steps-modern {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+}
 
+@media (max-width: 768px) {
     .create-project-container {
         padding: 0;
     }
-
-    .validation-warning {
-        max-width: 150px;
-    }
-
-    /* Progress Bar Styles */
-    .progress-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
+    
+    .create-project-hero {
+        padding: 2rem 1rem;
     }
     
-    .create-project-header h1 {
-        padding-top: 1rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
+    .create-project-hero h1 {
         font-size: 2rem;
     }
     
-    .progress-steps {
+    .create-project-hero p {
+        font-size: 1rem;
+    }
+    
+    .create-project-content {
         padding: 1rem;
-        border: 1px solid var(--border-primary);
-        border-radius: 12px;
-        gap: 0.5rem;
     }
     
-    .progress-step {
-        flex: 0 0 calc(50% - 0.25rem);
+    .progress-tracker {
+        padding: 1.5rem;
+        border-radius: 16px;
     }
     
-    .step-number {
-        width: 35px;
-        height: 35px;
+    .progress-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .progress-steps-modern {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 0.75rem;
+    }
+    
+    .progress-step-modern {
+        padding: 1rem 0.5rem;
+    }
+    
+    .step-number-modern {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .step-title-modern {
         font-size: 0.8rem;
     }
     
-    .step-title {
-        font-size: 0.75rem;
+    .stage-card {
+        border-radius: 16px;
+        min-height: 600px;
     }
     
-    .wizard-navigation {
-        width: 100%;
-        gap: 0.3rem;
+    .wizard-navigation-modern {
         padding: 1rem;
+        border-radius: 16px;
+        flex-direction: column;
+        gap: 1rem;
     }
-
     
     .success-screen {
-        padding: 3rem 1rem;
+        padding: 3rem 1.5rem;
+        border-radius: 16px;
     }
     
     .success-icon {
-        width: 60px;
-        height: 60px;
-        font-size: 2rem;
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
     }
     
     .success-screen h1 {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
     
     .success-actions {
         flex-direction: column;
         align-items: center;
     }
-}
-
-/* Authentication required message */
-.auth-required-message {
-    background-color: var(--background-primary);
-    border-radius: 12px;
-    padding: 3rem;
-    text-align: center;
-    box-shadow: 0 4px 20px var(--black-10);
-    max-width: 600px;
-    margin: 3rem auto;
-}
-
-.auth-required-message h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-}
-
-.auth-required-message p {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-}
-
-.auth-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .create-project-header h1 {
+    
+    .auth-required-message {
+        padding: 3rem 2rem;
+        border-radius: 16px;
+    }
+    
+    .auth-required-message h2 {
         font-size: 2rem;
     }
     
-    .form-section {
-        padding: 1.5rem;
-    }
-    
-    .form-actions {
+    .auth-buttons {
         flex-direction: column;
+        align-items: center;
     }
 }
 
 @media (max-width: 480px) {
-    .create-project-header h1 {
+    .create-project-hero h1 {
         font-size: 1.75rem;
     }
     
-    .form-section {
-        padding: 1.25rem;
+    .progress-steps-modern {
+        grid-template-columns: 1fr 1fr;
     }
     
-    .form-group label {
-        font-size: 0.9rem;
+    .success-screen {
+        padding: 2rem 1rem;
+    }
+    
+    .success-screen h1 {
+        font-size: 1.75rem;
+    }
+    
+    .auth-required-message {
+        padding: 2rem 1rem;
+    }
+    
+    .auth-required-message h2 {
+        font-size: 1.75rem;
     }
 }

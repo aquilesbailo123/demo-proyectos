@@ -114,9 +114,9 @@
 }
 
 /* Pulse animation for buttons */
-.pulse {
+/* .pulse {
     animation: pulse 2s infinite;
-}
+} */
 
 @keyframes pulse {
     0% {

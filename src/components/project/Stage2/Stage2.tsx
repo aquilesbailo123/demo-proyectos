@@ -32,6 +32,10 @@ const Stage2 = () => {
                         setValue={(value) => handleInputChange('problema', value)}
                         label={t('createProject.stages.valueProposition.fields.problem')}
                         placeholder={t('createProject.stages.valueProposition.placeholders.problem')}
+                        variant="bordered"
+                        color="danger"
+                        size="lg"
+                        radius="lg"
                         multiline={true}
                         rows={4}
                         maxLength={500}
@@ -49,6 +53,10 @@ const Stage2 = () => {
                         setValue={(value) => handleInputChange('solucion', value)}
                         label={t('createProject.stages.valueProposition.fields.solution')}
                         placeholder={t('createProject.stages.valueProposition.placeholders.solution')}
+                        variant="bordered"
+                        color="success"
+                        size="lg"
+                        radius="lg"
                         multiline={true}
                         rows={4}
                         maxLength={500}
@@ -66,6 +74,10 @@ const Stage2 = () => {
                         setValue={(value) => handleInputChange('propuesta_unica_valor', value)}
                         label={t('createProject.stages.valueProposition.fields.uniqueValue')}
                         placeholder={t('createProject.stages.valueProposition.placeholders.uniqueValue')}
+                        variant="faded"
+                        color="primary"
+                        size="lg"
+                        radius="lg"
                         multiline={true}
                         rows={4}
                         maxLength={500}
@@ -83,6 +95,10 @@ const Stage2 = () => {
                         setValue={(value) => handleInputChange('modelo_negocio', value)}
                         label={t('createProject.stages.valueProposition.fields.businessModel')}
                         placeholder={t('createProject.stages.valueProposition.placeholders.businessModel')}
+                        variant="faded"
+                        color="secondary"
+                        size="lg"
+                        radius="lg"
                         multiline={true}
                         rows={4}
                         maxLength={500}
